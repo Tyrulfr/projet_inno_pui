@@ -1,44 +1,26 @@
-<!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+---
+layout: default
+---
+<!-- Ce layout est parfait pour Portal et Portal_sensi -->
+<div class="breadcrumb" style="padding: 1rem 5%; font-size: 0.9rem; opacity: 0.7;">
+    <a href="{{ '/' | relative_url }}"><i class="fa-solid fa-house"></i> Accueil</a> 
+    {% if page.category %}
+        &gt; <span>{{ page.category }}</span>
+    {% endif %}
+    &gt; <span style="font-weight: bold; color: var(--bordeaux);">{{ page.module_name | default: page.title }}</span>
+</div>
 
-  <title>{{ page.title | default: site.title }} — Projet Inno</title>
+<section class="hero" style="padding-top: 1rem;">
+    <h1 class="big-title">
+        {{ page.module_name | default: page.title | replace: ' ', '<br><span style="color: var(--orange);">' }}</span>
+    </h1>
+    <p class="subtitle">{{ page.description }}</p>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap">
+    <div class="cards-container">
+        {{ content }}
+    </div>
+</section>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Ton CSS -->
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-
-  <!-- JS theme -->
-  <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
-</head>
-
-<body class="{{ page.body_class | default: '' }}">
-
-  <nav class="navbar">
-    <a href="{{ '/' | relative_url }}" class="logo">
-      <i class="fa-solid fa-rocket"></i> PROJET INNO
-    </a>
-    <button class="theme-btn" id="theme-toggle">MODE NUIT</button>
-  </nav>
-
-  <main class="{{ page.css_class | default: 'wrap' }}">
-    {{ content }}
-  </main>
-
-  <footer>
-    <p>© {{ "now" | date: "%Y" }} — Projet Inno. Propulsé par Jekyll.</p>
-  </footer>
-
-</body>
-</html>
 
 
 
