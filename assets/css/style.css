@@ -169,6 +169,17 @@ footer{
   opacity:.65;
 }
 
+/* Variante portail : 3 cartes */
+.cards-3{
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 760px){
+  .cards-3{
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+  }
+}
+
 
 
 
