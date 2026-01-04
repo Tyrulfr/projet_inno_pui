@@ -6,69 +6,303 @@ layout: null
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJET INNO | Accueil</title>
+    <title>PROJET INNO | Espace Apprenant</title>
+
+    <!-- Polices Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Icônes FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --white: #ffffff; --bg-light: #F8F9FA; --bg-dark: #1A1D2E; }
-        html, body { height: 100%; }
-        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--blue); transition: all 0.3s ease; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; display: flex; flex-direction: column; }
-        body.dark-mode { background-color: var(--bg-dark); color: #EAEAEA; background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        /* --- 1. CONFIGURATION --- */
+        :root {
+            --bordeaux: #580F45;
+            --orange: #F48C2E;
+            --teal: #2EAF7D;
+            --blue: #2A325E;
+            --white: #ffffff;
+            --bg-light: #F8F9FA;
+            --bg-dark: #1A1D2E;
+            --card-hover: #ffffff;
+            --text-main: #2A325E;
+        }
+
+        /* --- 2. BASE DU SITE --- */
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Mode Sombre */
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: #EAEAEA;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            --card-hover: #232742;
+        }
+
         a { text-decoration: none; color: inherit; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        body.dark-mode .navbar { background: rgba(26, 29, 46, 0.95); border-color: #333; }
-        .logo { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.5rem; color: var(--bordeaux); display: flex; align-items: center; gap: 10px; }
+
+        /* --- 3. BARRE DE NAVIGATION --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        body.dark-mode .navbar {
+            background: rgba(26, 29, 46, 0.95);
+            border-color: #333;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--bordeaux);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
         body.dark-mode .logo { color: white; }
-        .theme-btn { background: none; border: 2px solid var(--orange); color: var(--orange); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+
+        .theme-btn {
+            background: none;
+            border: 2px solid var(--orange);
+            color: var(--orange);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
         .theme-btn:hover { background: var(--orange); color: white; }
-        .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 3rem 1rem; width: 100%; box-sizing: border-box; }
-        h1 { font-family: 'Montserrat', sans-serif; font-size: 3.5rem; margin: 0 0 1rem 0; line-height: 1.1; color: var(--bordeaux); }
+
+        /* --- 4. FIL D'ARIANE --- */
+        .breadcrumb {
+            padding: 1rem 5%;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        body.dark-mode .breadcrumb { color: #aaa; }
+        .breadcrumb a:hover { color: var(--orange); text-decoration: underline; }
+        .breadcrumb .current { font-weight: bold; color: var(--bordeaux); }
+        body.dark-mode .breadcrumb .current { color: var(--teal); }
+
+        /* --- 5. CONTENU PRINCIPAL --- */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            margin: 0 0 0.5rem 0;
+            color: var(--blue);
+        }
         body.dark-mode h1 { color: white; }
-        .subtitle { font-size: 1.2rem; max-width: 600px; margin-bottom: 3rem; opacity: 0.8; }
-        .cards-container { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 900px; }
-        .card { background: var(--white); border: 1px solid #eee; border-radius: 15px; padding: 2rem; min-width: 280px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.3s; }
-        body.dark-mode .card { background: #232742; border-color: #333; }
-        .card:hover { transform: translateY(-5px); border-color: var(--orange); }
-        .icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
-        .concepteur-icon { color: var(--bordeaux); }
-        .user-icon { color: var(--teal); }
-        .btn { display: inline-block; margin-top: 1.5rem; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; }
-        .btn-primary { background: var(--bordeaux); color: white; border: none; }
-        .btn-outline { background: transparent; border: 2px solid var(--teal); color: var(--teal); }
-        footer { padding: 20px; text-align: center; font-size: 0.8rem; opacity: 0.6; }
+
+        .subtitle {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        /* --- 6. GRILLE DE CARTES --- */
+        .cards-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 2rem;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 300px;
+        }
+        
+        body.dark-mode .card {
+            background: #232742;
+            border-color: #333;
+        }
+
+        .card:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--orange); 
+        }
+
+        /* Décoration visuelle */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--blue);
+        }
+        .card.modules::before { background: var(--teal); }
+        .card.gazette::before { background: var(--bordeaux); }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: 2rem;
+        }
+        body.dark-mode .icon-circle { background: rgba(255,255,255,0.05); }
+
+        .modules .icon-circle { color: var(--teal); }
+        .gazette .icon-circle { color: var(--bordeaux); }
+
+        .card h3 { margin: 0 0 10px 0; font-size: 1.5rem; }
+        .card p { margin: 0; opacity: 0.7; font-size: 0.95rem; line-height: 1.5; }
+
+        .btn-card {
+            margin-top: 1.5rem;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .modules .btn-card { background: rgba(46, 175, 125, 0.1); color: var(--teal); }
+        .gazette .btn-card { background: rgba(88, 15, 69, 0.1); color: var(--bordeaux); }
+        
+        .card:hover .btn-card {
+            background: var(--teal); color: white;
+        }
+        .card.gazette:hover .btn-card {
+            background: var(--bordeaux);
+        }
+
+        /* --- 7. FOOTER --- */
+        footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: auto;
+        }
     </style>
 </head>
 <body>
+
+    <!-- NAVIGATION -->
     <nav class="navbar">
-        <div class="logo"><i class="fa-solid fa-atom" style="color: var(--orange);"></i> PROJET INNO</div>
-        <button class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Mode Nuit</button>
+        <div class="logo" onclick="window.location.href='{{ '/' | relative_url }}'">
+            <i class="fa-solid fa-atom" style="color: var(--orange);"></i>
+            PROJET INNO
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon"></i> Mode Nuit
+        </button>
     </nav>
+
+    <!-- FIL D'ARIANE -->
+    <div class="breadcrumb">
+        <a href="{{ '/' | relative_url }}"><i class="fa-solid fa-house"></i> Accueil</a> &gt; 
+        <span class="current">Espace Apprenant</span>
+    </div>
+
+    <!-- ZONE PRINCIPALE -->
     <section class="hero">
-        <h1>OSER POUR<br><span style="color: var(--orange);">INNOVER</span></h1>
-        <p class="subtitle">Plateforme collaborative d'ingénierie pédagogique et de formation.</p>
+        <h1>ESPACE <span style="color: var(--orange);">APPRENANT</span></h1>
+        <p class="subtitle">Bienvenue dans votre zone de formation. Que souhaitez-vous faire aujourd'hui ?</p>
+
         <div class="cards-container">
-            <!-- LIEN AUTOMATIQUE VERS DASHBOARD -->
-            <div class="card" onclick="window.location.href='{{ '/dashboard.html' | relative_url }}'">
-                <i class="fa-solid fa-pen-ruler icon concepteur-icon"></i>
-                <h3>Concepteur</h3>
-                <p>Gestion de projet, Backstage et Outils.</p>
-                <span class="btn btn-primary">Gérer le projet</span>
+            <!-- CARTE 1 : MODULES DE COURS -->
+            <div class="card modules" onclick="window.location.href='{{ '/pages/apprenant/sensibilise/portal_sensi.html' | relative_url }}'">
+                <div>
+                    <div class="icon-circle">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3>Sensibilisation</h3>
+                    <p>Découvrez notre parcours de 6 modules pour comprendre les bases de l'innovation.</p>
+                </div>
+                <div>
+                    <span class="btn-card">Accéder au parcours</span>
+                </div>
             </div>
-            <!-- LIEN AUTOMATIQUE VERS PORTAIL APPRENANT -->
-            <div class="card" onclick="window.location.href='{{ '/pages/apprenant/portal.html' | relative_url }}'">
-                <i class="fa-solid fa-rocket icon user-icon"></i>
-                <h3>Apprenant</h3>
-                <p>Modules interactifs et parcours gamifié.</p>
-                <span class="btn btn-outline">Commencer</span>
+
+            <!-- CARTE 2 : GAZETTE (Ressources) -->
+            <div class="card gazette" onclick="window.location.href='{{ '/pages/apprenant/gazette.html' | relative_url }}'">
+                <div>
+                    <div class="icon-circle">
+                        <i class="fa-regular fa-newspaper"></i>
+                    </div>
+                    <h3>La Gazette</h3>
+                    <p>Actualités de l'innovation, veille technologique et ressources documentaires.</p>
+                </div>
+                <div>
+                    <span class="btn-card">Lire la Gazette</span>
+                </div>
             </div>
         </div>
     </section>
-    <footer>&copy; {{ "now" | date: "%Y" }} Projet Inno - V 1.0</footer>
+
+    <!-- PIED DE PAGE -->
+    <footer>
+        &copy; {{ "now" | date: "%Y" }} Projet Inno - Espace Formation
+    </footer>
+
+    <!-- SCRIPT JS -->
     <script>
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const btn = document.querySelector('.theme-btn');
+            
             if(document.body.classList.contains('dark-mode')) {
                 btn.innerHTML = '<i class="fa-solid fa-sun"></i> Mode Jour';
                 localStorage.setItem('theme', 'dark');
@@ -77,8 +311,10 @@ layout: null
                 localStorage.setItem('theme', 'light');
             }
         }
+
         window.onload = function() {
-            if(localStorage.getItem('theme') === 'dark') {
+            const savedTheme = localStorage.getItem('theme');
+            if(savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
                 document.querySelector('.theme-btn').innerHTML = '<i class="fa-solid fa-sun"></i> Mode Jour';
             }
@@ -86,6 +322,7 @@ layout: null
     </script>
 </body>
 </html>
+
 
 
 
