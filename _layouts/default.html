@@ -4,16 +4,30 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>{{ page.title | default: site.title }}</title>
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Ton CSS -->
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-  <script defer src="{{ '/assets/js/app.js' | relative_url }}"></script>
+
+  <!-- JS theme (met le bouton en route + restaure le thème) -->
+  <script defer src="{{ '/assets/js/theme.js' | relative_url }}"></script>
 </head>
-<body class="page">
+
+<body class="{{ page.body_class | default: '' }}">
   {{ content }}
 </body>
 </html>
+
+
 
 
 
