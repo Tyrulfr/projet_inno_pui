@@ -15,7 +15,7 @@ title: Accueil
       <span class="btn btn-primary">Gérer le projet</span>
     </div>
 
-    <div class="card" onclick="window.location.href='{% link pages/apprenant/portal.md %}'">
+    <div class="card" onclick="window.location.href='{% link pages/apprenant/cours/portal.md %}'">
       <i class="fa-solid fa-rocket icon user-icon"></i>
       <h3>Apprenant</h3>
       <p>Modules interactifs et parcours gamifié.</p>
@@ -23,3 +23,4 @@ title: Accueil
     </div>
   </div>
 </section>
+
