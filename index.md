@@ -1,32 +1,40 @@
 ---
 layout: default
-title: OSER POUR INNOVER
+title: "PROJET INNO | Accueil"
 ---
-<header class="topbar">
-  <a class="brand" href="{{ '/' | relative_url }}">PROJET INNO</a>
-  <button class="mode" type="button" id="toggleTheme">Mode Jour</button>
-</header>
+<nav class="navbar">
+  <div class="logo">
+    <i class="fa-solid fa-atom" style="color: var(--orange);"></i> PROJET INNO
+  </div>
 
-<main class="home">
-  <h1>OSER POUR<br>INNOVER</h1>
-  <p class="lead">Plateforme collaborative d’ingénierie pédagogique et de formation.</p>
+  <button class="theme-btn" type="button" onclick="toggleTheme()">
+    <i class="fa-solid fa-moon"></i> Mode Nuit
+  </button>
+</nav>
 
-  <section class="cards">
-    <article class="card">
-      <h2>Concepteur</h2>
+<section class="hero">
+  <h1>OSER POUR<br><span style="color: var(--orange);">INNOVER</span></h1>
+  <p class="subtitle">Plateforme collaborative d'ingénierie pédagogique et de formation.</p>
+
+  <div class="cards-container">
+    <div class="card" onclick="window.location.href='{{ '/dashboard.html' | relative_url }}'">
+      <i class="fa-solid fa-pen-ruler icon concepteur-icon"></i>
+      <h3>Concepteur</h3>
       <p>Gestion de projet, Backstage et Outils.</p>
-      <a class="btn" href="{{ '/pages/concepteur/index.html' | relative_url }}">Gérer le projet</a>
-    </article>
+      <span class="btn btn-primary">Gérer le projet</span>
+    </div>
 
-    <article class="card">
-      <h2>Apprenant</h2>
+    <div class="card" onclick="window.location.href='{{ '/pages/apprenant/portal.html' | relative_url }}'">
+      <i class="fa-solid fa-rocket icon user-icon"></i>
+      <h3>Apprenant</h3>
       <p>Modules interactifs et parcours gamifié.</p>
-      <a class="btn" href="{{ '/pages/apprenant/cours/portal.html' | relative_url }}">Commencer</a>
-    </article>
-  </section>
+      <span class="btn btn-outline">Commencer</span>
+    </div>
+  </div>
+</section>
 
-  <footer class="footer">© 2026 Projet Inno - V 1.0</footer>
-</main>
+<footer>&copy; 2026 Projet Inno - V 1.0</footer>
+
 
 
 
