@@ -1,26 +1,32 @@
 ---
 layout: default
-title: Accueil
+title: OSER POUR INNOVER
 ---
+<header class="topbar">
+  <a class="brand" href="{{ '/' | relative_url }}">PROJET INNO</a>
+  <button class="mode" type="button" id="toggleTheme">Mode Jour</button>
+</header>
 
-<section class="hero">
-  <h1>OSER POUR<br><span style="color: var(--orange);">INNOVER</span></h1>
-  <p class="subtitle">Plateforme collaborative d'ingénierie pédagogique et de formation.</p>
+<main class="home">
+  <h1>OSER POUR<br>INNOVER</h1>
+  <p class="lead">Plateforme collaborative d’ingénierie pédagogique et de formation.</p>
 
-  <div class="cards-container">
-    <div class="card" onclick="window.location.href='{% link dashboard.md %}'">
-      <i class="fa-solid fa-pen-ruler icon concepteur-icon"></i>
-      <h3>Concepteur</h3>
+  <section class="cards">
+    <article class="card">
+      <h2>Concepteur</h2>
       <p>Gestion de projet, Backstage et Outils.</p>
-      <span class="btn btn-primary">Gérer le projet</span>
-    </div>
+      <a class="btn" href="{{ '/pages/concepteur/index.html' | relative_url }}">Gérer le projet</a>
+    </article>
 
-    <div class="card" onclick="window.location.href='{% link pages/apprenant/cours/portal.md %}'">
-      <i class="fa-solid fa-rocket icon user-icon"></i>
-      <h3>Apprenant</h3>
+    <article class="card">
+      <h2>Apprenant</h2>
       <p>Modules interactifs et parcours gamifié.</p>
-      <span class="btn btn-outline">Commencer</span>
-    </div>
-  </div>
-</section>
+      <a class="btn" href="{{ '/pages/apprenant/cours/portal.html' | relative_url }}">Commencer</a>
+    </article>
+  </section>
+
+  <footer class="footer">© 2026 Projet Inno - V 1.0</footer>
+</main>
+
+
 
