@@ -1,4 +1,21 @@
-layout: default title: "PROJET INNO | Portail apprenant"<section class="hero"><h1>Portail<span class="orange-text">Apprenant</span></h1><p class="subtitle">Accède rapidement à tes ressources pédagogiques.</p></section><i class="fa-solid fa-book-open" style="color:var(--violet)"></i> CoursModules, grains, activités et parcours.[Ouvrir]({{ '/pages/apprenant/cours/index.html' | relative_url }}){: .btn-ouvrir .btn-violet}<i class="fa-solid fa-newspaper" style="color:var(--teal)"></i> GazetteActualités, annonces, nouveautés du projet.[Lire]({{ '/pages/apprenant/gazette/index.html' | relative_url }}){: .btn-ouvrir .btn-orange}<i class="fa-solid fa-book" style="color:var(--violet)"></i> DicoDéfinitions, concepts, glossaire technique.[Consulter]({{ '/pages/apprenant/dico/index.html' | relative_url }}){: .btn-ouvrir .btn-violet}{: .portal-grid}<footer>&copy; 2026 Projet Inno - V 1.0</footer>
+layout: default title: "Accueil | PROJET INNO"<section class="hero"> <h1>Bienvenue sur<span style="color: var(--orange);">Projet Inno</span></h1> <p class="subtitle">Sélectionnez votre profil pour accéder à votre espace personnalisé.</p><div class="cards-container"><!-- Carte Profil Apprenant -->
+<div class="card" onclick="window.location.href='{{ '/pages/apprenant/portal.html' | relative_url }}'">
+  <i class="fa-solid fa-user-graduate icon user-icon"></i>
+  <h3>Apprenant</h3>
+  <p>Accédez à vos parcours de formation, vos cours et votre gazette personnalisée.</p>
+  <span class="btn btn-violet">Entrer</span>
+</div>
+
+<!-- Carte Profil Concepteur -->
+<div class="card" onclick="window.location.href='{{ '/pages/concepteur/portal.html' | relative_url }}'">
+  <i class="fa-solid fa-pen-nib icon concepteur-icon"></i>
+  <h3>Concepteur</h3>
+  <p>Gérez les contenus, créez de nouveaux grains et suivez les statistiques du projet.</p>
+  <span class="btn btn-orange">Entrer</span>
+</div>
+</div> </section>
+
+
 
 
 
