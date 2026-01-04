@@ -1,4 +1,24 @@
-title: Projet Inno
-description: Plateforme collaborative d’ingénierie pédagogique et de formation.
-theme: null
-plugins: []
+title: PROJET INNO
+email: ton-email@example.com
+description: >-
+  Plateforme collaborative d'ingénierie pédagogique et de formation.
+
+# Si ton site est sur GitHub Pages comme "username.github.io/mon-depot/"
+# décommente la ligne ci-dessous et remplace /mon-depot par le nom de ton projet
+# baseurl: "/mon-depot" 
+
+url: "" # Laisse vide pour le développement local
+
+# Plugins
+plugins:
+  - jekyll-feed
+
+# Exclusions
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
