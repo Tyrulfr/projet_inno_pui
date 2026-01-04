@@ -1,12 +1,10 @@
----
----
 <!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>{{ page.title | default: site.title }}</title>
+  <title>{{ page.title | default: site.title }} — Projet Inno</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,14 +16,30 @@
   <!-- Ton CSS -->
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
-  <!-- JS theme (met le bouton en route + restaure le thème) -->
-  <script defer src="{{ '/assets/js/theme.js' | relative_url }}"></script>
+  <!-- JS theme -->
+  <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
 </head>
 
 <body class="{{ page.body_class | default: '' }}">
-  {{ content }}
+
+  <nav class="navbar">
+    <a href="{{ '/' | relative_url }}" class="logo">
+      <i class="fa-solid fa-rocket"></i> PROJET INNO
+    </a>
+    <button class="theme-btn" id="theme-toggle">MODE NUIT</button>
+  </nav>
+
+  <main class="{{ page.css_class | default: 'wrap' }}">
+    {{ content }}
+  </main>
+
+  <footer>
+    <p>© {{ "now" | date: "%Y" }} — Projet Inno. Propulsé par Jekyll.</p>
+  </footer>
+
 </body>
 </html>
+
 
 
 
