@@ -1,3 +1,4 @@
+/* --- VARIABLES ET THÈME --- */
 :root {
   --violet: #580F45;
   --orange: #F48C2E;
@@ -31,7 +32,7 @@ body.dark-mode {
 
 a { text-decoration: none; color: inherit; }
 
-/* --- NAVIGATION --- */
+/* --- NAVIGATION (Header Unique) --- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -60,97 +61,103 @@ body.dark-mode .navbar {
   gap: 10px;
 }
 
-@media (min-width: 520px) { .logo { font-size: 1.5rem; } }
 body.dark-mode .logo { color: white; }
 
 .theme-btn {
   background: none;
   border: 2px solid var(--orange);
   color: var(--orange);
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: 999px;
   cursor: pointer;
   font-weight: 700;
   transition: .2s;
-  white-space: nowrap;
+  font-size: 0.8rem;
 }
 
 .theme-btn:hover { background: var(--orange); color: white; }
 
-/* --- LAYOUT ET CARTES --- */
+/* --- STRUCTURE ET CARTES --- */
 .wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 24px 16px 60px;
+  padding: 40px 16px;
   width: 100%;
   box-sizing: border-box;
 }
 
-.hero {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 48px 16px;
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
 }
-
-h1 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(2.2rem, 7vw, 3.5rem);
-  margin: 0 0 14px 0;
-  line-height: 1.1;
-  color: var(--violet);
-}
-
-body.dark-mode h1 { color: white; }
 
 .card {
   background: var(--white);
   border: 1px solid #eee;
-  border-radius: 15px;
-  padding: 28px;
+  border-radius: 20px;
+  padding: 30px;
   text-align: center;
-  box-shadow: 0 10px 20px rgba(0,0,0,.05);
-  transition: transform .25s, border-color .25s;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: transform .3s ease, border-color .3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 body.dark-mode .card { background: #232742; border-color: #333; }
-.card:hover { transform: translateY(-5px); border-color: var(--orange); }
 
-footer { padding: 30px 18px; text-align: center; font-size: .85rem; opacity: .65; }
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--orange);
+}
 
-/* --- MODIFIER : COURSE RENDER (Pour le Markdown) --- */
-.course-render { text-align: left; max-width: 850px; margin: 0 auto; }
+.card h3 { margin: 15px 0 10px; }
 
-.course-render h2 {
+/* --- BOUTONS CARTOUCHES (Nouveau) --- */
+.btn-ouvrir {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s, transform 0.2s;
+  color: white;
+}
+
+.btn-ouvrir:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+/* Variantes de couleurs pour les boutons */
+.btn-orange { background-color: var(--orange); }
+.btn-violet { background-color: var(--violet); }
+
+/* --- MODIFIER : COURSE RENDER --- */
+.course-render {
+  text-align: left;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.course-render h1, .course-render h2 {
   color: var(--violet);
   border-left: 5px solid var(--orange);
   padding-left: 15px;
-  margin-top: 45px;
+  margin-top: 40px;
 }
 
+body.dark-mode .course-render h1, 
 body.dark-mode .course-render h2 { color: var(--orange); }
 
-.course-render p { line-height: 1.8; font-size: 1.1rem; margin-bottom: 1.5rem; }
+footer { padding: 40px; text-align: center; font-size: .85rem; opacity: .65; }
 
-.course-render ul {
-  background: rgba(42, 50, 94, 0.05);
-  padding: 25px 25px 25px 50px;
-  border-radius: 16px;
-  list-style-type: "→ ";
-}
-
-body.dark-mode .course-render ul { background: rgba(255, 255, 255, 0.05); }
-
-.course-render blockquote {
-  margin: 30px 0;
-  padding: 20px;
-  background: rgba(46, 175, 125, 0.1);
-  border-left: 6px solid var(--teal);
-  border-radius: 8px;
-}
 
 
 
