@@ -1,0 +1,342 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARCOURS APPRENANT | Projet Inno</title>
+    
+    <!-- Polices & Icônes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. DESIGN TOKENS --- */
+        :root {
+            --bordeaux: #580F45; 
+            --orange: #F48C2E;
+            --teal: #2EAF7D;
+            --blue: #2A325E;
+            --yellow: #f1c40f;
+            
+            --bg-page: #F0F2F5;
+            --bg-card: #FFFFFF;
+            --text-main: #2A325E;
+            --text-light: #6c757d;
+        }
+
+        body.dark-mode {
+            --bg-page: #1A1D2E;
+            --bg-card: #232742;
+            --text-main: #EAEAEA;
+            --text-light: #A0A0A0;
+        }
+
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            background-image: radial-gradient(rgba(88, 15, 69, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            padding-bottom: 80px;
+        }
+        
+        body.dark-mode {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        }
+
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- 2. HUD (BARRE DE NAVIGATION) --- */
+        .gamification-bar {
+            background: var(--bg-card);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-bottom: 3px solid var(--orange);
+        }
+
+        .hud-actions { display: flex; gap: 1rem; align-items: center; }
+        .btn-icon {
+            background: rgba(0,0,0,0.05); border: none; width: 40px; height: 40px; border-radius: 50%;
+            cursor: pointer; color: var(--text-main); display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+        }
+        .btn-icon:hover { background: var(--orange); color: white; transform: rotate(15deg); }
+
+        /* --- 3. MAP DES MODULES --- */
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1rem; }
+        
+        .section-title {
+            text-align: center; margin-bottom: 4rem;
+            font-size: 2.5rem; color: var(--bordeaux); text-transform: uppercase; letter-spacing: -1px;
+        }
+        body.dark-mode .section-title { color: white; }
+
+        .mission-map {
+            display: flex; flex-direction: column; gap: 2.5rem;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        /* Ligne de connexion verticale */
+        .mission-map::before {
+            content: ''; position: absolute; left: 60px; top: 40px; bottom: 40px; width: 4px;
+            background: rgba(0,0,0,0.1); z-index: -1;
+        }
+        body.dark-mode .mission-map::before { background: rgba(255,255,255,0.1); }
+
+        /* --- CARTE MODULE --- */
+        .module-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            display: flex; align-items: center; gap: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        .module-featured {
+            border-color: var(--orange);
+            box-shadow: 0 15px 40px rgba(244, 140, 46, 0.15);
+        }
+        .module-featured .module-number { background: var(--orange); }
+
+        .module-wip { border-left: 5px solid var(--yellow); }
+        .module-wip .module-number { background: var(--text-light); opacity: 0.8; }
+        
+        .module-number {
+            font-size: 1.5rem; font-weight: 900; color: white;
+            background: var(--bordeaux); width: 80px; height: 80px;
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; z-index: 2;
+        }
+
+        .module-content { flex: 1; }
+        .module-title { font-size: 1.4rem; margin: 0 0 0.5rem 0; font-weight: 800; }
+        .module-desc { font-size: 0.95rem; color: var(--text-light); margin-bottom: 1rem; }
+        
+        .tags { display: flex; gap: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; flex-wrap: wrap; }
+        .tag { padding: 4px 10px; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--text-light); }
+        .tag-cat { color: var(--bordeaux); background: rgba(88, 15, 69, 0.1); }
+        
+        .tag-wip { 
+            color: #d35400; 
+            background: #fce5cd; 
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .btn-start {
+            background: var(--bordeaux); color: white; border: none;
+            padding: 10px 25px; border-radius: 50px; font-weight: 700;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.9rem;
+        }
+        .btn-start:hover { background: var(--orange); }
+        
+        .btn-wip {
+            background: transparent; color: var(--text-light); border: 2px solid #ddd;
+        }
+
+        /* --- FIL D'ARIANE --- */
+        .breadcrumb {
+            padding: 1rem 5%;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .breadcrumb a:hover { color: var(--orange); text-decoration: underline; }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HUD : Barre de Navigation -->
+    <nav class="gamification-bar">
+        <div class="logo" onclick="window.location.href='{{ '/' | relative_url }}'">
+            <i class="fa-solid fa-atom" style="color: var(--orange);"></i>
+            PROJET INNO
+        </div>
+
+        <div class="hud-actions">
+            <button class="btn-icon" onclick="toggleTheme()" title="Mode Nuit/Jour"><i class="fa-solid fa-moon"></i></button>
+            <a href="{{ '/pages/apprenant/portal.html' | relative_url }}" class="btn-icon" title="Retour au Portail"><i class="fa-solid fa-arrow-left"></i></a>
+            <a href="{{ '/' | relative_url }}" class="btn-icon" title="Quitter vers l'accueil"><i class="fa-solid fa-power-off"></i></a>
+        </div>
+    </nav>
+
+    <!-- FIL D'ARIANE -->
+    <div class="breadcrumb">
+        <a href="{{ '/' | relative_url }}"><i class="fa-solid fa-house"></i> Accueil</a> &gt; 
+        <a href="{{ '/pages/apprenant/portal.html' | relative_url }}">Espace Apprenant</a> &gt; 
+        <span style="font-weight: bold; color: var(--bordeaux);">Sensibilisation</span>
+    </div>
+
+    <div class="container">
+        <h1 class="section-title">Votre Parcours</h1>
+
+        <div class="mission-map">
+            
+            <!-- MODULE 1 -->
+            <div class="module-card module-featured" onclick="startModule(1)">
+                <div class="module-number">M1</div>
+                <div class="module-content">
+                    <div class="tags">
+                        <span class="tag tag-cat">Comprendre</span>
+                    </div>
+                    <h2 class="module-title">Vocabulaire & Typologie</h2>
+                    <p class="module-desc">Innovation de rupture, incrémentale, adjacente... Maîtrisez le langage des innovateurs.</p>
+                    <button class="btn-start">
+                        <i class="fa-solid fa-play"></i> Accéder au module
+                    </button>
+                </div>
+            </div>
+
+            <!-- MODULE 2 -->
+            <div class="module-card module-wip" onclick="startModule(2)">
+                <div class="module-number">M2</div>
+                <div class="module-content">
+                    <div class="tags">
+                        <span class="tag tag-cat">Détecter</span>
+                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                    </div>
+                    <h2 class="module-title">Identifier le potentiel</h2>
+                    <p class="module-desc">Comment repérer une opportunité et évaluer si une idée mérite d'être développée.</p>
+                    <button class="btn-start btn-wip">
+                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    </button>
+                </div>
+            </div>
+
+            <!-- MODULE 3 -->
+            <div class="module-card module-wip" onclick="startModule(3)">
+                <div class="module-number">M3</div>
+                <div class="module-content">
+                    <div class="tags">
+                        <span class="tag tag-cat">Protéger</span>
+                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                    </div>
+                    <h2 class="module-title">Présenter, PI & Contrats</h2>
+                    <p class="module-desc">Savoir pitcher son projet et comprendre les bases de la Propriété Intellectuelle.</p>
+                    <button class="btn-start btn-wip">
+                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    </button>
+                </div>
+            </div>
+
+            <!-- MODULE 4 -->
+            <div class="module-card module-wip" onclick="startModule(4)">
+                <div class="module-number">M4</div>
+                <div class="module-content">
+                    <div class="tags">
+                        <span class="tag tag-cat">Connecter</span>
+                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                    </div>
+                    <h2 class="module-title">Écosystèmes Clés</h2>
+                    <p class="module-desc">Cartographie des acteurs de l'innovation et comment interagir avec eux.</p>
+                    <button class="btn-start btn-wip">
+                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    </button>
+                </div>
+            </div>
+
+            <!-- MODULE 5 -->
+            <div class="module-card module-wip" onclick="startModule(5)">
+                <div class="module-number">M5</div>
+                <div class="module-content">
+                    <div class="tags">
+                        <span class="tag tag-cat">Collaborer</span>
+                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                    </div>
+                    <h2 class="module-title">Coopérer en Projet</h2>
+                    <p class="module-desc">Méthodes agiles et postures pour travailler efficacement en équipe innovante.</p>
+                    <button class="btn-start btn-wip">
+                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    </button>
+                </div>
+            </div>
+
+            <!-- MODULE 6 -->
+            <div class="module-card module-wip" onclick="startModule(6)">
+                <div class="module-number">M6</div>
+                <div class="module-content">
+                    <div class="tags">
+                        <span class="tag tag-cat">S'évaluer</span>
+                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                    </div>
+                    <h2 class="module-title">Évaluation & Potentiel</h2>
+                    <p class="module-desc">Bilan global des compétences et déblocage de votre parcours personnalisé.</p>
+                    <button class="btn-start btn-wip">
+                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        &copy; {{ "now" | date: "%Y" }} Projet Inno - Espace Formation
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const btnIcon = document.querySelector('.hud-actions button i');
+            if(btnIcon) {
+                btnIcon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            }
+        }
+
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                updateThemeIcon(true);
+            }
+        };
+
+        function startModule(id) {
+            if (id === 1) {
+                window.location.href = "{{ '/pages/apprenant/cours/sensibilisation/module1/hub.html' | relative_url }}";
+            } else {
+                console.log("Module en construction");
+            }
+        }
+    </script>
+</body>
+</html>
