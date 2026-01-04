@@ -2,16 +2,7 @@
 layout: default
 title: "PROJET INNO | Portail apprenant"
 ---
-<nav class="navbar">
-  <a class="logo" href="{{ '/' | relative_url }}">
-    <i class="fa-solid fa-atom" style="color: var(--orange);" aria-hidden="true"></i>
-    PROJET INNO
-  </a>
 
-  <button class="theme-btn" type="button" onclick="toggleTheme()">
-    <i class="fa-solid fa-moon" aria-hidden="true"></i> Mode Nuit
-  </button>
-</nav>
 
 <section class="hero">
   <h1>Portail<br><span style="color: var(--orange);">Apprenant</span></h1>
@@ -42,5 +33,6 @@ title: "PROJET INNO | Portail apprenant"
 </section>
 
 <footer>&copy; 2026 Projet Inno - V 1.0</footer>
+
 
 
