@@ -1,4 +1,4 @@
-layout: default title: "Accueil | PROJET INNO"
+"Accueil | PROJET INNO"
 
 <section class="hero">
 <h1>Bienvenue sur
@@ -29,3 +29,4 @@ layout: default title: "Accueil | PROJET INNO"
 
 </div>
 </section>
+
