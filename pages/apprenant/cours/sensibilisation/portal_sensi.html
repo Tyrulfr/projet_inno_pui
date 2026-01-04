@@ -332,7 +332,8 @@ layout: null
 
         function startModule(id) {
             if (id === 1) {
-                window.location.href = "{{ '/pages/apprenant/cours/sensibilisation/module1/hub.html' | relative_url }}";
+                // Modifié pour ouvrir sommaire.md (généré en sommaire.html par Jekyll)
+                window.location.href = "{{ '/pages/apprenant/cours/sensibilisation/module1/sommaire.html' | relative_url }}";
             } else {
                 console.log("Module en construction");
             }
