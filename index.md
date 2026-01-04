@@ -2,15 +2,6 @@
 layout: default
 title: "PROJET INNO | Accueil"
 ---
-<nav class="navbar">
-  <div class="logo">
-    <i class="fa-solid fa-atom" style="color: var(--orange);"></i> PROJET INNO
-  </div>
-
-  <button class="theme-btn" type="button" onclick="toggleTheme()">
-    <i class="fa-solid fa-moon"></i> Mode Nuit
-  </button>
-</nav>
 
 <section class="hero">
   <h1>OSER POUR<br><span style="color: var(--orange);">INNOVER</span></h1>
@@ -34,6 +25,7 @@ title: "PROJET INNO | Accueil"
 </section>
 
 <footer>&copy; 2026 Projet Inno - V 1.0</footer>
+
 
 
 
