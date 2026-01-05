@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAIN 2 : Sur quoi peut-on innover ? | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        /* Contenu */
+        .content-container { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        /* Definition Box */
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+        
+        /* --- FLIP CARDS STYLES --- */
+        .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        
+        .flip-card {
+            background-color: transparent;
+            min-height: 320px; /* Hauteur fixe nécessaire pour la rotation */
+            perspective: 1000px; /* Effet 3D */
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 12px;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flip-card-front {
+            background: var(--bg-card);
+            border-top: 5px solid var(--teal);
+            color: var(--text-main);
+        }
+
+        .flip-card-back {
+            background: var(--teal);
+            color: white;
+            transform: rotateY(180deg);
+            border-top: 5px solid var(--orange);
+            overflow-y: auto; /* Au cas où le texte est long */
+        }
+        
+        /* Styles spécifiques au contenu des cartes */
+        .pillar-icon { font-size: 2.5rem; color: var(--teal); margin-bottom: 1rem; }
+        .pillar-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem; display: block; color: var(--bordeaux); }
+        body.dark-mode .pillar-title { color: var(--orange); }
+        
+        .flip-indicator {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .back-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .back-text { font-size: 0.95rem; line-height: 1.5; }
+        .example-list { text-align: left; width: 100%; list-style: none; padding: 0; margin-top: 10px; }
+        .example-list li { margin-bottom: 8px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; }
+        .example-list li:last-child { border-bottom: none; }
+        .example-list i { margin-right: 8px; color: var(--orange); }
+
+        /* Cloud Tags pour "Divers" */
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
+        .tag-item { 
+            background: rgba(46, 175, 125, 0.1); 
+            color: var(--teal); 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            font-weight: 600; 
+            font-size: 0.9rem; 
+            border: 1px solid rgba(46, 175, 125, 0.3); 
+            cursor: pointer; /* Indique que c'est cliquable */
+        }
+        .tag-item:hover {
+            background: var(--teal);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(46, 175, 125, 0.3);
+        }
+        body.dark-mode .tag-item { background: rgba(46, 175, 125, 0.2); color: #81c784; }
+        body.dark-mode .tag-item:hover { background: var(--teal); color: white; }
+
+        /* Accordion */
+        .accordion { margin: 2rem 0; }
+        .accordion-item { background: var(--bg-card); border-radius: 8px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .accordion-header { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; background: rgba(0,0,0,0.02); }
+        .accordion-header:hover { background: rgba(0,0,0,0.05); }
+        .accordion-content { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease; }
+        .accordion-content.open { padding: 1.5rem; max-height: 500px; border-top: 1px solid #eee; }
+        
+        /* Focus Box (Utilisateur) */
+        .focus-box { background: var(--bg-card); border-left: 5px solid var(--orange); padding: 1.5rem; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin: 2rem 0; }
+        .focus-title { font-weight: 800; color: var(--orange); margin-bottom: 0.5rem; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 400px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 1rem; font-weight: 900; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 1rem; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Top -->
+    <nav class="top-bar">
+        <a href="grain_1_innovation.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Grain 2 / 11</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);" aria-label="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <div class="content-container">
+        
+        <h1 class="hero-title">Sur quoi peut-on innover ?</h1>
+        <div class="hero-subtitle">Le champ des possibles : du produit tangible aux systèmes abstraits.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-quote-left" style="opacity:0.5; margin-right:10px;"></i>
+                Réponse courte : <strong>Sur tout.</strong><br>
+                Cliquez sur les cartes ou les tags ci-dessous pour découvrir des exemples.
+            </span>
+        </div>
+
+        <h2 id="categories">Les Catégories Privilégiées</h2>
+        
+        <div class="pillars-grid">
+            <!-- CARTE 1 : Produit & Service -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <!-- FACE AVANT -->
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-box-open pillar-icon"></i>
+                        <span class="pillar-title">1. Produit & Service</span>
+                        <p>La forme la plus classique. Innover sur l'objet tangible (le bien) ou la prestation immatérielle fournie (le service).</p>
+                        <div class="flip-indicator"><i class="fa-solid fa-rotate"></i> Retourner</div>
+                    </div>
+                    <!-- FACE ARRIÈRE -->
+                    <div class="flip-card-back">
+                        <div class="back-title">Exemples Concrets</div>
+                        <ul class="example-list">
+                            <li><i class="fa-solid fa-mobile-screen"></i> <strong>Produit :</strong> Un smartphone à écran pliable.</li>
+                            <li><i class="fa-solid fa-utensils"></i> <strong>Produit :</strong> De la viande végétale imprimée en 3D.</li>
+                            <li><i class="fa-solid fa-building-columns"></i> <strong>Service :</strong> Une néo-banque 100% mobile sans guichet physique.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 2 : Système Produit-Service -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <!-- FACE AVANT -->
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-sync pillar-icon"></i>
+                        <span class="pillar-title">2. Système Produit-Service</span>
+                        <p>Une combinaison intégrée. On ne vend plus juste un produit, mais l'usage et les services associés.</p>
+                        <div class="flip-indicator"><i class="fa-solid fa-rotate"></i> Retourner</div>
+                    </div>
+                    <!-- FACE ARRIÈRE -->
+                    <div class="flip-card-back">
+                        <div class="back-title">L'Usage avant tout</div>
+                        <ul class="example-list">
+                            <li><i class="fa-solid fa-bicycle"></i> <strong>Vélib' :</strong> Vélo + Bornes + Appli de maintenance.</li>
+                            <li><i class="fa-solid fa-print"></i> <strong>Imprimantes :</strong> L'abonnement "encre illimitée" plutôt que l'achat de cartouches.</li>
+                            <li><i class="fa-solid fa-car"></i> <strong>Michelin :</strong> Vente de pneus au kilomètre pour les flottes (Fleet solutions).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 3 : Modèle Économique -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <!-- FACE AVANT -->
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-chart-pie pillar-icon"></i>
+                        <span class="pillar-title">3. Modèle Économique</span>
+                        <p>Innover sur la façon dont l'organisation crée, délivre et capture de la valeur.</p>
+                        <div class="flip-indicator"><i class="fa-solid fa-rotate"></i> Retourner</div>
+                    </div>
+                    <!-- FACE ARRIÈRE -->
+                    <div class="flip-card-back">
+                        <div class="back-title">Changer les règles</div>
+                        <ul class="example-list">
+                            <li><i class="fa-solid fa-mug-hot"></i> <strong>Nespresso :</strong> Vendre la machine à perte pour gagner sur les capsules (Razor & Blade).</li>
+                            <li><i class="fa-brands fa-spotify"></i> <strong>Spotify :</strong> Modèle Freemium (Gratuit avec pub / Premium sans).</li>
+                            <li><i class="fa-solid fa-taxi"></i> <strong>Uber :</strong> Plateforme de mise en relation sans posséder les voitures.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 4 : Organisation -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <!-- FACE AVANT -->
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-sitemap pillar-icon"></i>
+                        <span class="pillar-title">4. Organisation</span>
+                        <p>Processus internes, logistique, management, méthodes de travail. L'innovation invisible mais puissante.</p>
+                        <div class="flip-indicator"><i class="fa-solid fa-rotate"></i> Retourner</div>
+                    </div>
+                    <!-- FACE ARRIÈRE -->
+                    <div class="flip-card-back">
+                        <div class="back-title">L'Envers du Décor</div>
+                        <ul class="example-list">
+                            <li><i class="fa-solid fa-industry"></i> <strong>Toyotisme :</strong> Le "Juste-à-temps" et le Lean Manufacturing.</li>
+                            <li><i class="fa-solid fa-laptop-house"></i> <strong>Remote :</strong> Entreprises fonctionnant en 100% télétravail (Full Remote).</li>
+                            <li><i class="fa-solid fa-truck-fast"></i> <strong>Logistique :</strong> La gestion des stocks robotisée d'Amazon.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Divers / Nuage de tags -->
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Et aussi... (Cliquez pour définir) <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content open">
+                    <p>L'innovation touche tous les secteurs et toutes les échelles :</p>
+                    <div class="tag-cloud">
+                        <span class="tag-item" onclick="showDefinition('Politique')">Politique</span>
+                        <span class="tag-item" onclick="showDefinition('Stratégie')">Stratégie</span>
+                        <span class="tag-item" onclick="showDefinition('Réglementation')">Réglementation</span>
+                        <span class="tag-item" onclick="showDefinition('Processus')">Processus</span>
+                        <span class="tag-item" onclick="showDefinition('Logiciel')">Logiciel</span>
+                        <span class="tag-item" onclick="showDefinition('Étude')">Étude</span>
+                        <span class="tag-item" onclick="showDefinition('Programme Scolaire')">Programme Scolaire</span>
+                        <span class="tag-item" onclick="showDefinition('Soins de Santé')">Soins de Santé</span>
+                        <span class="tag-item" onclick="showDefinition('Vision')">Vision</span>
+                        <span class="tag-item" onclick="showDefinition('Texte & Illustrations')">Texte & Illustrations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Focus : Utilisateur -->
+        <div class="focus-box">
+            <div class="focus-title"><i class="fa-solid fa-user-astronaut"></i> Point Central : L'Utilisateur du Système</div>
+            <p>Quel que soit l'objet de l'innovation (produit, service, processus), il gravite toujours autour d'un acteur clé : <strong>l'Utilisateur du système</strong>. C'est lui qui valide l'utilité finale.</p>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--teal);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Validation</h3>
+            <p>Peut-on innover sur la manière d'organiser une entreprise, sans toucher au produit vendu ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q2a" name="q2" value="correct">
+                    <label for="q2a">Oui, c'est une innovation d'organisation.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q2b" name="q2" value="wrong">
+                    <label for="q2b">Non, ce n'est que de la gestion, pas de l'innovation.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q2c" name="q2" value="wrong">
+                    <label for="q2c">Non, l'innovation concerne uniquement la technologie.</label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer la leçon <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Custom Modal -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <p id="modalMessage">Message</p>
+            <button class="modal-btn" onclick="closeModal()">Compris</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Accordion Logic
+        function toggleAccordion(element) { 
+            const content = element.nextElementSibling; 
+            content.classList.toggle('open'); 
+            const icon = element.querySelector('i'); 
+            icon.classList.toggle('fa-chevron-down'); 
+            icon.classList.toggle('fa-chevron-up'); 
+        }
+
+        // --- DEFINITIONS & TAGS LOGIC ---
+        const definitions = {
+            "Politique": "Innovation dans la gouvernance, les affaires publiques et les choix de société.",
+            "Stratégie": "Innovation dans la vision à long terme, le positionnement et les objectifs d'une organisation.",
+            "Réglementation": "Création de nouveaux cadres légaux ou normatifs (ex: RGPD, lois bioéthiques, crédits carbone).",
+            "Processus": "Amélioration des méthodes de fabrication, de gestion ou de logistique (ex: Lean management).",
+            "Logiciel": "Développement de nouveaux algorithmes, applications ou plateformes numériques.",
+            "Étude": "Nouvelles méthodologies de recherche, de collecte de données ou d'analyse.",
+            "Programme Scolaire": "Innovation pédagogique, nouveaux cursus ou méthodes d'apprentissage.",
+            "Soins de Santé": "Nouveaux parcours de soins, protocoles médicaux ou approches thérapeutiques.",
+            "Vision": "Innovation prospective qui change la perception du monde ou d'un marché.",
+            "Texte & Illustrations": "Innovation dans la création de contenu, le design narratif ou le storytelling."
+        };
+
+        function showDefinition(term) {
+            const def = definitions[term];
+            if(def) {
+                showModal(term, def, 'info');
+            }
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modal.classList.add('active');
+            
+            // Reset styles
+            modalBox.style.borderTopColor = 'var(--orange)';
+            modalBtn.style.backgroundColor = 'var(--orange)';
+
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else if (type === 'info') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-info" style="color: var(--blue);"></i>';
+                modalTitle.style.color = 'var(--blue)';
+                modalBox.style.borderTopColor = 'var(--blue)';
+                modalBtn.style.backgroundColor = 'var(--blue)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q2'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Exactement !", "L'innovation couvre aussi bien les processus, les modèles économiques que l'organisation.", "success");
+            } else if (val === "") { 
+                showModal("Oups", "Veuillez sélectionner une réponse au quiz.", "error");
+            } else { 
+                showModal("Incorrect", "L'innovation n'est pas limitée à la technologie ou au produit. L'organisation est un champ majeur d'innovation.", "error");
+            }
+        }
+    </script>
+</body>
+</html>
