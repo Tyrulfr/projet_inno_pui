@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GRAIN 1 : Fondamentaux de l'Innovation | Projet Inno</title>
+    <title>CAPSULE 1 : Fondamentaux de l'Innovation | Projet Inno</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -69,10 +69,10 @@
 </head>
 <body>
 
-    <!-- Navigation Top -->
-<nav class="top-bar">
+    <!-- Navigation Top : CORRECTION ICI (Lien vers sommaire + Nom Capsule) -->
+    <nav class="top-bar">
         <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
-        <div style="font-weight: 800; color: var(--bordeaux);">Grain 1 / 11</div>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 1</div>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);" aria-label="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
     </nav>
 
@@ -232,15 +232,24 @@
             modal.classList.remove('active');
         }
 
-        // Quiz Validation
+        // Quiz Validation : CORRECTION ICI (Redirection)
         function finishGrain() {
             const radios = document.getElementsByName('q1'); 
             let val = ""; 
             for(const r of radios) if(r.checked) val = r.value;
             
             if(val === "correct") { 
-                // Suppression de la mention +XP
                 showModal("Félicitations !", "Vous avez bien saisi : La nouveauté sans valeur n'est pas une innovation complète.", "success");
+                
+                // Modification du bouton pour redirection
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+
             } else if (val === "") { 
                 showModal("Oups", "Veuillez sélectionner une réponse au quiz.", "error");
             } else { 
