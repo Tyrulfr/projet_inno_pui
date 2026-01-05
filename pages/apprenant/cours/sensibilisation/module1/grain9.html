@@ -1,1 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPSULE 9 : Le "Front-End" de l'Innovation | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation Correction */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
 
+        /* --- VORTEX CONTAINER --- */
+        .vortex-section {
+            position: relative;
+            margin: 4rem 0;
+            background: var(--bg-card);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .vortex-svg {
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+
+        /* Styles pour les zones interactives SVG */
+        .zone-group { cursor: pointer; transition: opacity 0.3s; }
+        .zone-group:hover .zone-bg { fill-opacity: 0.1; }
+        .zone-bg { fill: transparent; transition: fill-opacity 0.3s; }
+        
+        .particle { fill: url(#sphereGradient); filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)); }
+        .particle-elected { fill: url(#sphereGradientElected); filter: drop-shadow(0 0 5px rgba(46, 175, 125, 0.8)); }
+
+        .zone-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            fill: var(--bordeaux);
+            text-transform: uppercase;
+            pointer-events: none; /* Laisse le clic passer au groupe */
+        }
+        
+        .zone-sublabel {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.9rem;
+            fill: var(--text-light);
+            pointer-events: none;
+        }
+
+        .arrow-text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.85rem;
+            fill: var(--orange);
+            font-weight: 700;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(42, 50, 94, 0.05);
+            border-left: 5px solid var(--blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+        }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; text-align: left; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Top : CORRECTION ICI -->
+    <nav class="top-bar">
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 9</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Qu'est-ce que le "Front-End" ?</h1>
+        <div class="hero-subtitle">La période préliminaire d'exploration où se joue l'avenir de l'innovation.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-quote-left" style="opacity:0.5; margin-right:10px;"></i>
+                Le <strong>Front-End Innovation</strong> (ou "Fuzzy Front End") est cette période où l'on explore, trie et sélectionne les opportunités avant de lancer le développement formel.
+            </span>
+        </div>
+
+        <!-- VORTEX INTERACTIF -->
+        <div class="vortex-section">
+            <h3 style="text-align:center; color:var(--bordeaux); margin-bottom:20px;">L'Entonnoir d'Innovation</h3>
+            <p style="text-align:center; margin-bottom:30px; font-size:0.9rem; color:#666;">Cliquez sur les zones du vortex pour découvrir les activités associées.</p>
+            
+            <svg class="vortex-svg" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <!-- Gradient pour les particules standards -->
+                    <radialGradient id="sphereGradient" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#fff; stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#F48C2E; stop-opacity:1" />
+                    </radialGradient>
+                    <!-- Gradient pour la particule élue -->
+                    <radialGradient id="sphereGradientElected" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#fff; stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#2EAF7D; stop-opacity:1" />
+                    </radialGradient>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#F48C2E" />
+                    </marker>
+                </defs>
+
+                <!-- LIGNES DU VORTEX -->
+                <!-- Haut -->
+                <path d="M 50,50 C 300,50 400,150 600,150 L 950,150" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="5,5" />
+                <!-- Bas -->
+                <path d="M 50,350 C 300,350 400,250 600,250 L 950,250" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="5,5" />
+
+                <!-- ZONE 1 : AMONT -->
+                <g class="zone-group" onclick="showLevel('strat')">
+                    <rect x="0" y="0" width="300" height="400" class="zone-bg" fill="var(--bordeaux)" fill-opacity="0" />
+                    
+                    <!-- Particules Zone 1 (Dispersées) -->
+                    <circle cx="80" cy="100" r="15" class="particle" />
+                    <circle cx="100" cy="300" r="12" class="particle" />
+                    <circle cx="150" cy="200" r="18" class="particle" />
+                    <circle cx="200" cy="80" r="10" class="particle" />
+                    <circle cx="220" cy="320" r="14" class="particle" />
+                    <circle cx="250" cy="150" r="16" class="particle" />
+
+                    <!-- Flèche Opportunité -->
+                    <line x1="80" y1="20" x2="80" y2="75" stroke="#F48C2E" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <text x="80" y="15" text-anchor="middle" class="arrow-text">Opportunité d'innovation</text>
+
+                    <!-- Label -->
+                    <text x="150" y="380" text-anchor="middle" class="zone-label">ZONE 1</text>
+                    <text x="150" y="395" text-anchor="middle" class="zone-sublabel">Exploration (Clic)</text>
+                </g>
+
+                <!-- ZONE 2 : ENTONNOIR -->
+                <g class="zone-group" onclick="showLevel('ops')">
+                    <rect x="300" y="0" width="300" height="400" class="zone-bg" fill="var(--teal)" fill-opacity="0" />
+                    
+                    <!-- Particules Zone 2 (Convergentes) -->
+                    <circle cx="350" cy="120" r="12" class="particle" />
+                    <circle cx="380" cy="280" r="12" class="particle" />
+                    <circle cx="450" cy="180" r="14" class="particle" />
+                    <circle cx="500" cy="220" r="10" class="particle" />
+
+                    <!-- Label -->
+                    <text x="450" y="380" text-anchor="middle" class="zone-label">ZONE 2</text>
+                    <text x="450" y="395" text-anchor="middle" class="zone-sublabel">Filtrage (Clic)</text>
+                </g>
+
+                <!-- ZONE 3 : TUBE -->
+                <g class="zone-group" onclick="showLevel('proj')">
+                    <rect x="600" y="0" width="400" height="400" class="zone-bg" fill="var(--blue)" fill-opacity="0" />
+                    
+                    <!-- Particule Zone 3 (L'Élue) -->
+                    <circle cx="800" cy="200" r="25" class="particle-elected" />
+
+                    <!-- Label -->
+                    <text x="800" y="380" text-anchor="middle" class="zone-label">ZONE 3</text>
+                    <text x="800" y="395" text-anchor="middle" class="zone-sublabel">Sélection (Clic)</text>
+                </g>
+
+                <!-- Séparateurs verticaux visuels (Optionnel) -->
+                <line x1="300" y1="20" x2="300" y2="380" stroke="#eee" stroke-width="1" stroke-dasharray="2" />
+                <line x1="600" y1="20" x2="600" y2="380" stroke="#eee" stroke-width="1" stroke-dasharray="2" />
+
+            </svg>
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fa-solid fa-flag-checkered"></i> La fin du Front-End</h4>
+            <p>La sortie de la <strong>Zone 3</strong> marque le début du "Back-End" : un processus formel et linéaire de développement (ingénierie, industrialisation).</p>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--teal);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz Rapide</h3>
+            <p>Quel document marque souvent la fin du "Front-End" opérationnel pour lancer le développement ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q9a" name="q9" value="correct">
+                    <label for="q9a">Le Brief Marketing</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q9b" name="q9" value="wrong">
+                    <label for="q9b">Le Brevet final</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q9c" name="q9" value="wrong">
+                    <label for="q9c">Le Rapport Annuel</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer la leçon <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Détail des Zones -->
+    <div class="modal-overlay" id="levelModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <div class="modal-text" id="modalMessage">Message</div>
+            <button class="modal-btn" onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('levelModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        // Données des niveaux
+        const levels = {
+            'strat': {
+                title: "Niveau Stratégique",
+                icon: '<i class="fa-solid fa-chess-queen" style="color:var(--bordeaux);"></i>',
+                color: 'var(--bordeaux)',
+                text: "<strong>Qui :</strong> Marketing Stratégique.<br><br><strong>Quoi :</strong> Analyse du marché et de la technologie.<br><br><strong>But :</strong> Identifier et prioriser les territoires où il est stratégiquement intéressant pour l'entreprise d'innover (Zone 1)."
+            },
+            'ops': {
+                title: "Niveau Opérationnel",
+                icon: '<i class="fa-solid fa-briefcase" style="color:var(--teal);"></i>',
+                color: 'var(--teal)',
+                text: "<strong>Qui :</strong> Marketing Opérationnel / Chef de Produit.<br><br><strong>Quoi :</strong> Définition d'une nouvelle proposition de valeur pour un segment donné.<br><br><strong>But :</strong> Rédiger le <em>Brief Marketing</em> pour filtrer les idées et lancer le projet (Zone 2)."
+            },
+            'proj': {
+                title: "Niveau Projet",
+                icon: '<i class="fa-solid fa-pen-ruler" style="color:var(--blue);"></i>',
+                color: 'var(--blue)',
+                text: "<strong>Qui :</strong> Équipe de Conception.<br><br><strong>Quoi :</strong> Après le démarrage, si les spécifications ne sont pas trop contraignantes.<br><br><strong>But :</strong> Séances de réflexion (brainstorming) pour finaliser la description technique du produit élu (Zone 3)."
+            }
+        };
+
+        function showLevel(levelKey) {
+            const data = levels[levelKey];
+            if(data) {
+                modalTitle.innerText = data.title;
+                modalMsg.innerHTML = data.text;
+                modalIcon.innerHTML = data.icon;
+                
+                modalTitle.style.color = data.color;
+                modalBox.style.borderTopColor = data.color;
+                modalBtn.style.backgroundColor = data.color;
+                
+                modal.classList.add('active');
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation : CORRECTION ICI
+        function finishGrain() {
+            const radios = document.getElementsByName('q9'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                modalTitle.innerText = "Bravo !";
+                modalMsg.innerText = "C'est exact. Le Brief Marketing est le point de bascule.";
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+                modalTitle.style.color = 'var(--teal)';
+                modal.classList.add('active');
+                
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                modalTitle.innerText = "Pas tout à fait";
+                modalMsg.innerText = "Le brevet arrive plus tard. C'est le Brief qui lance l'opérationnel.";
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+                modalTitle.style.color = 'var(--orange)';
+                modal.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
