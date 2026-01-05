@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GRAIN 7 : Une Méthodologie pour Innover | Projet Inno</title>
+    <title>CAPSULE 7 : Une Méthodologie pour Innover | Projet Inno</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -209,8 +209,8 @@
 <body>
 
     <nav class="top-bar">
-        <a href="grain_6_organisation_innovation.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
-        <div style="font-weight: 800; color: var(--bordeaux);">Grain 7 / 11</div>
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 7</div>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
 
@@ -356,7 +356,7 @@
 
     <!-- Footer Action -->
     <div class="action-footer">
-        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+        <button class="btn-validate" onclick="finishGrain()">Terminer la leçon <i class="fa-solid fa-check"></i></button>
     </div>
 
     <!-- Modal pour Feedback -->
@@ -444,7 +444,7 @@
             modal.classList.remove('active');
         }
 
-        // Quiz Validation
+        // Quiz Validation : CORRECTION ICI
         function finishGrain() {
             const radios = document.getElementsByName('q7'); 
             let val = ""; 
@@ -452,6 +452,15 @@
             
             if(val === "correct") { 
                 showModal("Exactement !", "Sans langage commun (définitions, valeurs), une équipe multidisciplinaire perd un temps précieux à se comprendre au lieu d'innover.", "success");
+                
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+
             } else if (val === "") { 
                 alert("Veuillez répondre au quiz.");
             } else { 
