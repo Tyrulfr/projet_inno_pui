@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAIN 6 : Organiser l'Innovation | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base (Cohérence globale) --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.1rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; line-height: 1.8; }
+
+        /* --- DUAL UNIVERSE LAYOUT --- */
+        .duality-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        /* Central Connector (The "Vs" or "And") */
+        .duality-connector {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-family: 'Montserrat';
+            color: var(--text-main);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            z-index: 10;
+            border: 4px solid #ddd;
+        }
+
+        .universe-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 6px solid #ccc;
+        }
+
+        .universe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        /* Left Universe: Organization */
+        .universe-left { border-top-color: var(--blue); }
+        .universe-left h3 { color: var(--blue); text-align: right; border-bottom: 2px solid rgba(42, 50, 94, 0.1); padding-bottom: 10px; margin-bottom: 20px; }
+        .universe-left .item-list { text-align: right; }
+        .universe-left .list-item:hover { color: var(--blue); transform: translateX(-5px); }
+        /* CORRECTION ICONE : Utilisation de fa-gears (f085) au lieu du code erroné */
+        .universe-left .list-item::after { content: '\f085'; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-left: 10px; opacity: 0.3; }
+
+        /* Right Universe: Creativity */
+        .universe-right { border-top-color: var(--orange); }
+        .universe-right h3 { color: var(--orange); text-align: left; border-bottom: 2px solid rgba(244, 140, 46, 0.1); padding-bottom: 10px; margin-bottom: 20px; }
+        .universe-right .item-list { text-align: left; }
+        .universe-right .list-item:hover { color: var(--orange); transform: translateX(5px); }
+        .universe-right .list-item::before { content: '\f0eb'; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-right: 10px; opacity: 0.5; }
+
+        .item-list { list-style: none; padding: 0; margin: 0; }
+        .list-item {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.95rem;
+            cursor: default;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .universe-left .list-item { justify-content: flex-end; }
+        .universe-right .list-item { justify-content: flex-start; }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(46, 175, 125, 0.1);
+            border-left: 5px solid var(--teal);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        /* Sources */
+        .sources-section {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(0,0,0,0.03);
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        .sources-section h4 { margin-top: 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .duality-container { grid-template-columns: 1fr; gap: 3rem; }
+            .duality-connector { transform: translate(-50%, -50%) rotate(90deg); } /* Rotation for vertical stacking visual */
+            .universe-left h3, .universe-left .item-list { text-align: center; }
+            .universe-left .list-item { justify-content: center; }
+            .universe-left .list-item::after { display: none; }
+            .universe-left .list-item::before { content: '\f085'; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-right: 10px; opacity: 0.3; } /* Added icon before on mobile for consistency */
+            
+            .universe-right h3, .universe-right .item-list { text-align: center; }
+            .universe-right .list-item { justify-content: center; }
+        }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="grain_5_processus_valeur.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Grain 6 / 11</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Nécessité d'organiser le processus</h1>
+        <div class="hero-subtitle">Réconcilier l'organisation rationnelle et la créativité humaine.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-quote-left" style="opacity:0.5; margin-right:10px;"></i>
+                Le processus d'innovation doit être organisé par une équipe multidisciplinaire pour articuler différentes cultures. <br><br>
+                Il doit planifier les tâches pour explorer et exploiter, tout en préservant <strong>la part humaine et artistique</strong> (créativité, empathie, synergie).
+            </span>
+        </div>
+
+        <h2 style="text-align:center; margin-top:3rem; color:var(--bordeaux);">Le Grand Écart de l'Innovation</h2>
+        <p style="text-align:center; color:var(--text-light); max-width:700px; margin:0 auto;">L'innovation doit réussir à faire cohabiter deux univers souvent opposés dans l'entreprise.</p>
+
+        <!-- DUAL UNIVERSE -->
+        <div class="duality-container">
+            
+            <div class="duality-connector">&</div>
+
+            <!-- MONDE GAUCHE : Organisation -->
+            <div class="universe-card universe-left">
+                <h3><i class="fa-solid fa-building-columns"></i> Organisation & Rationalité</h3>
+                <ul class="item-list">
+                    <li class="list-item">Déduction, Induction</li>
+                    <li class="list-item">Développement du Design</li>
+                    <li class="list-item">Travail d'Équipe</li>
+                    <li class="list-item">Lancement & Communication</li>
+                    <li class="list-item">Financement</li>
+                    <li class="list-item">Tests, Expérimentation & Validation</li>
+                    <li class="list-item">Planification de Projet</li>
+                    <li class="list-item">Gestion des Coûts</li>
+                </ul>
+            </div>
+
+            <!-- MONDE DROIT : Créativité -->
+            <div class="universe-card universe-right">
+                <h3>Créativité & Spontanéité <i class="fa-solid fa-wand-magic-sparkles"></i></h3>
+                <ul class="item-list">
+                    <li class="list-item">Abduction*, Inspiration, Intuition</li>
+                    <li class="list-item">Créativité, Conceptualisation</li>
+                    <li class="list-item">Invention</li>
+                    <li class="list-item">Observation, Usage</li>
+                    <li class="list-item">Émotions, Perceptions, Interactions</li>
+                    <li class="list-item">Empathie (Centrée Humain)</li>
+                    <li class="list-item">Conception Artistique</li>
+                    <li class="list-item">Effet "Waouh"</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fa-solid fa-scale-balanced"></i> L'Équilibre Difficile</h4>
+            <p>Le processus d'innovation est souvent perçu comme opposé à la recherche. L'innovation transforme la connaissance en bénéfices, tandis que la recherche utilise l'argent pour générer de la connaissance. Cependant, le processus d'innovation lui-même génère aussi de nouvelles connaissances (propriété intellectuelle, brevets).</p>
+            <p style="font-size:0.85rem; margin-top:10px; color:#666;"><em>*Note : "Abduction" (ou Inférence à la meilleure explication) est le mode de raisonnement créatif utilisé en design pour imaginer des solutions qui n'existent pas encore, à ne pas confondre avec l'enlèvement.</em></p>
+        </div>
+
+        <!-- SOURCES -->
+        <div class="sources-section">
+            <h4>Sources Académiques</h4>
+            <p><i class="fa-solid fa-book"></i> <strong>Lamé G., Yannou B., Cluzel F. (2018).</strong> <em>Analyzing RID methodology through the lens of innovative abduction.</em> Int. Design Conf., Dubrovnik.</p>
+            <p><i class="fa-solid fa-book"></i> <strong>Luo J. (2015).</strong> <em>The united innovation process: Integrating science, design, and entrepreneurship as sub-processes.</em> Design Science, 1, E2.</p>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--orange);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Compréhension</h3>
+            <p>Selon le modèle présenté, l'innovation doit-elle être purement rationnelle et planifiée ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q6a" name="q6" value="wrong">
+                    <label for="q6a">Oui, seule la gestion des coûts compte.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q6b" name="q6" value="correct">
+                    <label for="q6b">Non, elle doit intégrer créativité, empathie et intuition.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q6c" name="q6" value="wrong">
+                    <label for="q6c">Non, c'est un processus purement artistique sans règles.</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Feedback -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <p id="modalMessage">Message</p>
+            <button class="modal-btn" onclick="closeModal()">Continuer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modal.classList.add('active');
+            
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q6'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Bravo !", "Vous avez compris l'essence de l'innovation : un équilibre subtil entre rigueur organisationnelle et spontanéité créative.", "success");
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                showModal("Pas tout à fait", "L'innovation n'est ni purement rigide ni purement chaotique. C'est la réconciliation des deux mondes.", "error");
+            }
+        }
+    </script>
+</body>
+</html>
