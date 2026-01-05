@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAIN 1 : Fondamentaux de l'Innovation | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base (identiques au modèle fourni) --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        /* Contenu */
+        .content-container { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        /* Definition Box */
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+        
+        /* Cards / Pillars */
+        .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .pillar-card { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border-top: 5px solid var(--teal); box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .pillar-icon { font-size: 2rem; color: var(--teal); margin-bottom: 1rem; }
+        .pillar-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; display: block; color: var(--bordeaux); }
+        body.dark-mode .pillar-title { color: var(--orange); }
+        
+        /* Trap / Warning */
+        .trap-box { background: rgba(244, 140, 46, 0.1); border: 2px solid var(--orange); border-radius: 15px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .trap-icon { font-size: 3rem; color: var(--orange); margin-bottom: 1rem; }
+        
+        /* Accordion */
+        .accordion { margin: 2rem 0; }
+        .accordion-item { background: var(--bg-card); border-radius: 8px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .accordion-header { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; background: rgba(0,0,0,0.02); }
+        .accordion-header:hover { background: rgba(0,0,0,0.05); }
+        .accordion-content { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease; }
+        .accordion-content.open { padding: 1.5rem; max-height: 500px; border-top: 1px solid #eee; }
+        
+        /* Tags & Footer */
+        .status-tag { padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-left: 10px; }
+        /* Mise à jour du footer pour aligner le bouton à droite sans les éléments de jeu */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        /* Custom Modal (Remplacement de l'alert) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 400px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 1rem; font-weight: 900; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 1rem; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Top -->
+    <nav class="top-bar">
+        <a href="#" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Menu Principal</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Grain 1 / 11</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);" aria-label="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <div class="content-container">
+        
+        <h1 class="hero-title">L'Innovation : Définition</h1>
+        <div class="hero-subtitle">Comprendre le lien entre processus, résultat, nouveauté et valeur.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-quote-left" style="opacity:0.5; margin-right:10px;"></i>
+                L'innovation est à la fois un <span style="text-decoration:underline;">processus</span> et un <span style="text-decoration:underline;">résultat</span>, dans lequel quelque chose de <span style="text-decoration:underline;">nouveau</span> est créé qui apporte de la <span style="text-decoration:underline;">valeur</span> à certaines personnes.
+            </span>
+        </div>
+
+        <h2 id="piliers">Les 4 Piliers Fondamentaux</h2>
+        
+        <div class="pillars-grid">
+            <!-- Pilier 1 : Création / Conception -->
+            <div class="pillar-card">
+                <i class="fa-solid fa-compass-drafting pillar-icon"></i>
+                <span class="pillar-title">1. Création / Conception</span>
+                <p>Pour converger vers un résultat satisfaisant à partir d'une situation réelle, il faut maîtriser un <strong>processus</strong>, des outils et des méthodes.</p>
+                <p><small><em>L'innovation devient synonyme de "conception" (design) lorsque le facteur de nouveauté est élevé.</em></small></p>
+            </div>
+
+            <!-- Pilier 2 : Le Résultat -->
+            <div class="pillar-card">
+                <i class="fa-solid fa-box pillar-icon"></i>
+                <span class="pillar-title">2. "Quelque chose"</span>
+                <p>Comment représenter ou nommer le résultat ?</p>
+                <p>Les résultats innovants sont de nature différente. Par conséquent, les méthodes de création doivent être adaptées à la <strong>nature du résultat attendu</strong>.</p>
+            </div>
+
+            <!-- Pilier 3 : La Nouveauté -->
+            <div class="pillar-card">
+                <i class="fa-solid fa-wand-magic-sparkles pillar-icon"></i>
+                <span class="pillar-title">3. Le "Nouveau"</span>
+                <p>Pour apprécier le caractère novateur, il faut utiliser des modèles caractérisant la nature et l'intensité de l'innovation.</p>
+                <p><strong>Condition clé :</strong> Cette nouveauté doit être <em>souhaitée</em> et <em>souhaitable</em>.</p>
+            </div>
+
+            <!-- Pilier 4 : La Valeur -->
+            <div class="pillar-card">
+                <i class="fa-solid fa-hand-holding-dollar pillar-icon"></i>
+                <span class="pillar-title">4. La Valeur</span>
+                <p>La nouveauté ne suffit pas. L'innovation doit améliorer concrètement quelque chose.</p>
+                <p>La valeur créée doit être bénéfique pour les <strong>personnes</strong> (Utilisateurs, employés, actionnaires, société...).</p>
+            </div>
+        </div>
+
+        <!-- Section Piège -->
+        <div class="trap-box">
+            <i class="fa-solid fa-triangle-exclamation trap-icon"></i>
+            <h3>Attention : Nouveauté ≠ Valeur</h3>
+            <p>La simple nouveauté technique ou conceptuelle ne garantit pas la valeur.</p>
+            <p style="font-weight:bold; margin-top:10px;">"Comment pensez-vous que cette nouveauté pourrait améliorer quelque chose ?"</p>
+        </div>
+
+        <!-- Accordéon : Bénéficiaires -->
+        <h2 id="beneficiaires">Pour qui innove-t-on ?</h2>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    Liste des Bénéficiaires Potentiels <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <p>La valeur créée par une innovation peut bénéficier à de multiples acteurs :</p>
+                    <ul style="padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Utilisateurs & Clients :</strong> Usage amélioré, problème résolu.</li>
+                        <li><strong>L'Entreprise :</strong> Développement, croissance, image.</li>
+                        <li><strong>Employés :</strong> Conditions de travail, fierté, outils.</li>
+                        <li><strong>Actionnaires & Investisseurs :</strong> Retour sur investissement.</li>
+                        <li><strong>Acteurs de la chaîne de valeur :</strong> Fournisseurs, distributeurs.</li>
+                        <li><strong>Nations & Société :</strong> Impact écologique, social, économique.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--teal);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Validation</h3>
+            <p>Selon le texte, est-il suffisant qu'un produit soit "nouveau" pour être considéré comme une innovation réussie ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q1a" name="q1" value="wrong">
+                    <label for="q1a">Oui, la nouveauté est le seul critère.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q1b" name="q1" value="correct">
+                    <label for="q1b">Non, il doit aussi apporter de la valeur.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q1c" name="q1" value="wrong">
+                    <label for="q1c">Oui, si le design est attractif.</label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <!-- Suppression du bloc XP -->
+        <button class="btn-validate" onclick="finishGrain()">Terminer la leçon <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Custom Modal -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <p id="modalMessage">Message</p>
+            <button class="modal-btn" onclick="closeModal()">Compris</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Accordion Logic
+        function toggleAccordion(element) { 
+            const content = element.nextElementSibling; 
+            content.classList.toggle('open'); 
+            const icon = element.querySelector('i'); 
+            icon.classList.toggle('fa-chevron-down'); 
+            icon.classList.toggle('fa-chevron-up'); 
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modal.classList.add('active');
+            
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q1'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                // Suppression de la mention +XP
+                showModal("Félicitations !", "Vous avez bien saisi : La nouveauté sans valeur n'est pas une innovation complète.", "success");
+            } else if (val === "") { 
+                showModal("Oups", "Veuillez sélectionner une réponse au quiz.", "error");
+            } else { 
+                showModal("Pas tout à fait", "Relisez la section 'Attention : Nouveauté ≠ Valeur'. La valeur est indispensable.", "error");
+            }
+        }
+    </script>
+</body>
+</html>
