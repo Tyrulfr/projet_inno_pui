@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GRAIN 3 : Le Processus d'Innovation | Projet Inno</title>
+    <title>CAPSULE 3 : Le Processus d'Innovation | Projet Inno</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,6 +16,7 @@
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
         body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
         
+        /* Navigation Correction */
         .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
         .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .btn-back:hover { color: var(--orange); }
@@ -131,12 +132,12 @@
         .label-recherche { color: var(--blue); }
         .label-innovation { color: var(--orange); }
 
-        /* --- FLIP CARDS STYLES (Added for interactivity) --- */
+        /* --- FLIP CARDS STYLES --- */
         .pillar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
         
         .flip-card {
             background-color: transparent;
-            min-height: 280px; /* Fixed height for rotation */
+            min-height: 280px;
             perspective: 1000px;
             cursor: pointer;
         }
@@ -192,7 +193,6 @@
             padding-top: 10px;
         }
 
-        /* Back Content Styles */
         .back-list {
             list-style: none;
             padding: 0;
@@ -212,7 +212,7 @@
         .back-list li:last-child { border-bottom: none; }
         .back-list i { color: var(--teal); font-size: 1.1rem; width: 25px; text-align: center; }
 
-        /* --- NOUVEAU SCHÉMA YANNOU & CLUZEL --- */
+        /* --- SCHÉMA YANNOU & CLUZEL (CSS) --- */
         .yannou-container {
             display: flex;
             flex-wrap: nowrap;
@@ -260,7 +260,6 @@
         .y-title { font-weight: 800; color: var(--bordeaux); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px; }
         .y-desc { font-size: 0.8rem; color: var(--text-light); }
 
-        /* Flèches de connexion entre les étapes */
         .y-arrow {
             display: flex;
             align-items: center;
@@ -270,7 +269,6 @@
             z-index: 1;
         }
 
-        /* Label global "Méthodologie Innovante" */
         .y-methodo-label {
             position: absolute;
             bottom: -15px;
@@ -293,8 +291,6 @@
             .arrow-line { width: 4px; height: 60px; margin: 0 auto; }
             .arrow-line::after { display: none; } 
             .transformer-icon { bottom: auto; left: 50%; top: 50%; transform: translate(-50%, -50%); }
-            
-            /* Mobile Yannou Diagram */
             .yannou-container { flex-direction: column; gap: 30px; padding-bottom: 2.5rem; }
             .y-arrow { transform: rotate(90deg); margin: -10px 0; }
         }
@@ -313,9 +309,10 @@
 </head>
 <body>
 
+    <!-- Navigation Top Correction -->
     <nav class="top-bar">
-        <a href="grain_2_objets_innovation.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
-        <div style="font-weight: 800; color: var(--bordeaux);">Grain 3 / 11</div>
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 3</div>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
 
@@ -394,17 +391,14 @@
 
         <!-- FLIP CARDS INTERACTIVES -->
         <div class="pillar-grid">
-            
-            <!-- Carte 1 : Équipe -->
+            <!-- Carte 1 -->
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
-                    <!-- Face Avant -->
                     <div class="flip-card-front">
                         <h4><i class="fa-solid fa-users-gear" style="color:var(--teal); font-size: 2rem; display:block; margin-bottom:10px;"></i> Équipe Multidisciplinaire</h4>
                         <p>L'innovation ne se fait pas seul. Elle nécessite des profils variés pour croiser les regards.</p>
                         <div class="flip-indicator"><i class="fa-solid fa-rotate"></i> Retourner pour voir l'équipe</div>
                     </div>
-                    <!-- Face Arrière (Exemples) -->
                     <div class="flip-card-back">
                         <h4 style="margin-bottom: 1rem;">La "Dream Team"</h4>
                         <ul class="back-list">
@@ -416,17 +410,14 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Carte 2 : Méthodologie -->
+            <!-- Carte 2 -->
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
-                    <!-- Face Avant -->
                     <div class="flip-card-front">
                         <h4><i class="fa-solid fa-layer-group" style="color:var(--bordeaux); font-size: 2rem; display:block; margin-bottom:10px;"></i> Méthodologie</h4>
                         <p>Pour fonctionner, ce chaos apparent nécessite une <strong>méthodologie innovante</strong> structurée.</p>
                         <div class="flip-indicator"><i class="fa-solid fa-rotate"></i> Retourner pour voir les méthodes</div>
                     </div>
-                    <!-- Face Arrière (Exemples) -->
                     <div class="flip-card-back">
                         <h4 style="margin-bottom: 1rem;">Outils & Méthodes</h4>
                         <ul class="back-list">
@@ -438,7 +429,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- SCHÉMA DESSINÉ EN CSS -->
@@ -447,34 +437,23 @@
             <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 1.5rem;">Décomposition des étapes clés</p>
             
             <div class="yannou-container">
-                <!-- Etape 1 -->
                 <div class="y-step y-step-1">
                     <div class="y-icon-box"><i class="fa-solid fa-microscope"></i></div>
                     <div class="y-title">R&T</div>
                     <div class="y-desc">Recherche & Technologie</div>
                 </div>
-
-                <!-- Arrow -->
                 <div class="y-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-
-                <!-- Etape 2 -->
                 <div class="y-step y-step-2">
                     <div class="y-icon-box"><i class="fa-solid fa-compass-drafting"></i></div>
                     <div class="y-title">Conception</div>
                     <div class="y-desc">Développement Technique</div>
                 </div>
-
-                <!-- Arrow -->
                 <div class="y-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-
-                <!-- Etape 3 -->
                 <div class="y-step y-step-3">
                     <div class="y-icon-box"><i class="fa-solid fa-store"></i></div>
                     <div class="y-title">Commercial</div>
                     <div class="y-desc">Conception Commerciale</div>
                 </div>
-
-                <!-- Etiquette Méthodologie -->
                 <div class="y-methodo-label">MÉTHODOLOGIE INNOVANTE</div>
             </div>
 
@@ -558,7 +537,7 @@
             modal.classList.remove('active');
         }
 
-        // Quiz Validation
+        // Quiz Validation : CORRECTION ICI
         function finishGrain() {
             const radios = document.getElementsByName('q3'); 
             let val = ""; 
@@ -566,6 +545,16 @@
             
             if(val === "correct") { 
                 showModal("Exactement !", "L'Innovation utilise le savoir (créé par la recherche) pour générer de la valeur (économique ou sociale).", "success");
+                
+                // Redirection après succès
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+
             } else if (val === "") { 
                 showModal("Oups", "Veuillez sélectionner une réponse au quiz.", "error");
             } else { 
