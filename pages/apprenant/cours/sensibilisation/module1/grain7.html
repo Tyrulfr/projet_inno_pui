@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAIN 7 : Une Méthodologie pour Innover | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- DIAGRAMME MAISON (Schéma Simple) --- */
+        .house-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .roof {
+            width: 0; 
+            height: 0; 
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid var(--bordeaux);
+            position: relative;
+            margin-bottom: -2px;
+        }
+        .roof-text {
+            position: absolute;
+            top: 60px;
+            left: -150px;
+            width: 300px;
+            text-align: center;
+            color: white;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .house-body {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .layer {
+            padding: 15px;
+            text-align: center;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 5px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .layer:hover { transform: scale(1.05); }
+
+        .layer-1 { background: var(--teal); border-radius: 5px 5px 0 0; } /* Outils */
+        .layer-2 { background: var(--blue); } /* Processus */
+        .layer-3 { background: var(--orange); border-radius: 0 0 10px 10px; } /* Philo */
+
+        .layer-icon { display: block; font-size: 1.5rem; margin-bottom: 5px; }
+
+        /* --- REASONING CARDS --- */
+        .reasoning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .reasoning-card {
+            background: var(--bg-card);
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .reasoning-card:hover {
+            border-color: var(--teal);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .r-icon { font-size: 2rem; color: var(--text-light); margin-bottom: 1rem; transition: color 0.3s; }
+        .reasoning-card:hover .r-icon { color: var(--teal); }
+        
+        .r-title { font-weight: 800; color: var(--bordeaux); margin-bottom: 0.5rem; display: block; }
+        .r-desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.4; }
+
+        /* --- CYCLE SIMPLE METHODOLOGY --- */
+        .simple-method-section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+        .cycle-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 40px auto;
+        }
+        
+        /* SVG Arrows Layer */
+        .cycle-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cycle-node {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 3px solid #ccc;
+        }
+        .cycle-node:hover { transform: scale(1.1); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        
+        .c-icon { font-size: 1.8rem; margin-bottom: 5px; }
+        .c-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+
+        /* Specific Node Styles */
+        .node-discover { top: 0; left: 50%; transform: translateX(-50%); border-color: var(--blue); color: var(--blue); }
+        .node-discover:hover { background: var(--blue); color: white; }
+
+        .node-design { bottom: 20px; right: -10px; border-color: var(--orange); color: var(--orange); }
+        .node-design:hover { background: var(--orange); color: white; }
+
+        .node-evaluate { bottom: 20px; left: -10px; border-color: var(--teal); color: var(--teal); }
+        .node-evaluate:hover { background: var(--teal); color: white; }
+
+        /* Center User Node */
+        .node-center {
+            position: absolute;
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%);
+            width: 110px; height: 110px;
+            background: var(--bg-card);
+            border: 4px solid var(--bordeaux);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            color: var(--bordeaux);
+        }
+        .node-center .c-icon { font-size: 2.5rem; margin-bottom: 2px; }
+        .node-center .c-label { font-size: 0.8rem; }
+
+        /* Info Box RID */
+        .rid-box {
+            background: rgba(42, 50, 94, 0.05);
+            border-left: 5px solid var(--blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; text-align: left; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="grain_6_organisation_innovation.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Grain 7 / 11</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Une méthode pour innover correctement</h1>
+        <div class="hero-subtitle">Pourquoi l'improvisation ne suffit pas : structurer pour réussir.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-quote-left" style="opacity:0.5; margin-right:10px;"></i>
+                "Votre méthodologie d'innovation prend-elle en charge les tâches cognitives nécessaires ?"
+                <br>
+                Une méthodologie n'est pas une contrainte, c'est un langage commun pour être efficace.
+            </span>
+        </div>
+
+        <h2 id="structure">La Structure d'une Méthodologie</h2>
+        <p>Plus qu'une simple liste d'étapes, une méthodologie solide se construit comme un édifice. Si les fondations manquent, les outils sont inutiles.</p>
+
+        <!-- SCHÉMA SIMPLE "MAISON" -->
+        <div class="house-diagram">
+            <div class="roof">
+                <div class="roof-text">Résultat Satisfaisant</div>
+            </div>
+            <div class="house-body">
+                <div class="layer layer-1" onclick="showModal('Niveau Opérationnel', 'Méthodes de structuration et outils élémentaires (ex: Brainstorming, Canvas, Maquettes).', 'info')">
+                    <i class="fa-solid fa-toolbox layer-icon"></i>
+                    Outils & Méthodes
+                </div>
+                <div class="layer layer-2" onclick="showModal('Niveau Tactique', 'La répartition commune du projet. Qui fait quoi ? Quand ? Comment on avance ?', 'info')">
+                    <i class="fa-solid fa-diagram-project layer-icon"></i>
+                    Processus
+                </div>
+                <div class="layer layer-3" onclick="showModal('Niveau Stratégique (Fondations)', 'Approche philosophique et linguistique. Le langage commun, les valeurs et les principes partagés par l\'équipe.', 'info')">
+                    <i class="fa-solid fa-comments layer-icon"></i>
+                    Philosophie & Langage
+                </div>
+            </div>
+            <p style="margin-top:15px; font-size:0.8rem; color:#888;"><em>Cliquez sur les étages pour comprendre leur rôle.</em></p>
+        </div>
+
+        <!-- NEW SECTION: EXAMPLE METHODOLOGY -->
+        <div class="simple-method-section">
+            <h2 style="color: var(--bordeaux); margin-bottom: 2rem;">Exemple d'une méthodologie simple</h2>
+            <p style="margin-bottom: 2rem;">Un cycle centré sur l'usager, alternant observation, création et validation.</p>
+            
+            <div class="cycle-container">
+                <!-- SVG ARROWS -->
+                <svg class="cycle-svg" width="100%" height="100%" viewBox="0 0 320 320">
+                    <defs>
+                        <marker id="arrowhead-cycle" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#ccc" />
+                        </marker>
+                    </defs>
+                    <!-- Arc Discover -> Design -->
+                    <path d="M 180 20 Q 280 20 280 180" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowhead-cycle)" />
+                    <!-- Arc Design -> Evaluate -->
+                    <path d="M 260 260 Q 160 330 60 260" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowhead-cycle)" />
+                    <!-- Arc Evaluate -> Discover -->
+                    <path d="M 40 180 Q 40 20 140 20" fill="none" stroke="#ccc" stroke-width="3" stroke-dasharray="5,5" marker-end="url(#arrowhead-cycle)" />
+                </svg>
+
+                <!-- CENTER NODE -->
+                <div class="node-center">
+                    <i class="fa-solid fa-user-large c-icon"></i>
+                    <span class="c-label">Notre Usager</span>
+                </div>
+
+                <!-- DISCOVER NODE -->
+                <div class="cycle-node node-discover" onclick="showCycleDetails('Decouverte')">
+                    <i class="fa-solid fa-users-viewfinder c-icon"></i>
+                    <span class="c-label">Découverte</span>
+                </div>
+
+                <!-- DESIGN NODE -->
+                <div class="cycle-node node-design" onclick="showCycleDetails('Design')">
+                    <i class="fa-solid fa-pen-ruler c-icon"></i>
+                    <span class="c-label">Design</span>
+                </div>
+
+                <!-- EVALUATE NODE -->
+                <div class="cycle-node node-evaluate" onclick="showCycleDetails('Evaluer')">
+                    <i class="fa-solid fa-stopwatch c-icon"></i>
+                    <span class="c-label">Evaluer</span>
+                </div>
+            </div>
+            <p style="margin-top:15px; font-size:0.8rem; color:#888;"><em>Cliquez sur les cercles pour voir les activités.</em></p>
+        </div>
+
+        <h2 id="raisonnement">Les 4 Modes de Raisonnement</h2>
+        <p>L'innovation ne se limite pas à avoir des idées (créativité). Elle demande de jongler entre différents modes cognitifs :</p>
+
+        <div class="reasoning-grid">
+            <div class="reasoning-card">
+                <i class="fa-solid fa-arrow-down-wide-short r-icon"></i>
+                <span class="r-title">1. Déduction</span>
+                <span class="r-desc">Du général au particulier. Appliquer une règle connue à un cas précis.</span>
+            </div>
+            <div class="reasoning-card">
+                <i class="fa-solid fa-arrow-up-wide-short r-icon"></i>
+                <span class="r-title">2. Induction</span>
+                <span class="r-desc">Du particulier au général. Tirer une règle à partir d'observations.</span>
+            </div>
+            <div class="reasoning-card">
+                <i class="fa-solid fa-filter r-icon"></i>
+                <span class="r-title">3. Abduction Sélective</span>
+                <span class="r-desc">Choisir la meilleure hypothèse parmi celles existantes pour expliquer un fait.</span>
+            </div>
+            <div class="reasoning-card" style="border-color:var(--orange);">
+                <i class="fa-solid fa-lightbulb r-icon" style="color:var(--orange);"></i>
+                <span class="r-title">4. Abduction Innovante</span>
+                <span class="r-desc"><strong>Le cœur de l'innovation.</strong> Créer une nouvelle hypothèse qui n'existait pas pour résoudre le problème.</span>
+            </div>
+        </div>
+
+        <div class="rid-box">
+            <h4><i class="fa-solid fa-magnifying-glass-chart"></i> L'apport de la méthode RID</h4>
+            <p>La méthodologie RID (Radical Innovation Design) a démontré qu'elle pouvait <strong>rééquilibrer le raisonnement</strong>. Elle renforce la phase de définition du problème en traitant davantage les données utilisateurs (usage, activité) avant de foncer vers la solution.</p>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--bordeaux);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Validation</h3>
+            <p>Pourquoi avons-nous besoin d'une méthodologie commune dans un groupe multidisciplinaire ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q7a" name="q7" value="wrong">
+                    <label for="q7a">Pour imposer une hiérarchie stricte.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q7b" name="q7" value="correct">
+                    <label for="q7b">Pour avoir un langage et une philosophie communs.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q7c" name="q7" value="wrong">
+                    <label for="q7c">Pour éviter d'avoir à faire de la recherche.</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Feedback -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <div id="modalMessage" class="modal-text">Message</div>
+            <button class="modal-btn" onclick="closeModal()">Continuer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerHTML = msg;
+            modal.classList.add('active');
+            
+            // Reset styles
+            modalBox.style.borderTopColor = 'var(--orange)';
+            modalBtn.style.backgroundColor = 'var(--orange)';
+            modalTitle.style.color = 'var(--bordeaux)';
+
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else if (type === 'info') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-info" style="color: var(--blue);"></i>';
+                modalTitle.style.color = 'var(--blue)';
+                modalBox.style.borderTopColor = 'var(--blue)';
+                modalBtn.style.backgroundColor = 'var(--blue)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+            }
+        }
+
+        // Specific function for Cycle popups
+        function showCycleDetails(step) {
+            let content = "";
+            let color = "";
+            let title = "";
+
+            if(step === 'Decouverte') {
+                title = "Découverte";
+                content = "<ul style='text-align:left; padding-left:20px;'><li>Observer les clients sur leur lieu de travail</li><li>Écouter les problèmes et suggestions</li><li>Apprendre ce qui est significatif</li></ul>";
+                color = "var(--blue)";
+            } else if (step === 'Design') {
+                title = "Design";
+                content = "<ul style='text-align:left; padding-left:20px;'><li>Réfléchir aux besoins des clients</li><li>Remue-méninges nouvelles idées (Brainstorming)</li><li>Esquisse du design (Concepts)</li></ul>";
+                color = "var(--orange)";
+            } else if (step === 'Evaluer') {
+                title = "Evaluer";
+                content = "<ul style='text-align:left; padding-left:20px;'><li>Concepts de test avec les clients</li><li>Mesurer les résultats</li><li>Amélioration des conceptions</li></ul>";
+                color = "var(--teal)";
+            }
+
+            modalTitle.innerText = title;
+            modalMsg.innerHTML = content;
+            modalIcon.innerHTML = '<i class="fa-solid fa-circle-info" style="color: '+color+';"></i>';
+            modalTitle.style.color = color;
+            modalBox.style.borderTopColor = color;
+            modalBtn.style.backgroundColor = color;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q7'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Exactement !", "Sans langage commun (définitions, valeurs), une équipe multidisciplinaire perd un temps précieux à se comprendre au lieu d'innover.", "success");
+            } else if (val === "") { 
+                alert("Veuillez répondre au quiz.");
+            } else { 
+                showModal("Incorrect", "La méthodologie sert avant tout à aligner les esprits (langage, philosophie) pour rendre le processus efficace.", "error");
+            }
+        }
+    </script>
+</body>
+</html>
