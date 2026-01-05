@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAIN 5 : Vocabulaire & Processus de Valeur | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- STYLES DU SCHÉMA --- */
+        .complex-diagram-wrapper {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem 1rem;
+            margin: 3rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .svg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .diagram-node {
+            background: white;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 700;
+            width: 140px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .diagram-node:hover { transform: scale(1.05); z-index: 20; border-color: var(--orange); }
+        .node-icon { font-size: 1.5rem; margin-bottom: 5px; color: var(--text-light); }
+        .node-text-top { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); width: 100%; font-size: 0.75rem; color: #888; font-weight: 600; }
+
+        /* --- CLASSE POUR LE PRIVÉ (BLEU) --- */
+        .private-node {
+            border-color: var(--blue) !important;
+            color: var(--blue) !important;
+            border-width: 2px;
+        }
+        .private-node .node-icon { color: var(--blue) !important; }
+        
+        .private-text { color: var(--blue) !important; font-weight: 800 !important; }
+        
+        .private-label {
+            color: var(--blue) !important;
+            border: 1px solid rgba(42, 50, 94, 0.2) !important;
+        }
+        .private-label i { color: var(--blue) !important; }
+
+        /* --- POSITIONNEMENT DES NOEUDS COMPACTÉ --- */
+        
+        /* 1. INPUTS (Gauche) */
+        #node-prive { 
+            top: 180px; left: 10px; width: 90px; padding: 10px 5px; 
+            border: none; background: transparent; box-shadow: none; 
+            font-size: 0.9rem; text-align: right;
+        }
+        #node-public { 
+            top: 280px; left: 10px; width: 90px; padding: 10px 5px; 
+            border: none; background: transparent; box-shadow: none; 
+            font-size: 0.9rem; color: #666; font-weight: 800; text-align: right;
+        }
+
+        /* 2. FINANCE (X=120) */
+        #node-finance { top: 230px; left: 120px; border-color: var(--teal); }
+
+        /* 3. CONNAISSANCE (X=370) */
+        #node-savoir { top: 230px; left: 370px; border-color: #ccc; }
+
+        /* 4. LANCEMENT (X=620) */
+        #node-launch { top: 230px; left: 620px; }
+
+        /* 5. OUTPUTS (X=820) */
+        #node-vente { top: 50px; left: 620px; border-color: var(--bordeaux); } 
+        #node-spinoff { top: 150px; left: 820px; width: 120px; }
+        #node-startup { top: 310px; left: 820px; width: 120px; }
+        
+        /* 6. MARCHÉ & SOCIÉTÉ */
+        #node-market { top: 450px; left: 820px; width: 140px; }
+        #node-society { top: 550px; left: 390px; border-color: #666; border-radius: 50%; width: 100px; height: 100px; }
+
+        /* Labels Flottants Styles */
+        .float-label { 
+            position: absolute; 
+            font-size: 0.7rem; 
+            color: #555; 
+            background: rgba(255,255,255,0.9); 
+            padding: 2px 5px; 
+            border-radius: 4px; 
+            z-index: 5; 
+            text-align: center; 
+            cursor: pointer; 
+            border: 1px solid transparent;
+        }
+        .float-label:hover { border-color: #ccc; }
+        
+        .float-label-stacked {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.95);
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .float-label-stacked i { font-size: 1.1rem; margin-bottom: 2px; }
+
+        /* LEGEND */
+        .schema-legend {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            background: rgba(0,0,0,0.02);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 15px; height: 15px; border-radius: 3px; }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="grain_4_vocabulaire.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Grain 5 / 11</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">La Chaîne de Valeur</h1>
+        <div class="hero-subtitle">Le sens de lecture : de la Gauche (Investissement) vers la Droite (Marché).</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-info-circle" style="opacity:0.8; margin-right:10px;"></i>
+                Ce schéma illustre comment l'argent investi en recherche se transforme en innovation et en valeur économique pour la société.
+            </span>
+        </div>
+
+        <div class="complex-diagram-wrapper" style="height: 700px; position: relative; overflow: hidden;">
+            
+            <svg class="svg-layer" width="100%" height="100%">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#888" />
+                    </marker>
+                    <marker id="arrowhead-loop" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#F48C2E" />
+                    </marker>
+                </defs>
+
+                <!-- 1. INPUTS -> FINANCE -->
+                <line x1="100" y1="200" x2="120" y2="245" stroke="#aaa" stroke-width="2" marker-end="url(#arrowhead)" />
+                <line x1="100" y1="300" x2="120" y2="265" stroke="#aaa" stroke-width="2" marker-end="url(#arrowhead)" />
+
+                <!-- 2. FINANCE -> CONNAISSANCE (Fin à 260, Savoir à 370) -->
+                <line x1="260" y1="260" x2="370" y2="260" stroke="#2EAF7D" stroke-width="3" marker-end="url(#arrowhead)" />
+
+                <!-- 3. CONNAISSANCE -> SOCIETY (Down) -->
+                <line x1="440" y1="310" x2="440" y2="550" stroke="#aaa" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)" />
+
+                <!-- 4. CONNAISSANCE -> LANCEMENT (Savoir Fin 510, Lancement 620) -->
+                <line x1="510" y1="260" x2="620" y2="260" stroke="#2A325E" stroke-width="4" marker-end="url(#arrowhead)" />
+
+                <!-- 5. LANCEMENT -> VENTE DIRECTE (Up) (Center 690) -->
+                <line x1="690" y1="230" x2="690" y2="100" stroke="#580F45" stroke-width="2" marker-end="url(#arrowhead)" />
+
+                <!-- 6. LANCEMENT -> SPINOFF / STARTUP -->
+                <!-- Vers Spinoff (Target 820, 180) -->
+                <path d="M 760 260 Q 790 260 820 180" stroke="#580F45" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+                <!-- Vers Startup (Target 820, 340) -->
+                <path d="M 760 260 Q 790 260 820 340" stroke="#580F45" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+
+                <!-- 7. LOOP: VENTE -> FINANCE (Depart 620, 70 -> Fin 190, 230) -->
+                <path d="M 620 70 L 190 70 L 190 230" stroke="#F48C2E" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowhead-loop)" />
+
+                <!-- 8. STARTUP -> MARCHÉ (Start 880, 360 -> End 890, 450) -->
+                <line x1="880" y1="360" x2="890" y2="450" stroke="#aaa" stroke-width="2" marker-end="url(#arrowhead)" />
+
+                <!-- 9. LOOP: STARTUP -> FINANCE (Start 900, 370 -> Loop Bottom -> End 190, 300) -->
+                <path d="M 900 370 L 900 650 L 190 650 L 190 300" stroke="#F48C2E" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowhead-loop)" />
+
+                <!-- 10. MARCHÉ -> SOCIÉTÉ (Start 820, 490 -> End 490, 580) -->
+                <path d="M 820 490 Q 660 550 490 580" stroke="#aaa" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+
+            </svg>
+
+            <!-- NOEUDS HTML -->
+            <!-- BLUE: Privé -->
+            <div id="node-prive" class="diagram-node private-text" onclick="showDefinition('Privé')">Privé</div>
+            <div id="node-public" class="diagram-node" onclick="showDefinition('Public')">Public</div>
+
+            <div id="node-finance" class="diagram-node" onclick="showDefinition('Financement')">
+                <i class="fa-solid fa-sack-dollar node-icon"></i> Financement Recherche
+            </div>
+
+            <div id="node-savoir" class="diagram-node" onclick="showDefinition('Connaissances')">
+                <!-- BLUE: Invention/Techno -->
+                <div class="node-text-top private-text">Invention / Technologie</div>
+                <i class="fa-solid fa-book-open node-icon" style="position:relative;">
+                    <i class="fa-solid fa-lightbulb" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:#F48C2E; font-size:0.8rem; background:rgba(255,255,255,0.7); border-radius:50%; padding:2px;"></i>
+                </i>
+                Connaissances
+            </div>
+
+            <!-- BLUE: Lancement -->
+            <div id="node-launch" class="diagram-node private-node" onclick="showDefinition('Lancement')">
+                <div class="node-text-top" style="color:var(--orange);">
+                    <i class="fa-solid fa-money-bill"></i> INNOVATION
+                </div>
+                <i class="fa-solid fa-rocket node-icon"></i>
+                Lancement Produits / Services
+            </div>
+
+            <div id="node-vente" class="diagram-node" onclick="showDefinition('Vente Directe')">
+                <i class="fa-solid fa-handshake node-icon"></i> Vente Directe
+            </div>
+
+            <!-- BLUE: Spin-off -->
+            <div id="node-spinoff" class="diagram-node private-node" onclick="showDefinition('Spin-off')">
+                <i class="fa-solid fa-building node-icon"></i> Spin-off
+            </div>
+            
+            <div id="node-startup" class="diagram-node" onclick="showDefinition('Start-up')">
+                <i class="fa-solid fa-rocket node-icon" style="color:var(--orange);"></i> Start-Up
+            </div>
+
+            <!-- BLUE: Marché -->
+            <div id="node-market" class="diagram-node private-node" onclick="showDefinition('Marché')">
+                <i class="fa-solid fa-shop node-icon"></i> Marché
+            </div>
+
+            <div id="node-society" class="diagram-node" onclick="showDefinition('Société')">
+                <i class="fa-solid fa-users node-icon"></i> Société
+            </div>
+
+            <!-- LABELS FLOTTANTS -->
+            
+            <!-- BLUE: R&T (Centré 315) -->
+            <div class="float-label float-label-stacked private-label" style="top:190px; left:290px;" onclick="showDefinition('R&T')">
+                <i class="fa-solid fa-flask"></i> 
+                <span>R&T</span>
+            </div>
+            <div class="float-label" style="top:280px; left:290px;">Recherche</div>
+
+            <!-- BLUE: Dev (Centré 565) -->
+            <div class="float-label float-label-stacked private-label" style="top:190px; left:540px;" onclick="showDefinition('Développement')">
+                <i class="fa-solid fa-file-contract"></i> 
+                <span>Développement</span>
+            </div>
+            
+            <div class="float-label" style="top:250px; left:545px; background:transparent; border:none; font-weight:bold; color:var(--orange); font-size:0.9rem;" onclick="showDefinition('Innovation')">Innovation</div>
+
+            <div class="float-label" style="top:280px; left:545px;" onclick="showDefinition('Valorisation')">Valorisation</div>
+
+            <!-- Autres -->
+            <div class="float-label" style="top:400px; left:450px;" onclick="showDefinition('Science Ouverte')">Science Ouverte</div>
+
+            <div class="float-label" style="top:150px; left:630px; width:80px; text-align:right;">Transfert Propriété</div>
+            <div class="float-label" style="top:150px; left:730px; width:80px; text-align:left;">Technologie Intellectuelle</div>
+
+            <div class="float-label" style="top:60px; left:370px;" onclick="showDefinition('Licence')">Vente de Licences</div>
+
+            <!-- BLUE: Entrepreneuriat -->
+            <div class="float-label private-text" style="top:260px; left:790px; font-weight:bold;">Entrepreneuriat</div>
+
+        </div>
+
+        <!-- LEGENDE -->
+        <div class="schema-legend">
+            <span class="legend-item"><div class="legend-color" style="background:var(--blue);"></div> Activités du Privé</span>
+            <span class="legend-item"><div class="legend-color" style="background:#888;"></div> Autres Activités / Public</span>
+            <span class="legend-item"><div class="legend-color" style="background:var(--orange);"></div> Innovation</span>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 1.5rem; border-left: 4px solid var(--bordeaux); border-radius: 8px; margin-top: 2rem;">
+            <h4 style="margin-top:0;"><i class="fa-solid fa-rotate"></i> La boucle de la valeur</h4>
+            <p style="margin-bottom:0;">L'innovation est un cycle vertueux : la création de valeur (Start-ups, Licences) permet de <strong>financer</strong> la recherche future.</p>
+        </div>
+
+    </div>
+
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-box">
+            <div class="modal-title" id="defTitle">Titre</div>
+            <div class="modal-text" id="defText">Description...</div>
+            <button class="modal-btn" onclick="closeModal()">Compris</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        const definitions = {
+            "Privé": "Investissements R&D d'entreprises ou fonds privés (VC, Business Angels).",
+            "Public": "Financement public (État, ANR, Europe) pour la recherche amont.",
+            "Financement": "Ressources nécessaires pour lancer les projets de recherche.",
+            "R&T": "Recherche & Technologie : Exploration scientifique.",
+            "Connaissances": "Stock de savoir, brevets et technologies disponibles.",
+            "Science Ouverte": "Diffusion libre du savoir pour le bien commun.",
+            "Développement": "Transformation de l'invention en produit (Prototypage).",
+            "Innovation": "Processus global transformant une idée ou invention en un produit/service créant de la valeur pour l'utilisateur.",
+            "Valorisation": "Donner une valeur économique à la recherche.",
+            "Lancement": "Mise sur le marché du produit final.",
+            "Vente Directe": "Cession de brevet à une autre entreprise.",
+            "Licence": "Droit d'utilisation contre redevances (finance la recherche).",
+            "Spin-off": "Entreprise créée à partir d'un labo de recherche.",
+            "Start-up": "Jeune pousse innovante à forte croissance.",
+            "Marché": "Lieu de rencontre offre/demande.",
+            "Société": "Bénéficiaires finaux du progrès."
+        };
+
+        const modal = document.getElementById('infoModal');
+        const dTitle = document.getElementById('defTitle');
+        const dText = document.getElementById('defText');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showDefinition(key) {
+            const def = definitions[key] || "Définition à venir...";
+            dTitle.innerText = key;
+            dText.innerText = def;
+            modal.classList.add('active');
+        }
+
+        function closeModal() { modal.classList.remove('active'); }
+
+        function finishGrain() {
+            dTitle.innerText = "Félicitations";
+            dText.innerText = "Vous maîtrisez le cycle de vie de l'innovation !";
+            modalBox.style.borderTopColor = 'var(--teal)';
+            modalBtn.style.backgroundColor = 'var(--teal)';
+            dTitle.style.color = 'var(--teal)';
+            modal.classList.add('active');
+        }
+    </script>
+</body>
+</html>
