@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAIN 3 : Le Processus d'Innovation | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base identiques --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- DIAGRAMME DE PROCESSUS (Recherche vs Innovation) --- */
+        .process-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .process-row {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            height: 180px; 
+        }
+        
+        .process-row::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 6px;
+        }
+        .row-research::before { background: var(--blue); }
+        .row-innovation::before { background: var(--orange); }
+
+        .process-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .step-icon.money { color: var(--teal); }
+        .step-icon.book { color: var(--blue); }
+
+        .process-arrow-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 0 10px;
+            height: 100%;
+        }
+
+        .arrow-line {
+            height: 4px;
+            width: 100%;
+            background: #ddd;
+            border-radius: 2px;
+            position: relative;
+            margin-top: 20px;
+        }
+        .arrow-line::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid #ddd;
+        }
+
+        .transformer-icon {
+            background: white;
+            border: 2px solid #ddd;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            position: absolute; 
+            bottom: 10px; 
+            left: 50%;
+            transform: translateX(-50%); 
+            z-index: 5;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .process-label {
+            margin-top: 15px; 
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1rem;
+        }
+        .label-recherche { color: var(--blue); }
+        .label-innovation { color: var(--orange); }
+
+        /* --- FLIP CARDS STYLES (Added for interactivity) --- */
+        .pillar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+        
+        .flip-card {
+            background-color: transparent;
+            min-height: 280px; /* Fixed height for rotation */
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            border-radius: 12px;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flip-card-front {
+            background: var(--bg-card);
+            border-top: 4px solid var(--bordeaux);
+        }
+
+        .flip-card-back {
+            background: var(--bordeaux);
+            color: white;
+            transform: rotateY(180deg);
+            border-top: 4px solid var(--teal);
+        }
+
+        .flip-indicator {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding-top: 10px;
+        }
+
+        /* Back Content Styles */
+        .back-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            text-align: left;
+        }
+        .back-list li {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+        }
+        .back-list li:last-child { border-bottom: none; }
+        .back-list i { color: var(--teal); font-size: 1.1rem; width: 25px; text-align: center; }
+
+        /* --- NOUVEAU SCHÉMA YANNOU & CLUZEL --- */
+        .yannou-container {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 15px;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
+        .y-step {
+            flex: 1;
+            background: linear-gradient(145deg, #ffffff, #f9f9f9);
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s;
+        }
+        .y-step:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .y-icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .y-step-1 .y-icon-box { background: var(--blue); }
+        .y-step-2 .y-icon-box { background: var(--teal); }
+        .y-step-3 .y-icon-box { background: var(--orange); }
+
+        .y-title { font-weight: 800; color: var(--bordeaux); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px; }
+        .y-desc { font-size: 0.8rem; color: var(--text-light); }
+
+        /* Flèches de connexion entre les étapes */
+        .y-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 1.5rem;
+            z-index: 1;
+        }
+
+        /* Label global "Méthodologie Innovante" */
+        .y-methodo-label {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bordeaux);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 5;
+        }
+        
+        @media (max-width: 600px) {
+            .pillar-grid { grid-template-columns: 1fr; }
+            .process-row { flex-direction: column; gap: 1rem; padding: 1.5rem 0.5rem; height: auto; }
+            .process-arrow-container { width: 100%; height: auto; padding: 40px 0; }
+            .arrow-line { width: 4px; height: 60px; margin: 0 auto; }
+            .arrow-line::after { display: none; } 
+            .transformer-icon { bottom: auto; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+            
+            /* Mobile Yannou Diagram */
+            .yannou-container { flex-direction: column; gap: 30px; padding-bottom: 2.5rem; }
+            .y-arrow { transform: rotate(90deg); margin: -10px 0; }
+        }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 400px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 1rem; font-weight: 900; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 1rem; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="grain_2_objets_innovation.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Grain 3 / 11</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">C'est quoi un processus d'innovation ?</h1>
+        <div class="hero-subtitle">Naviguer entre créativité et rigueur pour transformer le savoir en valeur.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-quote-left" style="opacity:0.5; margin-right:10px;"></i>
+                L'innovation est un processus mené par une équipe <strong>multidisciplinaire</strong>.
+                <br><br>
+                Ce processus navigue entre un univers de <span style="text-decoration:underline;">créativité et de spontanéité</span>, et un univers d'<span style="text-decoration:underline;">organisation et de rationalité</span>.
+            </span>
+        </div>
+
+        <h2 id="metaphore">La Métaphore Clé</h2>
+        <p>Souvent opposées, Recherche et Innovation sont en réalité complémentaires, mais fonctionnent en sens inverse :</p>
+
+        <div class="process-diagram">
+            
+            <!-- ROW 1 : RECHERCHE -->
+            <div class="process-row row-research">
+                <!-- Start: Money -->
+                <div class="process-step">
+                    <i class="fa-solid fa-sack-dollar step-icon money"></i>
+                    <span>Argent</span>
+                </div>
+
+                <!-- Arrow: Transformation -->
+                <div class="process-arrow-container">
+                    <div class="arrow-line">
+                        <!-- Icone DANS la ligne pour position relative -->
+                        <div class="transformer-icon" title="Expérimentation Scientifique">
+                            <i class="fa-solid fa-flask" style="color:var(--blue);"></i>
+                        </div>
+                    </div>
+                    <div class="process-label label-recherche">RECHERCHE</div>
+                </div>
+
+                <!-- End: Knowledge (Book) -->
+                <div class="process-step">
+                    <i class="fa-solid fa-book-open step-icon book"></i>
+                    <span>Savoir</span>
+                </div>
+            </div>
+
+            <!-- ROW 2 : INNOVATION -->
+            <div class="process-row row-innovation">
+                <!-- Start: Knowledge (Book) -->
+                <div class="process-step">
+                    <i class="fa-solid fa-book-open step-icon book"></i>
+                    <span>Savoir</span>
+                </div>
+
+                <!-- Arrow: Transformation -->
+                <div class="process-arrow-container">
+                    <div class="arrow-line">
+                        <!-- Icone DANS la ligne pour position relative -->
+                        <div class="transformer-icon" title="Brevets et Conception">
+                            <i class="fa-solid fa-file-signature" style="color:var(--orange);"></i>
+                        </div>
+                    </div>
+                    <div class="process-label label-innovation">INNOVATION</div>
+                </div>
+
+                <!-- End: Money -->
+                <div class="process-step">
+                    <i class="fa-solid fa-sack-dollar step-icon money"></i>
+                    <span>Argent</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FLIP CARDS INTERACTIVES -->
+        <div class="pillar-grid">
+            
+            <!-- Carte 1 : Équipe -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <!-- Face Avant -->
+                    <div class="flip-card-front">
+                        <h4><i class="fa-solid fa-users-gear" style="color:var(--teal); font-size: 2rem; display:block; margin-bottom:10px;"></i> Équipe Multidisciplinaire</h4>
+                        <p>L'innovation ne se fait pas seul. Elle nécessite des profils variés pour croiser les regards.</p>
+                        <div class="flip-indicator"><i class="fa-solid fa-rotate"></i> Retourner pour voir l'équipe</div>
+                    </div>
+                    <!-- Face Arrière (Exemples) -->
+                    <div class="flip-card-back">
+                        <h4 style="margin-bottom: 1rem;">La "Dream Team"</h4>
+                        <ul class="back-list">
+                            <li><i class="fa-solid fa-compass-drafting"></i> <strong>Ingénieurs :</strong> Faisabilité technique.</li>
+                            <li><i class="fa-solid fa-pen-ruler"></i> <strong>Designers :</strong> Désirabilité & Usage.</li>
+                            <li><i class="fa-solid fa-briefcase"></i> <strong>Marketeurs :</strong> Viabilité éco.</li>
+                            <li><i class="fa-solid fa-earth-europe"></i> <strong>Sociologues :</strong> Impact social.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte 2 : Méthodologie -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <!-- Face Avant -->
+                    <div class="flip-card-front">
+                        <h4><i class="fa-solid fa-layer-group" style="color:var(--bordeaux); font-size: 2rem; display:block; margin-bottom:10px;"></i> Méthodologie</h4>
+                        <p>Pour fonctionner, ce chaos apparent nécessite une <strong>méthodologie innovante</strong> structurée.</p>
+                        <div class="flip-indicator"><i class="fa-solid fa-rotate"></i> Retourner pour voir les méthodes</div>
+                    </div>
+                    <!-- Face Arrière (Exemples) -->
+                    <div class="flip-card-back">
+                        <h4 style="margin-bottom: 1rem;">Outils & Méthodes</h4>
+                        <ul class="back-list">
+                            <li><i class="fa-solid fa-lightbulb"></i> <strong>Design Thinking :</strong> Centré Humain.</li>
+                            <li><i class="fa-solid fa-rocket"></i> <strong>Lean Startup :</strong> Tester vite.</li>
+                            <li><i class="fa-solid fa-rotate"></i> <strong>Agile / Scrum :</strong> Itératif.</li>
+                            <li><i class="fa-solid fa-magnifying-glass-chart"></i> <strong>CK Theory :</strong> Conception.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SCHÉMA DESSINÉ EN CSS -->
+        <div style="margin-top: 4rem; text-align: center;">
+            <h3 style="color: var(--bordeaux); margin-bottom: 0.5rem;">Chaîne de Valeur de l'Innovation</h3>
+            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 1.5rem;">Décomposition des étapes clés</p>
+            
+            <div class="yannou-container">
+                <!-- Etape 1 -->
+                <div class="y-step y-step-1">
+                    <div class="y-icon-box"><i class="fa-solid fa-microscope"></i></div>
+                    <div class="y-title">R&T</div>
+                    <div class="y-desc">Recherche & Technologie</div>
+                </div>
+
+                <!-- Arrow -->
+                <div class="y-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+
+                <!-- Etape 2 -->
+                <div class="y-step y-step-2">
+                    <div class="y-icon-box"><i class="fa-solid fa-compass-drafting"></i></div>
+                    <div class="y-title">Conception</div>
+                    <div class="y-desc">Développement Technique</div>
+                </div>
+
+                <!-- Arrow -->
+                <div class="y-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+
+                <!-- Etape 3 -->
+                <div class="y-step y-step-3">
+                    <div class="y-icon-box"><i class="fa-solid fa-store"></i></div>
+                    <div class="y-title">Commercial</div>
+                    <div class="y-desc">Conception Commerciale</div>
+                </div>
+
+                <!-- Etiquette Méthodologie -->
+                <div class="y-methodo-label">MÉTHODOLOGIE INNOVANTE</div>
+            </div>
+
+            <p style="margin-top: 25px; font-size: 0.8rem; color: var(--text-light); font-style: italic;">
+                D'après le modèle de Bernard Yannou et François Cluzel
+            </p>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--teal);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Compréhension</h3>
+            <p>Selon le schéma ci-dessus, quelle est la fonction principale de l'Innovation ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q3a" name="q3" value="wrong">
+                    <label for="q3a">Transformer de l'argent en savoir (Investir)</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q3b" name="q3" value="correct">
+                    <label for="q3b">Transformer du savoir en argent (Valoriser)</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q3c" name="q3" value="wrong">
+                    <label for="q3c">Éliminer le besoin de recherche</label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer la leçon <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Custom Modal -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <p id="modalMessage">Message</p>
+            <button class="modal-btn" onclick="closeModal()">Continuer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modal.classList.add('active');
+            
+            modalBox.style.borderTopColor = 'var(--orange)';
+            modalBtn.style.backgroundColor = 'var(--orange)';
+            modalTitle.style.color = 'var(--orange)';
+
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q3'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Exactement !", "L'Innovation utilise le savoir (créé par la recherche) pour générer de la valeur (économique ou sociale).", "success");
+            } else if (val === "") { 
+                showModal("Oups", "Veuillez sélectionner une réponse au quiz.", "error");
+            } else { 
+                showModal("Inverse", "Transformer l'argent en savoir, c'est la Recherche. L'Innovation fait le chemin inverse.", "error");
+            }
+        }
+    </script>
+</body>
+</html>
