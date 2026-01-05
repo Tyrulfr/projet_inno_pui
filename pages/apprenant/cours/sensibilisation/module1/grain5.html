@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GRAIN 5 : Vocabulaire & Processus de Valeur | Projet Inno</title>
+    <title>CAPSULE 5 : Vocabulaire & Processus de Valeur | Projet Inno</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,6 +16,7 @@
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
         body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
         
+        /* Navigation Correction */
         .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
         .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .btn-back:hover { color: var(--orange); }
@@ -97,16 +98,16 @@
             font-size: 0.9rem; color: #666; font-weight: 800; text-align: right;
         }
 
-        /* 2. FINANCE (X=120) */
+        /* 2. FINANCE */
         #node-finance { top: 230px; left: 120px; border-color: var(--teal); }
 
-        /* 3. CONNAISSANCE (X=370) */
+        /* 3. CONNAISSANCE (Centre) */
         #node-savoir { top: 230px; left: 370px; border-color: #ccc; }
 
-        /* 4. LANCEMENT (X=620) */
+        /* 4. LANCEMENT */
         #node-launch { top: 230px; left: 620px; }
 
-        /* 5. OUTPUTS (X=820) */
+        /* 5. OUTPUTS (Droite) */
         #node-vente { top: 50px; left: 620px; border-color: var(--bordeaux); } 
         #node-spinoff { top: 150px; left: 820px; width: 120px; }
         #node-startup { top: 310px; left: 820px; width: 120px; }
@@ -161,6 +162,7 @@
         /* Footer & Modal */
         .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
         .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
@@ -175,8 +177,8 @@
 <body>
 
     <nav class="top-bar">
-        <a href="grain_4_vocabulaire.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
-        <div style="font-weight: 800; color: var(--bordeaux);">Grain 5 / 11</div>
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 5</div>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
 
@@ -208,34 +210,32 @@
                 <line x1="100" y1="200" x2="120" y2="245" stroke="#aaa" stroke-width="2" marker-end="url(#arrowhead)" />
                 <line x1="100" y1="300" x2="120" y2="265" stroke="#aaa" stroke-width="2" marker-end="url(#arrowhead)" />
 
-                <!-- 2. FINANCE -> CONNAISSANCE (Fin à 260, Savoir à 370) -->
+                <!-- 2. FINANCE -> CONNAISSANCE -->
                 <line x1="260" y1="260" x2="370" y2="260" stroke="#2EAF7D" stroke-width="3" marker-end="url(#arrowhead)" />
 
                 <!-- 3. CONNAISSANCE -> SOCIETY (Down) -->
                 <line x1="440" y1="310" x2="440" y2="550" stroke="#aaa" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)" />
 
-                <!-- 4. CONNAISSANCE -> LANCEMENT (Savoir Fin 510, Lancement 620) -->
+                <!-- 4. CONNAISSANCE -> LANCEMENT -->
                 <line x1="510" y1="260" x2="620" y2="260" stroke="#2A325E" stroke-width="4" marker-end="url(#arrowhead)" />
 
-                <!-- 5. LANCEMENT -> VENTE DIRECTE (Up) (Center 690) -->
+                <!-- 5. LANCEMENT -> VENTE DIRECTE (Up) -->
                 <line x1="690" y1="230" x2="690" y2="100" stroke="#580F45" stroke-width="2" marker-end="url(#arrowhead)" />
 
                 <!-- 6. LANCEMENT -> SPINOFF / STARTUP -->
-                <!-- Vers Spinoff (Target 820, 180) -->
                 <path d="M 760 260 Q 790 260 820 180" stroke="#580F45" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
-                <!-- Vers Startup (Target 820, 340) -->
                 <path d="M 760 260 Q 790 260 820 340" stroke="#580F45" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
 
-                <!-- 7. LOOP: VENTE -> FINANCE (Depart 620, 70 -> Fin 190, 230) -->
+                <!-- 7. LOOP: VENTE -> FINANCE -->
                 <path d="M 620 70 L 190 70 L 190 230" stroke="#F48C2E" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowhead-loop)" />
 
-                <!-- 8. STARTUP -> MARCHÉ (Start 880, 360 -> End 890, 450) -->
+                <!-- 8. STARTUP -> MARCHÉ -->
                 <line x1="880" y1="360" x2="890" y2="450" stroke="#aaa" stroke-width="2" marker-end="url(#arrowhead)" />
 
-                <!-- 9. LOOP: STARTUP -> FINANCE (Start 900, 370 -> Loop Bottom -> End 190, 300) -->
+                <!-- 9. LOOP: STARTUP -> FINANCE -->
                 <path d="M 900 370 L 900 650 L 190 650 L 190 300" stroke="#F48C2E" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowhead-loop)" />
 
-                <!-- 10. MARCHÉ -> SOCIÉTÉ (Start 820, 490 -> End 490, 580) -->
+                <!-- 10. MARCHÉ -> SOCIÉTÉ -->
                 <path d="M 820 490 Q 660 550 490 580" stroke="#aaa" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
 
             </svg>
@@ -395,6 +395,15 @@
             modalBtn.style.backgroundColor = 'var(--teal)';
             dTitle.style.color = 'var(--teal)';
             modal.classList.add('active');
+            
+            // Correction Redirection
+            setTimeout(() => {
+                const btn = document.querySelector('.modal-btn');
+                if(btn) {
+                    btn.innerText = "Retour au Sommaire";
+                    btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                }
+            }, 100);
         }
     </script>
 </body>
