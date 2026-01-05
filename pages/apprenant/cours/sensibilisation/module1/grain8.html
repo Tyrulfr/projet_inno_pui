@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRAIN 8 : Le Langage des Méthodes | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- METHOD GRID --- */
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .method-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border-top: 5px solid transparent;
+        }
+
+        .method-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .method-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .method-icon {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .method-name { font-weight: 800; font-size: 1.1rem; text-transform: uppercase; line-height: 1.2; }
+        
+        .method-body { padding: 1.5rem; flex-grow: 1; }
+        .method-keywords { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 15px; }
+        .keyword-tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; background: rgba(0,0,0,0.05); color: var(--text-light); font-weight: 700; border: 1px solid rgba(0,0,0,0.05); }
+
+        .method-footer {
+            padding: 1rem;
+            background: rgba(0,0,0,0.02);
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #888;
+            transition: background 0.3s, color 0.3s;
+        }
+        .method-card:hover .method-footer { color: white; }
+
+        /* Specific Colors */
+        .card-design { border-color: #E91E63; }
+        .card-design .method-icon { background: #E91E63; }
+        .card-design:hover .method-footer { background: #E91E63; }
+
+        .card-ck { border-color: #9C27B0; }
+        .card-ck .method-icon { background: #9C27B0; }
+        .card-ck:hover .method-footer { background: #9C27B0; }
+
+        .card-triz { border-color: #3F51B5; }
+        .card-triz .method-icon { background: #3F51B5; }
+        .card-triz:hover .method-footer { background: #3F51B5; }
+
+        .card-lean { border-color: #009688; }
+        .card-lean .method-icon { background: #009688; }
+        .card-lean:hover .method-footer { background: #009688; }
+
+        .card-blue { border-color: #2196F3; }
+        .card-blue .method-icon { background: #2196F3; }
+        .card-blue:hover .method-footer { background: #2196F3; }
+
+        .card-bmc { border-color: #FF9800; }
+        .card-bmc .method-icon { background: #FF9800; }
+        .card-bmc:hover .method-footer { background: #FF9800; }
+
+        .card-rid { border-color: #4CAF50; }
+        .card-rid .method-icon { background: #4CAF50; }
+        .card-rid:hover .method-footer { background: #4CAF50; }
+
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 700px; text-align: left; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+        .modal-text { font-size: 1rem; line-height: 1.7; color: var(--text-main); margin-bottom: 1.5rem; white-space: pre-line; }
+        .modal-highlight { background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-style: italic; border-left: 3px solid #ccc; font-weight: 600; }
+        
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; float: right; }
+        .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #aaa; }
+        .close-icon:hover { color: var(--bordeaux); }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="grain_7_methodologie.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Précédent</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Grain 8 / 11</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Le Langage des Méthodes (1/2)</h1>
+        <div class="hero-subtitle">Les méthodologies d’innovation ont leur langage propre.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-language" style="opacity:0.8; margin-right:10px;"></i>
+                Chaque méthodologie possède une manière unique de décrire le monde.
+                <br>Lisez attentivement les définitions ci-dessous et observez leurs différences de vocabulaire.
+            </span>
+        </div>
+
+        <!-- GRID DES METHODES -->
+        <div class="methods-grid">
+            
+            <!-- Design Thinking -->
+            <div class="method-card card-design" onclick="openMethod('dt')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-people-group"></i></div>
+                    <div class="method-name">Design Thinking</div>
+                </div>
+                <div class="method-body">
+                    <p>Centré sur l'humain et l'empathie. Pas exactement une "méthodologie" rigide, mais une philosophie.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Ethnographie</span>
+                        <span class="keyword-tag">Empathie</span>
+                        <span class="keyword-tag">Itération</span>
+                    </div>
+                </div>
+                <div class="method-footer">Lire la définition</div>
+            </div>
+
+            <!-- CK Theory -->
+            <div class="method-card card-ck" onclick="openMethod('ck')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                    <div class="method-name">C-K Theory</div>
+                </div>
+                <div class="method-body">
+                    <p>Théorie du raisonnement conceptuel (Concept-Knowledge) régie par la théorie des ensembles.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Concept</span>
+                        <span class="keyword-tag">Connaissance</span>
+                        <span class="keyword-tag">Expansion</span>
+                    </div>
+                </div>
+                <div class="method-footer">Explorer la théorie</div>
+            </div>
+
+            <!-- TRIZ -->
+            <div class="method-card card-triz" onclick="openMethod('triz')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-wrench"></i></div>
+                    <div class="method-name">TRIZ</div>
+                </div>
+                <div class="method-body">
+                    <p>Approche heuristique pour résoudre les problèmes techniques via l'analyse des brevets.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Brevets</span>
+                        <span class="keyword-tag">Technique</span>
+                        <span class="keyword-tag">Analogie</span>
+                    </div>
+                </div>
+                <div class="method-footer">Voir les détails</div>
+            </div>
+
+            <!-- Lean Startup -->
+            <div class="method-card card-lean" onclick="openMethod('lean')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <div class="method-name">Lean Startup</div>
+                </div>
+                <div class="method-body">
+                    <p>Raccourcir les cycles de développement et valider l'apprentissage commercial.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">MVP</span>
+                        <span class="keyword-tag">Pivot</span>
+                        <span class="keyword-tag">Apprentissage</span>
+                    </div>
+                </div>
+                <div class="method-footer">Comprendre la méthode</div>
+            </div>
+
+            <!-- Blue Ocean -->
+            <div class="method-card card-blue" onclick="openMethod('blue')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-water"></i></div>
+                    <div class="method-name">Blue Ocean</div>
+                </div>
+                <div class="method-body">
+                    <p>Rendre la concurrence non pertinente en créant une nouvelle demande.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Marketing</span>
+                        <span class="keyword-tag">Valeur</span>
+                        <span class="keyword-tag">Coût</span>
+                    </div>
+                </div>
+                <div class="method-footer">Plonger dans l'océan</div>
+            </div>
+
+            <!-- Business Model Canvas -->
+            <div class="method-card card-bmc" onclick="openMethod('bmc')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-th"></i></div>
+                    <div class="method-name">Business Model Canvas</div>
+                </div>
+                <div class="method-body">
+                    <p>Modèle de gestion stratégique pour documenter et aligner les activités de l'entreprise.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Proposition Valeur</span>
+                        <span class="keyword-tag">Infrastructure</span>
+                        <span class="keyword-tag">Clients</span>
+                    </div>
+                </div>
+                <div class="method-footer">Voir le canevas</div>
+            </div>
+
+            <!-- RID -->
+            <div class="method-card card-rid" onclick="openMethod('rid')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                    <div class="method-name">RID Methodology</div>
+                </div>
+                <div class="method-body">
+                    <p>Méthodologie pilotée par l'usage et centrée sur l'activité (Radical Innovation Design).</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Usage</span>
+                        <span class="keyword-tag">Problèmes</span>
+                        <span class="keyword-tag">Périmètre d'ambition</span>
+                    </div>
+                </div>
+                <div class="method-footer">Découvrir RID</div>
+            </div>
+
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--bordeaux);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Vocabulaire</h3>
+            <p>Quelle méthode parle de "Périmètre d'ambition" et de "Seaux de valeur" (Value Buckets) ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q8a" name="q8" value="correct">
+                    <label for="q8a">RID (Radical Innovation Design)</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q8b" name="q8" value="wrong">
+                    <label for="q8b">Design Thinking</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q8c" name="q8" value="wrong">
+                    <label for="q8c">Business Model Canvas</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Détails -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-box">
+            <span class="close-icon" onclick="closeModal()">&times;</span>
+            <div class="modal-title" id="mTitle">Titre</div>
+            <div class="modal-highlight" id="mHighlight">Concept clé</div>
+            <div class="modal-text" id="mText">Description complète...</div>
+            <button class="modal-btn" onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // --- DATA METHODOLOGIES ---
+        const methodsData = {
+            'dt': {
+                title: "Design Thinking",
+                color: "#E91E63",
+                highlight: "Centré sur l'humain, empathie, échec rapide et itérations.",
+                text: "Le Design Thinking est l'approche d'innovation la plus populaire. Ce n'est pas exactement une méthodologie (pas de concepts forts), mais elle est structurée selon des principes clairs : conception centrée sur l'humain, pratiques ethnographiques, empathie, échec rapide et itérations. C'est un processus de conception simple accompagné d'une riche boîte à outils."
+            },
+            'ck': {
+                title: "Théorie C-K (Concept-Knowledge)",
+                color: "#9C27B0",
+                highlight: "Régie par la théorie des ensembles : Espaces C (Concepts) et K (Connaissances).",
+                text: "C-K n'est pas une méthodologie mais une théorie du raisonnement conceptuel. Elle ouvre un espace de réflexion dont l'architecture est régie par la théorie des ensembles. On part d'un concept indécidable (Espace C) qui va induire des lacunes dans l'espace de connaissances (Espace K). L'augmentation des connaissances permettra en retour la création de nouveaux concepts. C'est une théorie de gestion destinée à être intégrée dans les processus de l'entreprise."
+            },
+            'triz': {
+                title: "TRIZ (Théorie de Résolution des Problèmes Inventifs)",
+                color: "#3F51B5",
+                highlight: "Approche heuristique basée sur les mécanismes inventifs des brevets.",
+                text: "D'origine russe, TRIZ est une approche heuristique pour résoudre les problèmes liés à l'innovation, principalement techniques. Basée sur la recherche de mécanismes inventifs indépendants du domaine dans les brevets, ainsi que sur les propriétés de l'évolution des systèmes techniques. Ses outils permettent d'explorer des solutions proches de la solution initiale et de stimuler la recherche de concepts innovants par analogie avec des solutions génériques."
+            },
+            'lean': {
+                title: "Lean Startup",
+                color: "#009688",
+                highlight: "Raccourcir les cycles de développement et valider l'apprentissage.",
+                text: "Méthodologie visant à raccourcir les cycles de développement des produits et à découvrir rapidement si un modèle commercial proposé est viable. Cela est rendu possible grâce à l'expérimentation fondée sur des hypothèses commerciales, des lancements itératifs de produits et un apprentissage validé. Le Lean Startup privilégie les commentaires clients (feedback) sur l'intuition, et la flexibilité sur la planification. Elle permet la reprise après sinistre (les échecs sont fréquents)."
+            },
+            'blue': {
+                title: "Blue Ocean Strategy",
+                color: "#2196F3",
+                highlight: "Innovation-Marketing : Créer une nouvelle demande hors concurrence.",
+                text: "Théorie de l'innovation marketing (composée de modèles et de stratégies) qui se concentre sur ce qui rendrait une offre compétitive tout en débloquant une nouvelle demande et en rendant la concurrence non pertinente. Elle incite l'organisation à créer systématiquement des 'océans bleus' (espaces de marché inexplorés) en réduisant les coûts (simplification) tout en mettant l'accent sur un nombre limité de caractéristiques innovantes."
+            },
+            'bmc': {
+                title: "Business Model Canvas (BMC)",
+                color: "#FF9800",
+                highlight: "Modèle de gestion stratégique pour documenter et aligner les activités.",
+                text: "Modèle de gestion stratégique utilisé pour développer de nouveaux modèles commerciaux et documenter ceux existants. Il décrit la logique de la manière dont une organisation crée, capture et délivre de la valeur. Il offre un tableau visuel avec neuf 'blocs de construction' décrivant la proposition de valeur, l'infrastructure, les clients et les finances. Il aide les entreprises à aligner leurs activités. Le BMC est mieux adapté pour innover sur le modèle commercial que sur la proposition de valeur elle-même."
+            },
+            'rid': {
+                title: "RID (Radical Innovation Design)",
+                color: "#4CAF50",
+                highlight: "Pilotée par l'usage, centrée sur l'activité, exploration des problèmes.",
+                text: "Au-delà du Design Thinking, RID est une méthodologie de conception innovante nouvelle, complète et bien structurée. Elle priorise l'amélioration de l'expérience utilisateur au sein d'un domaine d'activité. Elle est délibérément pilotée par l'usage et centrée sur l'activité. RID guide les innovateurs pour explorer systématiquement les problèmes des utilisateurs et les besoins non exprimés. Elle révolutionne la définition des cibles d'innovation avec son concept unique de 'périmètre d'ambition', composé de 'seaux de valeur' (value buckets). Elle mesure les quantités de douleurs (pains) pour prioriser les pistes."
+            }
+        };
+
+        // Modal Logic
+        const modal = document.getElementById('detailModal');
+        const mTitle = document.getElementById('mTitle');
+        const mHighlight = document.getElementById('mHighlight');
+        const mText = document.getElementById('mText');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function openMethod(id) {
+            const data = methodsData[id];
+            if(data) {
+                mTitle.innerText = data.title;
+                mHighlight.innerText = data.highlight;
+                mText.innerText = data.text;
+                
+                // Style coloring
+                mTitle.style.color = data.color;
+                modalBox.style.borderTopColor = data.color;
+                modalBtn.style.backgroundColor = data.color;
+                mHighlight.style.borderLeftColor = data.color;
+                
+                modal.classList.add('active');
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q8'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                mTitle.innerText = "Excellent !";
+                mHighlight.innerText = "RID est bien la méthode structurée pour l'innovation radicale par l'usage.";
+                mText.innerText = "Vous maîtrisez désormais le vocabulaire spécifique des grandes méthodologies d'innovation.";
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+                mTitle.style.color = 'var(--teal)';
+                modal.classList.add('active');
+            } else if (val === "") { 
+                alert("Veuillez répondre au quiz.");
+            } else { 
+                mTitle.innerText = "Pas tout à fait";
+                mHighlight.innerText = "Indice : Usage, Activité, Douleurs.";
+                mText.innerText = "Le Design Thinking est plus centré sur l'empathie globale, le BMC sur la structure de l'entreprise. Cherchez la méthode qui parle de 'Value Buckets'.";
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+                mTitle.style.color = 'var(--orange)';
+                modal.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
