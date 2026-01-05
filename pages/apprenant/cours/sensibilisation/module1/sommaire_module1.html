@@ -18,8 +18,18 @@
         
         /* Navigation */
         .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
-        .logo { font-weight: 900; font-size: 1.2rem; color: var(--bordeaux); text-decoration: none; }
-        body.dark-mode .logo { color: var(--orange); }
+        
+        /* Style du bouton Retour (Nouveau) */
+        .btn-back { 
+            text-decoration: none; 
+            color: var(--text-main); 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 1.1rem;
+        }
+        .btn-back:hover { color: var(--orange); }
 
         .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
         
@@ -104,8 +114,12 @@
 <body>
 
     <nav class="top-bar">
-        <!-- CORRECTION: Lien relatif pour remonter au dossier parent -->
-        <a href="../portal_sensi.html" class="logo"><i class="fa-solid fa-shapes"></i> PROJET INNO</a>
+        <!-- MODIFICATION : Utilisation de history.back() pour garantir le retour sans erreur de chemin -->
+        <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Retour</a>
+        
+        <!-- Branding optionnel au centre si besoin -->
+        <div style="font-weight: 900; font-size: 1.2rem; color: var(--bordeaux);">PROJET INNO</div>
+        
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
 
@@ -133,7 +147,7 @@
                     <div class="card-desc">L'innovation est à la fois un processus et un résultat. Comprendre la différence entre nouveauté et valeur.</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain1.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_1_innovation.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -146,7 +160,7 @@
                     <div class="card-desc">Produit, service, organisation... Le champ des possibles est vaste. Découvrez les catégories privilégiées.</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain2.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_2_objets_innovation.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -159,7 +173,7 @@
                     <div class="card-desc">La différence fondamentale entre Recherche (Argent → Savoir) et Innovation (Savoir → Argent).</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain3.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_3_processus.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -172,7 +186,7 @@
                     <div class="card-desc">Invention vs Innovation, Rupture vs Incrémentale. Ne vous perdez plus dans la jungle des mots.</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain4.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_4_vocabulaire.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -185,7 +199,7 @@
                     <div class="card-desc">Visualisez les flux parallèles de financement et de création de valeur, du laboratoire au marché.</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain5.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_5_processus_valeur.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -198,7 +212,7 @@
                     <div class="card-desc">Le grand écart : comment réconcilier rigueur organisationnelle et spontanéité créative ?</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain6.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_6_organisation_innovation.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -211,7 +225,7 @@
                     <div class="card-desc">Pourquoi structurer l'innovation ? Philosophie, Processus et Outils pour être efficace.</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain7.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_7_methodologie.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -224,7 +238,7 @@
                     <div class="card-desc">Design Thinking, C-K, TRIZ, Lean Startup... Comprendre les spécificités de chaque approche.</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain8.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_8_langages.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -237,7 +251,7 @@
                     <div class="card-desc">Plongée dans le "Vortex" de l'exploration préliminaire. Stratégie, opportunité et brief.</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain9.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_9_frontend_innovation.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -250,7 +264,7 @@
                     <div class="card-desc">Le modèle de référence pour structurer la pensée : Cadrage du problème (Setting) puis Résolution (Solving).</div>
                 </div>
                 <div class="card-footer">
-                    <a href="grain10.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="grain_10_double_diamant.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
