@@ -1,1 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPSULE 10 : Le Double Diamant | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
 
+        /* --- DIAMOND DIAGRAM CONTAINER --- */
+        .diamond-wrapper {
+            background: var(--bg-card);
+            padding: 2rem 1rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin: 3rem 0;
+            overflow-x: auto;
+            text-align: center;
+        }
+
+        /* SVG Styles */
+        .dd-svg {
+            min-width: 1000px;
+            height: 500px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .triangle-path {
+            stroke: white;
+            stroke-width: 3;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .triangle-path:hover { opacity: 0.9; transform: scale(1.01); transform-origin: center; }
+
+        /* Styles des titres EXTÉRIEURS */
+        .dd-label-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            fill: var(--text-main);
+            font-size: 16px;
+            pointer-events: none;
+        }
+        body.dark-mode .dd-label-title { fill: white; }
+
+        .dd-list-text {
+            font-size: 12px;
+            fill: white;
+            font-weight: 600;
+            pointer-events: none;
+            text-anchor: middle;
+        }
+
+        .oblique-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            fill: var(--bordeaux);
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+        body.dark-mode .oblique-text { fill: var(--orange); }
+
+        .phase-bracket {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+        .phase-label {
+            font-weight: 800;
+            fill: #888;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        /* Info Cards */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .info-card { background: var(--bg-card); padding: 1.5rem; border-radius: 10px; border-left: 5px solid #ccc; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+        
+        .card-problem { border-left-color: var(--blue); }
+        .card-solution { border-left-color: var(--orange); }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 600px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; text-align: left; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Top : CORRECTION ICI -->
+    <nav class="top-bar">
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 10</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Co-évolution & Double Diamant</h1>
+        <div class="hero-subtitle">Distinguer la pose du problème de sa résolution.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-gem" style="opacity:0.8; margin-right:10px;"></i>
+                Alors que beaucoup voient l'innovation comme un mélange flou, le <strong>Processus Double Diamant</strong> (UK Design Council, 2005) propose une transition fluide mais structurée : d'abord explorer le problème, puis explorer la solution.
+            </span>
+        </div>
+
+        <!-- DOUBLE DIAMOND SVG -->
+        <div class="diamond-wrapper">
+            <!-- ViewBox élargie pour centrer et inclure le bout droit -->
+            <svg class="dd-svg" viewBox="0 0 1150 500">
+                <defs>
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.2"/>
+                    </filter>
+                </defs>
+
+                <!-- BRACKETS BOTTOM -->
+                <!-- Problem Setting (Diamant 1 : de 50 à 550) -->
+                <path d="M 50 420 L 50 440 L 550 440 L 550 420" class="phase-bracket" />
+                <text x="300" y="470" text-anchor="middle" class="phase-label" fill="#2A325E">CADRAGE DU PROBLÈME</text>
+                
+                <!-- Problem Solving (Diamant 2 : de 550 à 1050) -->
+                <path d="M 550 420 L 550 440 L 1050 440 L 1050 420" class="phase-bracket" />
+                <text x="800" y="470" text-anchor="middle" class="phase-label" fill="#F48C2E">RÉSOLUTION DU PROBLÈME</text>
+
+                <!-- DIAMOND 1: PROBLEM SETTING -->
+                
+                <!-- Triangle 1: DISCOVER (Divergence) -->
+                <polygon points="50,250 300,100 300,400" fill="#2A325E" class="triangle-path" onclick="showPhase('discover')" filter="url(#shadow)"/>
+                <text x="175" y="80" text-anchor="middle" class="dd-label-title">DÉCOUVRIR</text>
+                
+                <!-- List Discover -->
+                <text x="200" y="240" class="dd-list-text">
+                    <tspan x="200" dy="-20">• Étude de marché</tspan>
+                    <tspan x="200" dy="15">• Recherche utilisateur</tspan>
+                    <tspan x="200" dy="15">• Gestion de l'info</tspan>
+                    <tspan x="200" dy="15">• Recherche design</tspan>
+                </text>
+
+                <!-- Triangle 2: DEFINE (Convergence) -->
+                <polygon points="300,100 550,250 300,400" fill="#2EAF7D" class="triangle-path" onclick="showPhase('define')" filter="url(#shadow)"/>
+                <text x="425" y="80" text-anchor="middle" class="dd-label-title">DÉFINIR</text>
+
+                <!-- List Define -->
+                <text x="380" y="240" class="dd-list-text">
+                    <tspan x="380" dy="-15">• Gestion de projet</tspan>
+                    <tspan x="380" dy="15">• Dév. de projet</tspan>
+                    <tspan x="380" dy="15">• Validation projet</tspan>
+                </text>
+
+                <!-- DIAMOND 2: PROBLEM SOLVING -->
+
+                <!-- Triangle 3: DEVELOP (Divergence) -->
+                <polygon points="550,250 800,100 800,400" fill="#F48C2E" class="triangle-path" onclick="showPhase('develop')" filter="url(#shadow)"/>
+                <text x="675" y="80" text-anchor="middle" class="dd-label-title">DÉVELOPPER</text>
+
+                <!-- List Develop -->
+                <text x="700" y="240" class="dd-list-text">
+                    <tspan x="700" dy="-15">• Multidisciplinaire</tspan>
+                    <tspan x="700" dy="15">• Management visuel</tspan>
+                    <tspan x="700" dy="15">• Tests concepts</tspan>
+                </text>
+
+                <!-- Triangle 4: DELIVER (Convergence) -->
+                <polygon points="800,100 1050,250 800,400" fill="#580F45" class="triangle-path" onclick="showPhase('deliver')" filter="url(#shadow)"/>
+                <text x="925" y="80" text-anchor="middle" class="dd-label-title">LIVRER</text>
+
+                <!-- List Deliver -->
+                <text x="890" y="240" class="dd-list-text">
+                    <tspan x="890" dy="-15">• Tests finaux</tspan>
+                    <tspan x="890" dy="15">• Lancement</tspan>
+                    <tspan x="890" dy="15">• Retours (Feedback)</tspan>
+                </text>
+
+                <!-- OBLIQUE LABELS -->
+                <text x="530" y="270" class="oblique-text" text-anchor="end" transform="rotate(-31, 530, 270)">Question Qualifiée</text>
+                <text x="1030" y="270" class="oblique-text" text-anchor="end" transform="rotate(-31, 1030, 270)">Produit Minimum Viable</text>
+
+                <!-- Lignes pointillées pour marquer la sortie -->
+                <line x1="550" y1="250" x2="550" y2="400" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                <line x1="1050" y1="250" x2="1050" y2="400" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+            </svg>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card card-problem">
+                <h4><i class="fa-solid fa-magnifying-glass"></i> Diamant 1 : Problème</h4>
+                <p>Ce premier diamant mène à la formulation d'une <strong>Question Qualifiée</strong>. Il s'agit d'identifier le <em>vrai</em> problème à résoudre (Ambition, Périmètre) avant de chercher des solutions.</p>
+            </div>
+            <div class="info-card card-solution">
+                <h4><i class="fa-solid fa-box-open"></i> Diamant 2 : Solution</h4>
+                <p>Le second diamant transforme la question en une proposition de valeur concrète, le <strong>MVP</strong> (Produit Minimum Viable), prêt à être lancé et testé sur le marché.</p>
+            </div>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--bordeaux);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Compréhension</h3>
+            <p>Quel est le résultat principal à la sortie du premier diamant (Cadrage du Problème) ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q10a" name="q10" value="wrong">
+                    <label for="q10a">Un produit fini prêt à vendre.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q10b" name="q10" value="correct">
+                    <label for="q10b">Une question qualifiée (le bon problème).</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q10c" name="q10" value="wrong">
+                    <label for="q10c">Un budget validé.</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Détails -->
+    <div class="modal-overlay" id="phaseModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <div class="modal-text" id="modalMessage">Message</div>
+            <button class="modal-btn" onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('phaseModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        // Données des phases (traduites et enrichies)
+        const phases = {
+            'discover': {
+                title: "DÉCOUVRIR (Divergence)",
+                icon: '<i class="fa-solid fa-binoculars" style="color:#2A325E;"></i>',
+                color: '#2A325E',
+                text: `
+                    <strong>Exploration large du problème :</strong>
+                    <ul style="text-align:left; padding-left:20px; margin-top:10px;">
+                        <li><i class="fa-solid fa-users"></i> <strong>Recherche Utilisateur :</strong> Entretiens, observation ethnographique.</li>
+                        <li><i class="fa-solid fa-chart-line"></i> <strong>Analyse Marché :</strong> Étude de la concurrence et des tendances.</li>
+                        <li><i class="fa-solid fa-database"></i> <strong>Gestion de l'info :</strong> Collecte de données brutes.</li>
+                    </ul>
+                    <p style="font-style:italic; margin-top:10px;">Objectif : Comprendre le "Pourquoi" sans penser au "Comment".</p>
+                `
+            },
+            'define': {
+                title: "DÉFINIR (Convergence)",
+                icon: '<i class="fa-solid fa-filter" style="color:#2EAF7D;"></i>',
+                color: '#2EAF7D',
+                text: `
+                    <strong>Focalisation et Sélection :</strong>
+                    <ul style="text-align:left; padding-left:20px; margin-top:10px;">
+                        <li><i class="fa-solid fa-user-tag"></i> <strong>Synthèse :</strong> Création de Personas et Customer Journeys.</li>
+                        <li><i class="fa-solid fa-bullseye"></i> <strong>Cadrage :</strong> Définition du périmètre d'ambition.</li>
+                        <li><i class="fa-solid fa-check-double"></i> <strong>Validation :</strong> Sign-off sur la "Question Qualifiée".</li>
+                    </ul>
+                    <p style="font-style:italic; margin-top:10px;">Objectif : Choisir le bon problème à résoudre.</p>
+                `
+            },
+            'develop': {
+                title: "DÉVELOPPER (Divergence)",
+                icon: '<i class="fa-solid fa-lightbulb" style="color:#F48C2E;"></i>',
+                color: '#F48C2E',
+                text: `
+                    <strong>Création de solutions :</strong>
+                    <ul style="text-align:left; padding-left:20px; margin-top:10px;">
+                        <li><i class="fa-solid fa-brain"></i> <strong>Idéation :</strong> Brainstorming, méthodes de créativité.</li>
+                        <li><i class="fa-solid fa-pencil"></i> <strong>Prototypage :</strong> Maquettes rapides (papier, numérique).</li>
+                        <li><i class="fa-solid fa-vial"></i> <strong>Tests Concepts :</strong> Co-création avec les utilisateurs.</li>
+                    </ul>
+                    <p style="font-style:italic; margin-top:10px;">Objectif : Imaginer un maximum de solutions possibles.</p>
+                `
+            },
+            'deliver': {
+                title: "LIVRER (Convergence)",
+                icon: '<i class="fa-solid fa-rocket" style="color:#580F45;"></i>',
+                color: '#580F45',
+                text: `
+                    <strong>Finalisation et Lancement :</strong>
+                    <ul style="text-align:left; padding-left:20px; margin-top:10px;">
+                        <li><i class="fa-solid fa-flask"></i> <strong>Tests Finaux :</strong> Validation technique et usage.</li>
+                        <li><i class="fa-solid fa-box-open"></i> <strong>Lancement :</strong> Mise sur le marché du MVP.</li>
+                        <li><i class="fa-solid fa-rotate"></i> <strong>Boucles de Feedback :</strong> Mesure des KPI et itération.</li>
+                    </ul>
+                    <p style="font-style:italic; margin-top:10px;">Objectif : Concrétiser la solution qui marche.</p>
+                `
+            }
+        };
+
+        function showPhase(key) {
+            const data = phases[key];
+            if(data) {
+                modalTitle.innerText = data.title;
+                modalMsg.innerHTML = data.text;
+                modalIcon.innerHTML = data.icon;
+                
+                modalTitle.style.color = data.color;
+                modalBox.style.borderTopColor = data.color;
+                modalBtn.style.backgroundColor = data.color;
+                
+                modal.classList.add('active');
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation : CORRECTION ICI
+        function finishGrain() {
+            const radios = document.getElementsByName('q10'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                modalTitle.innerText = "Bravo !";
+                modalMsg.innerText = "La 'Question Qualifiée' est cruciale : on ne peut pas trouver la bonne solution si on résout le mauvais problème.";
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+                modalTitle.style.color = 'var(--teal)';
+                modal.classList.add('active');
+                
+                // Redirection après succès
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                modalTitle.innerText = "Pas tout à fait";
+                modalMsg.innerText = "Le premier diamant sert à définir le problème (Question Qualifiée). Le produit arrive à la fin du second.";
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+                modalTitle.style.color = 'var(--orange)';
+                modal.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
