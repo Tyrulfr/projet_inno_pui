@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sommaire Module 3 : Retours d'Expérience | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base (Charte Projet Inno) --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .logo { font-weight: 900; font-size: 1.2rem; color: var(--bordeaux); text-decoration: none; }
+        body.dark-mode .logo { color: var(--orange); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
+        .btn-back:hover { color: var(--orange); }
 
+        .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        
+        /* Hero Section du Module 3 */
+        .hero-section { text-align: center; margin-bottom: 4rem; padding: 3rem 1rem; background: linear-gradient(135deg, var(--teal), var(--blue)); border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(46, 175, 125, 0.3); }
+        .hero-title { font-size: 2.5rem; margin-bottom: 1rem; color: white; }
+        .hero-desc { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+        .progress-bar-container { width: 100%; max-width: 400px; background: rgba(255,255,255,0.2); height: 10px; border-radius: 5px; margin: 2rem auto 0; overflow: hidden; }
+        .progress-bar { width: 20%; height: 100%; background: var(--orange); border-radius: 5px; transition: width 1s ease; }
+
+        /* Grille des cartes */
+        .grains-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        
+        .grain-card { background: var(--bg-card); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; position: relative; border-top: 5px solid var(--teal); }
+        .grain-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        
+        /* Styles spécifiques pour "En construction" */
+        .grain-card.locked { opacity: 0.7; border-top-color: #ccc; cursor: not-allowed; }
+        .grain-card.locked:hover { transform: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .grain-card.locked .card-icon { background: rgba(0,0,0,0.05); color: #999; }
+        
+        .card-number { position: absolute; top: 15px; right: 15px; font-size: 2.5rem; font-weight: 900; color: rgba(0,0,0,0.05); font-family: 'Montserrat'; }
+        .card-body { padding: 2rem 1.5rem; flex-grow: 1; }
+        .card-icon { font-size: 2rem; color: var(--teal); margin-bottom: 1rem; background: rgba(46, 175, 125, 0.1); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .card-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); }
+        .card-desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+        .card-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); text-align: right; }
+        
+        .btn-start { display: inline-block; text-decoration: none; background: var(--blue); color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; transition: background 0.3s; }
+        .btn-start:hover { background: var(--orange); }
+        
+        .btn-locked { display: inline-block; background: #e0e0e0; color: #888; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; cursor: not-allowed; }
+
+        /* Variantes de couleurs */
+        .border-orange { border-top-color: var(--orange); }
+        .border-blue { border-top-color: var(--blue); }
+        .border-bordeaux { border-top-color: var(--bordeaux); }
+        .icon-orange { color: var(--orange); background: rgba(244, 140, 46, 0.1); }
+        .icon-blue { color: var(--blue); background: rgba(42, 50, 94, 0.1); }
+        .icon-bordeaux { color: var(--bordeaux); background: rgba(88, 15, 69, 0.1); }
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <!-- Lien vers le portail parent (Portal Sensi) -->
+        <a href="../../portal_sensi.html" class="logo"><i class="fa-solid fa-shapes"></i> PROJET INNO</a>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <!-- Hero Module 3 -->
+        <div class="hero-section">
+            <h1 class="hero-title">Module 3 : Retours d'Expérience</h1>
+            <p class="hero-desc">L'innovation racontée par ceux qui la font. Plongez dans les parcours réels de chercheurs devenus entrepreneurs.</p>
+            <div class="progress-bar-container"><div class="progress-bar" style="width: 20%"></div></div>
+            <p style="font-size:0.8rem; margin-top:10px; opacity:0.8;">5 Ressources clés</p>
+        </div>
+
+        <div class="grains-grid">
+
+            <!-- 1. Introduction (En construction) -->
+            <div class="grain-card locked">
+                <div class="card-number">01</div>
+                <div class="card-body">
+                    <div class="card-icon"><i class="fa-solid fa-flag-checkered"></i></div>
+                    <div class="card-title">Introduction au Module</div>
+                    <div class="card-desc">Pourquoi les témoignages sont essentiels pour comprendre la réalité du terrain et de la "Vallée de la Mort".</div>
+                </div>
+                <div class="card-footer"><span class="btn-locked"><i class="fa-solid fa-person-digging"></i> Bientôt</span></div>
+            </div>
+
+            <!-- 2. Témoignage Sylvia (ACTIF) -->
+            <div class="grain-card border-orange">
+                <div class="card-number">02</div>
+                <div class="card-body">
+                    <div class="card-icon icon-orange"><i class="fa-solid fa-video"></i></div>
+                    <div class="card-title">Témoignage : S. Cohen-Kaminsky</div>
+                    <div class="card-desc">Du laboratoire CNRS à la Deeptech. Découvrez comment structurer une équipe et changer de posture.</div>
+                </div>
+                <!-- Lien relatif direct vers le fichier dans le même dossier -->
+                <div class="card-footer"><a href="temoignage_silvia.html" class="btn-start">Visionner <i class="fa-solid fa-play"></i></a></div>
+            </div>
+
+            <!-- 3. Témoignage Loïc (En construction) -->
+            <div class="grain-card locked">
+                <div class="card-number">03</div>
+                <div class="card-body">
+                    <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+                    <div class="card-title">Témoignage : Loïc Rajjou</div>
+                    <div class="card-desc">Retour d'expérience sur la valorisation de la recherche en biotechnologie végétale.</div>
+                </div>
+                <div class="card-footer"><span class="btn-locked"><i class="fa-solid fa-person-digging"></i> Bientôt</span></div>
+            </div>
+
+            <!-- 4. Debrief Chargé de Valo (En construction) -->
+            <div class="grain-card locked">
+                <div class="card-number">04</div>
+                <div class="card-body">
+                    <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
+                    <div class="card-title">Le Regard de l'Expert</div>
+                    <div class="card-desc">Analyse croisée des parcours par un Chargé de Mission Valorisation. Les pièges à éviter.</div>
+                </div>
+                <div class="card-footer"><span class="btn-locked"><i class="fa-solid fa-person-digging"></i> Bientôt</span></div>
+            </div>
+
+            <!-- 5. Conclusion (En construction) -->
+            <div class="grain-card border-bordeaux locked">
+                <div class="card-number">05</div>
+                <div class="card-body">
+                    <div class="card-icon icon-bordeaux"><i class="fa-solid fa-star"></i></div>
+                    <div class="card-title">Synthèse du Module</div>
+                    <div class="card-desc">Ce qu'il faut retenir pour votre propre parcours. Check-list de maturité.</div>
+                </div>
+                <div class="card-footer"><span class="btn-locked"><i class="fa-solid fa-lock"></i> Verrouillé</span></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+    </script>
+</body>
+</html>
