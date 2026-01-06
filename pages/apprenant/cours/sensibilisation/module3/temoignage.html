@@ -1,1 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Témoignage : Sylvia Cohen-Kaminsky | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base (Identiques à la charte) --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        
+        body { 
+            margin: 0; padding: 0; 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: var(--bg-page); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            padding-bottom: 100px;
+            background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); 
+            background-size: 30px 30px;
+        }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--teal); padding-left: 15px; }
+        
+        /* --- VIDEO STYLE --- */
+        .video-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin: 3rem 0;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .video-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background: linear-gradient(to right, rgba(46, 175, 125, 0.1), transparent);
+        }
+        .play-icon {
+            width: 50px; height: 50px; 
+            background: var(--teal); 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: white; font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3);
+        }
+        .video-title-group h3 { margin: 0; font-size: 1.3rem; }
+        .video-meta { font-size: 0.9rem; color: var(--text-light); }
+        
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .video-footer { padding: 1.5rem; font-size: 0.95rem; color: var(--text-light); border-top: 1px solid rgba(0,0,0,0.05); }
 
+        /* --- KEY POINTS CARDS --- */
+        .points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .point-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--bordeaux);
+            transition: transform 0.3s;
+        }
+        .point-card:hover { transform: translateY(-5px); }
+        
+        .point-icon {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bordeaux);
+            color: white;
+            width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        .point-title { text-align: center; margin-top: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 10px; }
+        .point-text { font-size: 0.95rem; color: var(--text-light); line-height: 1.6; text-align: center; }
+
+        /* --- QUIZ SECTION --- */
+        .quiz-section {
+            margin-top: 4rem; 
+            padding: 2rem; 
+            background: var(--bg-card); 
+            border-radius: 15px; 
+            border: 1px solid #ddd; 
+            border-left: 5px solid var(--orange);
+        }
+        .quiz-question { font-weight: 700; margin-bottom: 1rem; font-size: 1.1rem; }
+        .quiz-option { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 600px; text-align: center; border-top: 5px solid var(--teal); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem; color: var(--teal); }
+        .modal-btn { background: var(--teal); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 1rem; }
+
+        /* Footer */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--blue); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(42, 50, 94, 0.3); text-decoration: none; }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(42, 50, 94, 0.4); }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Retour</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Témoignages</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Du CNRS à la Deeptech</h1>
+        <div class="hero-subtitle">Comment franchir la "Vallée de la Mort" et transformer une découverte académique en médicament.</div>
+
+        <!-- VIDEO YOUTUBE -->
+        <div class="video-card">
+            <div class="video-header">
+                <div class="play-icon"><i class="fa-solid fa-play"></i></div>
+                <div class="video-title-group">
+                    <h3>Parcours de Chercheur à Entrepreneur</h3>
+                    <div class="video-meta">Sylvia Cohen-Kaminsky (CNRS / Alciom) - Durée : 04:20</div>
+                </div>
+            </div>
+            
+            <div class="video-wrapper">
+                <!-- Intégration de la vidéo demandée -->
+                <iframe 
+                    width="560" 
+                    height="315" 
+                    src="https://www.youtube.com/embed/yJVsx0H8FlE?si=sXb9N0j1H5y_D2Z-" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="video-footer">
+                <i class="fa-solid fa-circle-info" style="color:var(--teal); margin-right:5px;"></i>
+                <strong>Contexte :</strong> Sylvia raconte la maturation de son projet sur l'Hypertension Artérielle Pulmonaire (HTAP), du laboratoire académique jusqu'à la création de la startup ALCIOM.
+            </div>
+        </div>
+
+        <h2 style="margin-top: 4rem; color:var(--bordeaux);">Les points clés du témoignage</h2>
+        
+        <div class="points-grid">
+            
+            <!-- Carte 1 : TRL -->
+            <div class="point-card">
+                <div class="point-icon"><i class="fa-solid fa-bridge-water"></i></div>
+                <div class="point-title">La Vallée de la Mort</div>
+                <div class="point-text">
+                    Les moyens académiques ne suffisent pas pour passer du <strong>TRL 3</strong> (Preuve de concept expérimentale) au <strong>TRL 5</strong>. L'investissement de maturation est indispensable pour franchir ce cap.
+                </div>
+            </div>
+
+            <!-- Carte 2 : Posture -->
+            <div class="point-card" style="border-top-color: var(--orange);">
+                <div class="point-icon" style="background: var(--orange);"><i class="fa-solid fa-brain"></i></div>
+                <div class="point-title">Changement de Posture</div>
+                <div class="point-text">
+                    La phase de "Co-construction" (6 mois) a permis de transformer la posture de <strong>Chercheur</strong> en celle d'<strong>Innovateur</strong> et d'Entrepreneur, en intégrant le vocabulaire du marché.
+                </div>
+            </div>
+
+            <!-- Carte 3 : Humain -->
+            <div class="point-card" style="border-top-color: var(--blue);">
+                <div class="point-icon" style="background: var(--blue);"><i class="fa-solid fa-users"></i></div>
+                <div class="point-title">L'Équipe avant tout</div>
+                <div class="point-text">
+                    Au-delà de la technologie, le comité d'investissement a été convaincu par la <strong>cohésion de l'équipe</strong>. Une relation de confiance "quasi-familiale" s'est créée avec les accompagnateurs.
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ INTERACTIF -->
+        <div class="quiz-section">
+            <h3><i class="fa-solid fa-clipboard-check"></i> Compréhension de la vidéo</h3>
+            <p class="quiz-question">Selon Sylvia Cohen-Kaminsky, quel a été l'apport principal de la phase de "Co-construction" de 6 mois ?</p>
+            
+            <form id="videoQuiz">
+                <div class="quiz-option">
+                    <input type="radio" id="opt1" name="quiz" value="wrong">
+                    <label for="opt1">Apprendre à gérer la comptabilité de la startup uniquement.</label>
+                </div>
+                <div class="quiz-option">
+                    <input type="radio" id="opt2" name="quiz" value="correct">
+                    <label for="opt2">Transformer la posture de chercheur en innovateur et structurer le projet.</label>
+                </div>
+                <div class="quiz-option">
+                    <input type="radio" id="opt3" name="quiz" value="wrong">
+                    <label for="opt3">Recruter immédiatement des commerciaux.</label>
+                </div>
+            </form>
+            <button onclick="checkQuiz()" style="margin-top:15px; background:var(--bordeaux); color:white; border:none; padding:8px 20px; border-radius:5px; cursor:pointer;">Valider</button>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <a href="sommaire_module1.html" class="btn-validate">Retour au Sommaire <i class="fa-solid fa-list"></i></a>
+    </div>
+
+    <!-- Modal Résultat -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-box">
+            <div class="modal-title" id="mTitle">Bravo !</div>
+            <p id="mText">Excellente écoute. C'est bien ce changement de mindset qui est crucial.</p>
+            <button class="modal-btn" onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Quiz Logic
+        function checkQuiz() {
+            const radios = document.getElementsByName('quiz');
+            let val = "";
+            for(const r of radios) if(r.checked) val = r.value;
+
+            const modal = document.getElementById('resultModal');
+            const mTitle = document.getElementById('mTitle');
+            const mText = document.getElementById('mText');
+            const mBox = modal.querySelector('.modal-box');
+            const mBtn = modal.querySelector('.modal-btn');
+
+            if(val === "correct") {
+                mTitle.innerText = "Exactement !";
+                mTitle.style.color = "var(--teal)";
+                mBox.style.borderTopColor = "var(--teal)";
+                mBtn.style.backgroundColor = "var(--teal)";
+                mText.innerText = "La co-construction permet de passer du monde académique au monde économique (marché, compétition, valeur).";
+                modal.classList.add('active');
+            } else if (val === "wrong") {
+                mTitle.innerText = "Pas tout à fait";
+                mTitle.style.color = "var(--orange)";
+                mBox.style.borderTopColor = "var(--orange)";
+                mBtn.style.backgroundColor = "var(--orange)";
+                mText.innerText = "Réécoutez le passage vers 2:50. Il s'agit surtout d'un changement d'état d'esprit (posture) et de définition de la valeur.";
+                modal.classList.add('active');
+            } else {
+                alert("Veuillez sélectionner une réponse.");
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
