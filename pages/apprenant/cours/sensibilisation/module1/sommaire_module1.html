@@ -9,117 +9,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- Styles de base --- */
-        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F0F2F5; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
         body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
         * { box-sizing: border-box; transition: all 0.3s ease; }
-        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
         body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
         
         /* Navigation */
         .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
-        
-        /* Style du bouton Retour (Nouveau) */
-        .btn-back { 
-            text-decoration: none; 
-            color: var(--text-main); 
-            font-weight: 700; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            font-size: 1.1rem;
-        }
+        .logo { font-weight: 900; font-size: 1.2rem; color: var(--bordeaux); text-decoration: none; }
+        body.dark-mode .logo { color: var(--orange); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
         .btn-back:hover { color: var(--orange); }
 
         .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
         
-        /* Hero Section */
         .hero-section { text-align: center; margin-bottom: 4rem; padding: 3rem 1rem; background: linear-gradient(135deg, var(--blue), var(--bordeaux)); border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(42, 50, 94, 0.3); }
         .hero-title { font-size: 2.5rem; margin-bottom: 1rem; color: white; }
         .hero-desc { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
         .progress-bar-container { width: 100%; max-width: 400px; background: rgba(255,255,255,0.2); height: 10px; border-radius: 5px; margin: 2rem auto 0; overflow: hidden; }
         .progress-bar { width: 0%; height: 100%; background: var(--teal); border-radius: 5px; transition: width 1s ease; }
 
-        /* Grid Grains */
         .grains-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
         
-        .grain-card { 
-            background: var(--bg-card); 
-            border-radius: 15px; 
-            overflow: hidden; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
-            transition: transform 0.3s, box-shadow 0.3s; 
-            display: flex; 
-            flex-direction: column; 
-            position: relative;
-            border-top: 5px solid var(--teal);
-        }
-        
+        .grain-card { background: var(--bg-card); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; position: relative; border-top: 5px solid var(--teal); }
         .grain-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
         
-        .card-number { 
-            position: absolute; 
-            top: 15px; 
-            right: 15px; 
-            font-size: 2.5rem; 
-            font-weight: 900; 
-            color: rgba(0,0,0,0.05); 
-            font-family: 'Montserrat';
-        }
-        
+        .card-number { position: absolute; top: 15px; right: 15px; font-size: 2.5rem; font-weight: 900; color: rgba(0,0,0,0.05); font-family: 'Montserrat'; }
         .card-body { padding: 2rem 1.5rem; flex-grow: 1; }
-        
-        .card-icon { 
-            font-size: 2rem; 
-            color: var(--teal); 
-            margin-bottom: 1rem; 
-            background: rgba(46, 175, 125, 0.1); 
-            width: 60px; 
-            height: 60px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 50%;
-        }
-        
+        .card-icon { font-size: 2rem; color: var(--teal); margin-bottom: 1rem; background: rgba(46, 175, 125, 0.1); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .card-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); }
         .card-desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
-        
         .card-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); text-align: right; }
         
-        .btn-start { 
-            display: inline-block; 
-            text-decoration: none; 
-            background: var(--blue); 
-            color: white; 
-            padding: 8px 20px; 
-            border-radius: 20px; 
-            font-size: 0.85rem; 
-            font-weight: 700; 
-            transition: background 0.3s; 
-        }
+        .btn-start { display: inline-block; text-decoration: none; background: var(--blue); color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; transition: background 0.3s; }
         .btn-start:hover { background: var(--orange); }
 
-        /* Specific Colors per context */
         .border-orange { border-top-color: var(--orange); }
         .border-blue { border-top-color: var(--blue); }
         .border-bordeaux { border-top-color: var(--bordeaux); }
-
         .icon-orange { color: var(--orange); background: rgba(244, 140, 46, 0.1); }
         .icon-blue { color: var(--blue); background: rgba(42, 50, 94, 0.1); }
         .icon-bordeaux { color: var(--bordeaux); background: rgba(88, 15, 69, 0.1); }
-
     </style>
 </head>
 <body>
 
     <nav class="top-bar">
-        <!-- MODIFICATION : Utilisation de history.back() pour garantir le retour sans erreur de chemin -->
-        <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Retour</a>
-        
-        <!-- Branding optionnel au centre si besoin -->
-        <div style="font-weight: 900; font-size: 1.2rem; color: var(--bordeaux);">PROJET INNO</div>
-        
+        <!-- Lien vers le portail (chemin absolu maintenu pour la robustesse) -->
+        <a href="/pages/apprenant/cours/sensibilisation/portal_sensi.html" class="logo"><i class="fa-solid fa-shapes"></i> PROJET INNO</a>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
 
@@ -129,14 +69,12 @@
         <div class="hero-section">
             <h1 class="hero-title">Module 1 : Sensibilisation à l'Innovation</h1>
             <p class="hero-desc">Découvrez les fondamentaux, le vocabulaire et les processus clés pour comprendre comment transformer une idée en valeur réelle.</p>
-            <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 0%"></div> <!-- Dynamique en JS si besoin -->
-            </div>
+            <div class="progress-bar-container"><div class="progress-bar" style="width: 0%"></div></div>
             <p style="font-size:0.8rem; margin-top:10px; opacity:0.8;">10 Leçons disponibles</p>
         </div>
 
-        <!-- Grid -->
         <div class="grains-grid">
+            <!-- LIENS CORRIGÉS : grain1.html, grain2.html, etc. -->
 
             <!-- Grain 1 -->
             <div class="grain-card">
@@ -146,9 +84,7 @@
                     <div class="card-title">Les Fondamentaux</div>
                     <div class="card-desc">L'innovation est à la fois un processus et un résultat. Comprendre la différence entre nouveauté et valeur.</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_1_innovation.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain1.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 2 -->
@@ -159,9 +95,7 @@
                     <div class="card-title">Sur quoi innover ?</div>
                     <div class="card-desc">Produit, service, organisation... Le champ des possibles est vaste. Découvrez les catégories privilégiées.</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_2_objets_innovation.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain2.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 3 -->
@@ -172,9 +106,7 @@
                     <div class="card-title">Le Processus</div>
                     <div class="card-desc">La différence fondamentale entre Recherche (Argent → Savoir) et Innovation (Savoir → Argent).</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_3_processus.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain3.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 4 -->
@@ -185,9 +117,7 @@
                     <div class="card-title">Le Vocabulaire</div>
                     <div class="card-desc">Invention vs Innovation, Rupture vs Incrémentale. Ne vous perdez plus dans la jungle des mots.</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_4_vocabulaire.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain4.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 5 -->
@@ -198,9 +128,7 @@
                     <div class="card-title">La Chaîne de Valeur</div>
                     <div class="card-desc">Visualisez les flux parallèles de financement et de création de valeur, du laboratoire au marché.</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_5_processus_valeur.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain5.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 6 -->
@@ -211,9 +139,7 @@
                     <div class="card-title">L'Organisation</div>
                     <div class="card-desc">Le grand écart : comment réconcilier rigueur organisationnelle et spontanéité créative ?</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_6_organisation_innovation.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain6.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 7 -->
@@ -224,9 +150,7 @@
                     <div class="card-title">La Méthodologie</div>
                     <div class="card-desc">Pourquoi structurer l'innovation ? Philosophie, Processus et Outils pour être efficace.</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_7_methodologie.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain7.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 8 -->
@@ -237,9 +161,7 @@
                     <div class="card-title">Langage des Méthodes</div>
                     <div class="card-desc">Design Thinking, C-K, TRIZ, Lean Startup... Comprendre les spécificités de chaque approche.</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_8_langages.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain8.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 9 -->
@@ -250,9 +172,7 @@
                     <div class="card-title">Front-End Innovation</div>
                     <div class="card-desc">Plongée dans le "Vortex" de l'exploration préliminaire. Stratégie, opportunité et brief.</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_9_frontend_innovation.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain9.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
             <!-- Grain 10 -->
@@ -263,13 +183,10 @@
                     <div class="card-title">Le Double Diamant</div>
                     <div class="card-desc">Le modèle de référence pour structurer la pensée : Cadrage du problème (Setting) puis Résolution (Solving).</div>
                 </div>
-                <div class="card-footer">
-                    <a href="grain_10_double_diamant.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
+                <div class="card-footer"><a href="grain10.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
 
         </div>
-
     </div>
 
     <script>
