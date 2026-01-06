@@ -104,7 +104,8 @@ layout: null
             border-radius: 20px;
             padding: 2rem;
             width: 100%;
-            display: flex; align-items: center; gap: 2rem;
+            display: flex;
+            align-items: center; gap: 2rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             position: relative;
             border: 2px solid transparent;
@@ -115,18 +116,20 @@ layout: null
         .module-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            border-color: rgba(0,0,0,0.1);
+            border-color: var(--orange);
         }
 
+        /* Style actif par défaut pour tous les modules maintenant */
+        .module-active {
+            border-left: 5px solid var(--teal);
+        }
+        
         .module-featured {
             border-color: var(--orange);
             box-shadow: 0 15px 40px rgba(244, 140, 46, 0.15);
         }
         .module-featured .module-number { background: var(--orange); }
 
-        .module-wip { border-left: 5px solid var(--yellow); }
-        .module-wip .module-number { background: var(--text-light); opacity: 0.8; }
-        
         .module-number {
             font-size: 1.5rem; font-weight: 900; color: white;
             background: var(--bordeaux); width: 80px; height: 80px;
@@ -141,13 +144,8 @@ layout: null
         .tags { display: flex; gap: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; flex-wrap: wrap; }
         .tag { padding: 4px 10px; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--text-light); }
         .tag-cat { color: var(--bordeaux); background: rgba(88, 15, 69, 0.1); }
+        .tag-info { color: var(--blue); background: rgba(42, 50, 94, 0.1); }
         
-        .tag-wip { 
-            color: #d35400; 
-            background: #fce5cd; 
-            display: flex; align-items: center; gap: 5px;
-        }
-
         .btn-start {
             background: var(--bordeaux); color: white; border: none;
             padding: 10px 25px; border-radius: 50px; font-weight: 700;
@@ -155,10 +153,6 @@ layout: null
             font-size: 0.9rem;
         }
         .btn-start:hover { background: var(--orange); }
-        
-        .btn-wip {
-            background: transparent; color: var(--text-light); border: 2px solid #ddd;
-        }
 
         /* --- FIL D'ARIANE --- */
         .breadcrumb {
@@ -181,7 +175,7 @@ layout: null
 
     <!-- HUD : Barre de Navigation -->
     <nav class="gamification-bar">
-        <div class="logo" onclick="window.location.href='{{ '/' | relative_url }}'">
+        <div class="logo" onclick="window.location.href='{{ '/' | relative_url }}'" style="cursor: pointer;">
             <i class="fa-solid fa-atom" style="color: var(--orange);"></i>
             PROJET INNO
         </div>
@@ -211,6 +205,7 @@ layout: null
                 <div class="module-content">
                     <div class="tags">
                         <span class="tag tag-cat">Comprendre</span>
+                        <span class="tag tag-info">Fondamentaux</span>
                     </div>
                     <h2 class="module-title">Vocabulaire & Typologie</h2>
                     <p class="module-desc">Innovation de rupture, incrémentale, adjacente... Maîtrisez le langage des innovateurs.</p>
@@ -221,81 +216,81 @@ layout: null
             </div>
 
             <!-- MODULE 2 -->
-            <div class="module-card module-wip" onclick="startModule(2)">
+            <div class="module-card module-active" onclick="startModule(2)">
                 <div class="module-number">M2</div>
                 <div class="module-content">
                     <div class="tags">
                         <span class="tag tag-cat">Détecter</span>
-                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                        <span class="tag tag-info">Stratégie</span>
                     </div>
                     <h2 class="module-title">Identifier le potentiel</h2>
                     <p class="module-desc">Comment repérer une opportunité et évaluer si une idée mérite d'être développée.</p>
-                    <button class="btn-start btn-wip">
-                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    <button class="btn-start">
+                        <i class="fa-solid fa-play"></i> Accéder au module
                     </button>
                 </div>
             </div>
 
             <!-- MODULE 3 -->
-            <div class="module-card module-wip" onclick="startModule(3)">
+            <div class="module-card module-active" onclick="startModule(3)">
                 <div class="module-number">M3</div>
                 <div class="module-content">
                     <div class="tags">
                         <span class="tag tag-cat">Protéger</span>
-                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                        <span class="tag tag-info">Juridique</span>
                     </div>
                     <h2 class="module-title">Présenter, PI & Contrats</h2>
                     <p class="module-desc">Savoir pitcher son projet et comprendre les bases de la Propriété Intellectuelle.</p>
-                    <button class="btn-start btn-wip">
-                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    <button class="btn-start">
+                        <i class="fa-solid fa-play"></i> Accéder au module
                     </button>
                 </div>
             </div>
 
             <!-- MODULE 4 -->
-            <div class="module-card module-wip" onclick="startModule(4)">
+            <div class="module-card module-active" onclick="startModule(4)">
                 <div class="module-number">M4</div>
                 <div class="module-content">
                     <div class="tags">
                         <span class="tag tag-cat">Connecter</span>
-                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                        <span class="tag tag-info">Réseau</span>
                     </div>
                     <h2 class="module-title">Écosystèmes Clés</h2>
                     <p class="module-desc">Cartographie des acteurs de l'innovation et comment interagir avec eux.</p>
-                    <button class="btn-start btn-wip">
-                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    <button class="btn-start">
+                        <i class="fa-solid fa-play"></i> Accéder au module
                     </button>
                 </div>
             </div>
 
             <!-- MODULE 5 -->
-            <div class="module-card module-wip" onclick="startModule(5)">
+            <div class="module-card module-active" onclick="startModule(5)">
                 <div class="module-number">M5</div>
                 <div class="module-content">
                     <div class="tags">
                         <span class="tag tag-cat">Collaborer</span>
-                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                        <span class="tag tag-info">Méthodologie</span>
                     </div>
                     <h2 class="module-title">Coopérer en Projet</h2>
                     <p class="module-desc">Méthodes agiles et postures pour travailler efficacement en équipe innovante.</p>
-                    <button class="btn-start btn-wip">
-                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    <button class="btn-start">
+                        <i class="fa-solid fa-play"></i> Accéder au module
                     </button>
                 </div>
             </div>
 
             <!-- MODULE 6 -->
-            <div class="module-card module-wip" onclick="startModule(6)">
+            <div class="module-card module-active" onclick="startModule(6)">
                 <div class="module-number">M6</div>
                 <div class="module-content">
                     <div class="tags">
                         <span class="tag tag-cat">S'évaluer</span>
-                        <span class="tag tag-wip"><i class="fa-solid fa-person-digging"></i> En construction</span>
+                        <span class="tag tag-info">Bilan</span>
                     </div>
                     <h2 class="module-title">Évaluation & Potentiel</h2>
                     <p class="module-desc">Bilan global des compétences et déblocage de votre parcours personnalisé.</p>
-                    <button class="btn-start btn-wip">
-                        <i class="fa-solid fa-hammer"></i> Consulter le chantier
+                    <button class="btn-start">
+                        <i class="fa-solid fa-play"></i> Accéder au module
                     </button>
                 </div>
             </div>
@@ -331,12 +326,16 @@ layout: null
         };
 
         function startModule(id) {
-            if (id === 1) {
-                // Modifié pour ouvrir sommaire.md (généré en sommaire.html par Jekyll)
-                window.location.href = "{{ '/pages/apprenant/cours/sensibilisation/module1/sommaire_module1.html' | relative_url }}";
-            } else {
-                console.log("Module en construction");
-            }
+            // Base URL pour le dossier sensibilisation
+            // Note: On utilise le filtre relative_url de Jekyll pour s'assurer que le chemin est bon quel que soit l'hébergement
+            const basePath = "{{ '/pages/apprenant/cours/sensibilisation/' | relative_url }}";
+            
+            // Construction dynamique du chemin basé sur votre structure de dossiers :
+            // .../sensibilisation/moduleX/sommaire_moduleX.html
+            const targetUrl = basePath + "module" + id + "/sommaire_module" + id + ".html";
+            
+            console.log("Navigation vers : " + targetUrl);
+            window.location.href = targetUrl;
         }
     </script>
 </body>
