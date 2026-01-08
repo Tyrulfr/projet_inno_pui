@@ -43,7 +43,7 @@
 
         /* --- FOND SUBTIL (Points) --- */
         body {
-            /* Le motif de points (trame de fond) */
+            /* Le motif de points que vous aimez */
             background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px);
             background-size: 30px 30px;
         }
@@ -79,28 +79,13 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px; /* Espace entre le logo et le texte */
+            gap: 10px;
         }
 
-        /* Image du logo dans la navbar (petit logo) */
-        .nav-logo-img {
-            height: 45px; /* Taille ajustée pour la barre */
+        /* Image du logo (remplace le texte) */
+        .logo-img {
+            height: 40px; /* Taille ajustée pour la barre */
             width: auto;
-            display: block;
-        }
-
-        /* Fallback texte pour la navbar */
-        .nav-logo-text {
-            font-family:'Montserrat', sans-serif; 
-            font-weight:900; 
-            font-size:1.2rem; 
-            color:var(--bordeaux);
-            /* On peut le cacher si on veut que le logo image suffise, ou le laisser pour le nom du projet */
-            display: block; 
-        }
-        
-        body.dark-mode .nav-logo-text {
-            color: var(--white);
         }
 
         /* Bouton Switch Mode */
@@ -136,48 +121,19 @@
             box-sizing: border-box;
         }
 
-        /* Conteneur pour le titre principal avec logo */
-        .hero-title-container {
-            display: flex;
-            flex-direction: column; /* Sur mobile, on empile */
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 2rem;
-        }
-        
-        @media (min-width: 768px) {
-            .hero-title-container {
-                flex-direction: row; /* Sur desktop, côte à côte */
-                gap: 30px;
-            }
-        }
-
-        /* Image du grand logo "Oser pour innover" */
-        .main-logo-img {
-            max-width: 300px; /* Ajustez selon la taille réelle de votre image */
-            height: auto;
-            display: block;
-        }
-
-        /* Titre texte à côté (Optionnel ou complémentaire) */
+        /* Titre Principal : Typographie 'Logo-Like' */
         h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem; /* Un peu plus petit pour cohabiter avec le logo */
-            margin: 0;
+            font-size: 4rem;
+            margin: 0 0 1.5rem 0;
             line-height: 1.1;
             color: var(--bordeaux);
-            font-weight: 900;
+            font-weight: 900; /* Extra Gras comme le logo */
             letter-spacing: -1px;
             text-transform: uppercase;
-            text-align: left; /* Aligné à gauche quand à côté du logo */
         }
         
-        /* Sur mobile, on re-centre le texte */
-        @media (max-width: 768px) {
-            h1 { text-align: center; font-size: 2.5rem; }
-        }
-
+        /* Effet bicolore sur le titre pour rappeler le logo */
         .highlight {
             color: var(--orange);
             font-weight: 900;
@@ -211,7 +167,7 @@
             padding: 2.5rem;
             width: 320px;
             text-align: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08); /* Ombre douce */
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
             position: relative;
@@ -228,6 +184,7 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
 
+        /* Bandeau de couleur en haut des cartes */
         .card::before {
             content: '';
             position: absolute; top: 0; left: 0; width: 100%; height: 6px;
@@ -244,10 +201,12 @@
             transition: 0.3s;
         }
         
+        /* Style spécifique Concepteur */
         .card-concepteur .icon-box { background: rgba(88, 15, 69, 0.1); color: var(--bordeaux); }
         .card-concepteur:hover .icon-box { background: var(--bordeaux); color: white; }
         .card-concepteur:hover { border-color: var(--bordeaux); }
 
+        /* Style spécifique Apprenant */
         .card-apprenant .icon-box { background: rgba(46, 175, 125, 0.1); color: var(--teal); }
         .card-apprenant:hover .icon-box { background: var(--teal); color: white; }
         .card-apprenant:hover { border-color: var(--teal); }
@@ -289,8 +248,9 @@
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
             .cards-container { flex-direction: column; align-items: center; }
-            .nav-logo-img { height: 35px; }
+            .logo-img { height: 30px; }
         }
     </style>
 </head>
@@ -299,11 +259,11 @@
     <!-- NAVIGATION -->
     <nav class="navbar">
         <div class="logo-container">
-            <!-- Petit logo pour la barre de navigation (optionnel, peut être le même que le grand ou une version simplifiée) -->
-            <!-- Si vous voulez utiliser le même fichier : assets/images/logo_oser_pour_innover.png -->
-            <!-- Pour l'instant je laisse une structure standard avec image + texte "PROJET INNO" -->
-            <img src="assets/images/logo_oser_pour_innover.png" alt="Logo Oser Pour Innover" class="nav-logo-img" onerror="this.style.display='none';">
-            <div class="nav-logo-text">PROJET INNO</div>
+            <!-- Remplacement du texte par l'image du logo -->
+            <!-- Assurez-vous d'avoir le fichier logo.png dans assets/images/ -->
+            <img src="assets/images/logo.png" alt="Logo Oser Pour Innover" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <!-- Fallback texte si l'image ne charge pas encore -->
+            <div class="logo-text" style="display:none; font-family:'Montserrat'; font-weight:900; font-size:1.2rem; color:var(--bordeaux);">PROJET INNO</div>
         </div>
         <button class="theme-btn" onclick="toggleTheme()">
             <i class="fa-solid fa-moon"></i> <span>Mode Nuit</span>
@@ -312,21 +272,9 @@
 
     <!-- ZONE PRINCIPALE -->
     <section class="hero">
-        
-        <div class="hero-title-container">
-            <!-- LOGO PRINCIPAL (REMPLACE OU ACCOMPAGNE LE TITRE) -->
-            <img src="assets/images/logo_oser_pour_innover.png" alt="Oser Pour Innover" class="main-logo-img">
-            
-            <!-- TITRE TEXTE (A CÔTÉ) -->
-            <!-- Vous pouvez supprimer ce bloc h1 si le logo contient déjà tout le texte -->
-            <!-- Ou le garder pour le SEO et l'accessibilité, ou pour ajouter un slogan -->
-            <h1>
-                LA PLATEFORME<br>
-                <span class="highlight">COLLABORATIVE</span>
-            </h1>
-        </div>
-
-        <p class="subtitle">Connectez la recherche à l'impact réel.<br>Ingénierie pédagogique et gestion de l'innovation.</p>
+        <!-- Titre reprenant la typo du logo -->
+        <h1>OSER POUR<br><span class="highlight">INNOVER</span></h1>
+        <p class="subtitle">La plateforme collaborative d'ingénierie pédagogique.<br>Connectez la recherche à l'impact réel.</p>
 
         <div class="cards-container">
             <!-- CARTE CONCEPTEUR -->
@@ -340,7 +288,7 @@
             </div>
 
             <!-- CARTE APPRENANT -->
-            <div class="card card-apprenant" onclick="window.location.href='pages/apprenant/portal.html'">
+            <div class="card card-apprenant" onclick="window.location.href='plateforme_apprenant.html'">
                 <div class="icon-box">
                     <i class="fa-solid fa-rocket"></i>
                 </div>
@@ -358,6 +306,7 @@
 
     <!-- SCRIPT SIMPLE -->
     <script>
+        // Diagnostic : Affiche un message dans la console (F12)
         console.log("Le site Projet Inno est chargé correctement !");
 
         // Fonction pour basculer le thème
