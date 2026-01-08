@@ -18,48 +18,127 @@
         body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
         
         /* Navigation */
-        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
-        .logo { font-weight: 900; font-size: 1.2rem; color: var(--bordeaux); text-decoration: none; }
-        body.dark-mode .logo { color: var(--orange); }
-        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
+        .top-bar { background: var(--bg-card); padding: 0.8rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        
+        /* Style du bouton Retour */
+        .btn-back { 
+            text-decoration: none; 
+            color: var(--text-main); 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 1.1rem;
+        }
         .btn-back:hover { color: var(--orange); }
+
+        /* Styles Fil d'Ariane (Breadcrumbs) */
+        .nav-center { display: flex; flex-direction: column; align-items: center; }
+        .brand-name { font-weight: 900; font-size: 1.2rem; color: var(--bordeaux); letter-spacing: 1px; }
+        body.dark-mode .brand-name { color: var(--orange); }
+        
+        .breadcrumbs { font-size: 0.85rem; color: var(--text-light); margin-top: 2px; }
+        .breadcrumbs a { text-decoration: none; color: inherit; font-weight: 600; transition: color 0.2s; border-bottom: 1px solid transparent; }
+        .breadcrumbs a:hover { color: var(--orange); border-bottom-color: var(--orange); }
+        body.dark-mode .breadcrumbs a:hover { color: white; border-bottom-color: white; }
+        .separator { opacity: 0.4; margin: 0 5px; }
 
         .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
         
+        /* Hero Section */
         .hero-section { text-align: center; margin-bottom: 4rem; padding: 3rem 1rem; background: linear-gradient(135deg, var(--blue), var(--bordeaux)); border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(42, 50, 94, 0.3); }
         .hero-title { font-size: 2.5rem; margin-bottom: 1rem; color: white; }
         .hero-desc { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
         .progress-bar-container { width: 100%; max-width: 400px; background: rgba(255,255,255,0.2); height: 10px; border-radius: 5px; margin: 2rem auto 0; overflow: hidden; }
         .progress-bar { width: 0%; height: 100%; background: var(--teal); border-radius: 5px; transition: width 1s ease; }
 
+        /* Grid Grains */
         .grains-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
         
-        .grain-card { background: var(--bg-card); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; display: flex; flex-direction: column; position: relative; border-top: 5px solid var(--teal); }
+        .grain-card { 
+            background: var(--bg-card); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative;
+            border-top: 5px solid var(--teal);
+        }
+        
         .grain-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
         
-        .card-number { position: absolute; top: 15px; right: 15px; font-size: 2.5rem; font-weight: 900; color: rgba(0,0,0,0.05); font-family: 'Montserrat'; }
+        .card-number { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            font-size: 2.5rem; 
+            font-weight: 900; 
+            color: rgba(0,0,0,0.05); 
+            font-family: 'Montserrat';
+        }
+        
         .card-body { padding: 2rem 1.5rem; flex-grow: 1; }
-        .card-icon { font-size: 2rem; color: var(--teal); margin-bottom: 1rem; background: rgba(46, 175, 125, 0.1); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        
+        .card-icon { 
+            font-size: 2rem; 
+            color: var(--teal); 
+            margin-bottom: 1rem; 
+            background: rgba(46, 175, 125, 0.1); 
+            width: 60px; 
+            height: 60px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%;
+        }
+        
         .card-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); }
         .card-desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+        
         .card-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); text-align: right; }
         
-        .btn-start { display: inline-block; text-decoration: none; background: var(--blue); color: white; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; transition: background 0.3s; }
+        .btn-start { 
+            display: inline-block; 
+            text-decoration: none; 
+            background: var(--blue); 
+            color: white; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            transition: background 0.3s; 
+        }
         .btn-start:hover { background: var(--orange); }
 
+        /* Specific Colors per context */
         .border-orange { border-top-color: var(--orange); }
         .border-blue { border-top-color: var(--blue); }
         .border-bordeaux { border-top-color: var(--bordeaux); }
+
         .icon-orange { color: var(--orange); background: rgba(244, 140, 46, 0.1); }
         .icon-blue { color: var(--blue); background: rgba(42, 50, 94, 0.1); }
         .icon-bordeaux { color: var(--bordeaux); background: rgba(88, 15, 69, 0.1); }
+
     </style>
 </head>
 <body>
 
     <nav class="top-bar">
-        <!-- Lien vers le portail (chemin absolu maintenu pour la robustesse) -->
-        <a href="/pages/apprenant/cours/sensibilisation/portal_sensi.html" class="logo"><i class="fa-solid fa-shapes"></i> PROJET INNO</a>
+        <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Retour</a>
+        
+        <!-- HEADER CENTRAL AVEC FIL D'ARIANE -->
+        <div class="nav-center">
+            <div class="brand-name">PROJET INNO</div>
+            <div class="breadcrumbs">
+                <span class="separator">/</span> 
+                <a href="../../../portal.html">Accueil</a> 
+                <span class="separator">/</span> 
+                <a href="../portal_sensi.html">Sensibilisation</a>
+            </div>
+        </div>
+        
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
 
@@ -74,7 +153,6 @@
         </div>
 
         <div class="grains-grid">
-            <!-- LIENS CORRIGÉS : grain1.html, grain2.html, etc. -->
 
             <!-- Grain 1 -->
             <div class="grain-card">
