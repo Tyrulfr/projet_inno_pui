@@ -1,91 +1,383 @@
----
-layout: null
----
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PROJET INNO | Accueil</title>
+    
+    <!-- Polices Google : Montserrat (Identité) et Open Sans (Lecture) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Icônes FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --white: #ffffff; --bg-light: #F8F9FA; --bg-dark: #1A1D2E; }
-        html, body { height: 100%; }
-        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--blue); transition: all 0.3s ease; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; display: flex; flex-direction: column; }
-        body.dark-mode { background-color: var(--bg-dark); color: #EAEAEA; background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        /* --- 1. CONFIGURATION DES COULEURS (Inno-Spectrum) --- */
+        :root {
+            /* Couleurs Identité */
+            --bordeaux: #580F45; /* Couleur dominante du logo */
+            --orange: #F48C2E;   /* Couleur d'accent/action */
+            --teal: #2EAF7D;     /* Couleur secondaire */
+            --blue: #2A325E;     /* Texte profond */
+            
+            /* Couleurs neutres */
+            --white: #ffffff;
+            --bg-light: #F8F9FA;
+            --bg-dark: #1A1D2E;
+        }
+
+        /* --- 2. BASE DU SITE --- */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--blue);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- FOND SUBTIL (Points) --- */
+        body {
+            /* Le motif de points (trame de fond) */
+            background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Mode Sombre */
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: #EAEAEA;
+            /* Ajustement des points pour le mode sombre */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        }
+
         a { text-decoration: none; color: inherit; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        body.dark-mode .navbar { background: rgba(26, 29, 46, 0.95); border-color: #333; }
-        .logo { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.5rem; color: var(--bordeaux); display: flex; align-items: center; gap: 10px; }
-        body.dark-mode .logo { color: white; }
-        .theme-btn { background: none; border: 2px solid var(--orange); color: var(--orange); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .theme-btn:hover { background: var(--orange); color: white; }
-        .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 3rem 1rem; width: 100%; box-sizing: border-box; }
-        h1 { font-family: 'Montserrat', sans-serif; font-size: 3.5rem; margin: 0 0 1rem 0; line-height: 1.1; color: var(--bordeaux); }
+
+        /* --- 3. BARRE DE NAVIGATION --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.95); /* Fond semi-transparent */
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px); /* Effet verre dépoli */
+        }
+        body.dark-mode .navbar {
+            background: rgba(26, 29, 46, 0.95);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espace entre le logo et le texte */
+        }
+
+        /* Image du logo dans la navbar (petit logo) */
+        .nav-logo-img {
+            height: 45px; /* Taille ajustée pour la barre */
+            width: auto;
+            display: block;
+        }
+
+        /* Fallback texte pour la navbar */
+        .nav-logo-text {
+            font-family:'Montserrat', sans-serif; 
+            font-weight:900; 
+            font-size:1.2rem; 
+            color:var(--bordeaux);
+            /* On peut le cacher si on veut que le logo image suffise, ou le laisser pour le nom du projet */
+            display: block; 
+        }
+        
+        body.dark-mode .nav-logo-text {
+            color: var(--white);
+        }
+
+        /* Bouton Switch Mode */
+        .theme-btn {
+            background: transparent;
+            border: 2px solid var(--orange);
+            color: var(--orange);
+            padding: 6px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .theme-btn:hover {
+            background: var(--orange);
+            color: white;
+            box-shadow: 0 4px 10px rgba(244, 140, 46, 0.3);
+        }
+
+        /* --- 4. CONTENU PRINCIPAL --- */
+        .hero {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Conteneur pour le titre principal avec logo */
+        .hero-title-container {
+            display: flex;
+            flex-direction: column; /* Sur mobile, on empile */
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .hero-title-container {
+                flex-direction: row; /* Sur desktop, côte à côte */
+                gap: 30px;
+            }
+        }
+
+        /* Image du grand logo "Oser pour innover" */
+        .main-logo-img {
+            max-width: 300px; /* Ajustez selon la taille réelle de votre image */
+            height: auto;
+            display: block;
+        }
+
+        /* Titre texte à côté (Optionnel ou complémentaire) */
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem; /* Un peu plus petit pour cohabiter avec le logo */
+            margin: 0;
+            line-height: 1.1;
+            color: var(--bordeaux);
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            text-align: left; /* Aligné à gauche quand à côté du logo */
+        }
+        
+        /* Sur mobile, on re-centre le texte */
+        @media (max-width: 768px) {
+            h1 { text-align: center; font-size: 2.5rem; }
+        }
+
+        .highlight {
+            color: var(--orange);
+            font-weight: 900;
+        }
+
         body.dark-mode h1 { color: white; }
-        .subtitle { font-size: 1.2rem; max-width: 600px; margin-bottom: 3rem; opacity: 0.8; }
-        .cards-container { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 900px; }
-        .card { background: var(--white); border: 1px solid #eee; border-radius: 15px; padding: 2rem; min-width: 280px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer; transition: transform 0.3s; }
-        body.dark-mode .card { background: #232742; border-color: #333; }
-        .card:hover { transform: translateY(-5px); border-color: var(--orange); }
-        .icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
-        .concepteur-icon { color: var(--bordeaux); }
-        .user-icon { color: var(--teal); }
-        .btn { display: inline-block; margin-top: 1.5rem; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; }
-        .btn-primary { background: var(--bordeaux); color: white; border: none; }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            max-width: 650px;
+            margin-bottom: 4rem;
+            opacity: 0.9;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* --- 5. CARTES DE RÔLES --- */
+        .cards-container {
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        body.dark-mode .card {
+            background: #232742;
+            border-color: rgba(255,255,255,0.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 6px;
+        }
+        .card-concepteur::before { background: var(--bordeaux); }
+        .card-apprenant::before { background: var(--teal); }
+
+        .icon-box {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: 2.5rem;
+            transition: 0.3s;
+        }
+        
+        .card-concepteur .icon-box { background: rgba(88, 15, 69, 0.1); color: var(--bordeaux); }
+        .card-concepteur:hover .icon-box { background: var(--bordeaux); color: white; }
+        .card-concepteur:hover { border-color: var(--bordeaux); }
+
+        .card-apprenant .icon-box { background: rgba(46, 175, 125, 0.1); color: var(--teal); }
+        .card-apprenant:hover .icon-box { background: var(--teal); color: white; }
+        .card-apprenant:hover { border-color: var(--teal); }
+
+        .card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-primary { background: var(--bordeaux); color: white; border: 2px solid var(--bordeaux); }
         .btn-outline { background: transparent; border: 2px solid var(--teal); color: var(--teal); }
-        footer { padding: 20px; text-align: center; font-size: 0.8rem; opacity: 0.6; }
+        
+        .card:hover .btn-outline { background: var(--teal); color: white; }
+
+        /* --- 6. FOOTER --- */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            background: rgba(255,255,255,0.5);
+        }
+        body.dark-mode footer { border-color: rgba(255,255,255,0.05); background: rgba(0,0,0,0.2); }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .cards-container { flex-direction: column; align-items: center; }
+            .nav-logo-img { height: 35px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- NAVIGATION -->
     <nav class="navbar">
-        <div class="logo"><i class="fa-solid fa-atom" style="color: var(--orange);"></i> PROJET INNO</div>
-        <button class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Mode Nuit</button>
+        <div class="logo-container">
+            <!-- Petit logo pour la barre de navigation (optionnel, peut être le même que le grand ou une version simplifiée) -->
+            <!-- Si vous voulez utiliser le même fichier : assets/images/logo_oser_pour_innover.png -->
+            <!-- Pour l'instant je laisse une structure standard avec image + texte "PROJET INNO" -->
+            <img src="assets/images/logo_oser_pour_innover.png" alt="Logo Oser Pour Innover" class="nav-logo-img" onerror="this.style.display='none';">
+            <div class="nav-logo-text">PROJET INNO</div>
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon"></i> <span>Mode Nuit</span>
+        </button>
     </nav>
+
+    <!-- ZONE PRINCIPALE -->
     <section class="hero">
-        <h1>OSER POUR<br><span style="color: var(--orange);">INNOVER</span></h1>
-        <p class="subtitle">Plateforme collaborative d'ingénierie pédagogique et de formation.</p>
+        
+        <div class="hero-title-container">
+            <!-- LOGO PRINCIPAL (REMPLACE OU ACCOMPAGNE LE TITRE) -->
+            <img src="assets/images/logo_oser_pour_innover.png" alt="Oser Pour Innover" class="main-logo-img">
+            
+            <!-- TITRE TEXTE (A CÔTÉ) -->
+            <!-- Vous pouvez supprimer ce bloc h1 si le logo contient déjà tout le texte -->
+            <!-- Ou le garder pour le SEO et l'accessibilité, ou pour ajouter un slogan -->
+            <h1>
+                LA PLATEFORME<br>
+                <span class="highlight">COLLABORATIVE</span>
+            </h1>
+        </div>
+
+        <p class="subtitle">Connectez la recherche à l'impact réel.<br>Ingénierie pédagogique et gestion de l'innovation.</p>
+
         <div class="cards-container">
-            <!-- LIEN AUTOMATIQUE VERS DASHBOARD -->
-            <div class="card" onclick="window.location.href='{{ '/dashboard.html' | relative_url }}'">
-                <i class="fa-solid fa-pen-ruler icon concepteur-icon"></i>
+            <!-- CARTE CONCEPTEUR -->
+            <div class="card card-concepteur" onclick="window.location.href='dashboard.html'">
+                <div class="icon-box">
+                    <i class="fa-solid fa-pen-ruler"></i>
+                </div>
                 <h3>Concepteur</h3>
-                <p>Gestion de projet, Backstage et Outils.</p>
+                <p>Gestion de projet, Backstage et Outils de pilotage.</p>
                 <span class="btn btn-primary">Gérer le projet</span>
             </div>
-            <!-- LIEN AUTOMATIQUE VERS PORTAIL APPRENANT -->
-            <div class="card" onclick="window.location.href='{{ '/pages/apprenant/portal.html' | relative_url }}'">
-                <i class="fa-solid fa-rocket icon user-icon"></i>
+
+            <!-- CARTE APPRENANT -->
+            <div class="card card-apprenant" onclick="window.location.href='pages/apprenant/portal.html'">
+                <div class="icon-box">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
                 <h3>Apprenant</h3>
-                <p>Modules interactifs et parcours gamifié.</p>
+                <p>Modules interactifs et parcours de formation gamifié.</p>
                 <span class="btn btn-outline">Commencer</span>
             </div>
         </div>
     </section>
-    <footer>&copy; {{ "now" | date: "%Y" }} Projet Inno - V 1.0</footer>
+
+    <!-- PIED DE PAGE -->
+    <footer>
+        &copy; 2026 Oser Pour Innover - Tous droits réservés.
+    </footer>
+
+    <!-- SCRIPT SIMPLE -->
     <script>
+        console.log("Le site Projet Inno est chargé correctement !");
+
+        // Fonction pour basculer le thème
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
-            const btn = document.querySelector('.theme-btn');
+            const btnIcon = document.querySelector('.theme-btn i');
+            const btnText = document.querySelector('.theme-btn span');
+            
             if(document.body.classList.contains('dark-mode')) {
-                btn.innerHTML = '<i class="fa-solid fa-sun"></i> Mode Jour';
-                localStorage.setItem('theme', 'dark');
+                btnIcon.className = 'fa-solid fa-sun';
+                btnText.textContent = 'Mode Jour';
             } else {
-                btn.innerHTML = '<i class="fa-solid fa-moon"></i> Mode Nuit';
-                localStorage.setItem('theme', 'light');
-            }
-        }
-        window.onload = function() {
-            if(localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.querySelector('.theme-btn').innerHTML = '<i class="fa-solid fa-sun"></i> Mode Jour';
+                btnIcon.className = 'fa-solid fa-moon';
+                btnText.textContent = 'Mode Nuit';
             }
         }
     </script>
 </body>
 </html>
+
 
 
 
