@@ -1,1 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPSULE 12 : La Méthode Persona | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
 
+        /* --- PERSONA CARD VISUALIZATION --- */
+        .persona-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        .persona-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+        }
+        
+        body.dark-mode .persona-card { background: #2b2f3b; border-color: #444; }
+
+        .persona-sidebar {
+            background: linear-gradient(180deg, var(--teal), #1e8e63);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .persona-avatar {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--teal);
+            font-size: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .persona-name { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 900; margin: 0; }
+        .persona-role { font-size: 0.9rem; opacity: 0.9; margin-bottom: 2rem; font-style: italic; }
+        
+        .persona-quote { font-family: 'Georgia', serif; font-style: italic; font-size: 1.1rem; line-height: 1.4; opacity: 0.95; }
+
+        .persona-main { padding: 2rem; }
+        
+        .attribute-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+        
+        .attr-box h4 { 
+            color: var(--bordeaux); 
+            border-bottom: 2px solid #eee; 
+            padding-bottom: 5px; 
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        body.dark-mode .attr-box h4 { color: var(--orange); border-color: #444; }
+
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: rgba(0,0,0,0.05); padding: 4px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; color: var(--text-light); }
+        body.dark-mode .tag { background: rgba(255,255,255,0.1); color: #ccc; }
+
+        /* --- CRITIQUE BOX --- */
+        .critique-box {
+            background: rgba(244, 140, 46, 0.1);
+            border-left: 5px solid var(--orange);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+        }
+        .critique-title { color: var(--orange); font-weight: 800; display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+
+        /* Sources */
+        .source-footer { 
+            margin-top: 4rem; 
+            padding-top: 2rem; 
+            border-top: 1px solid #ddd; 
+            font-size: 0.75rem; 
+            color: #888; 
+            font-style: italic; 
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .persona-card { grid-template-columns: 1fr; }
+            .attribute-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; text-align: left; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 12</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Outil #1 : La Méthode Persona</h1>
+        <div class="hero-subtitle">Donner un visage humain aux segments de marché.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-id-card" style="opacity:0.8; margin-right:10px;"></i>
+                Un <strong>Persona</strong> est un modèle d'utilisateur fictif représentant une catégorie archétypale de clients.
+                <br>Il sert de base commune pour comprendre, concevoir et communiquer au sein de l'équipe projet.
+            </span>
+        </div>
+
+        <!-- PERSONA VISUALIZATION -->
+        <h2 style="margin-top:3rem; color:var(--bordeaux); text-align:center;">Structure d'une Carte d'Identité</h2>
+        <div class="persona-container">
+            <div class="persona-card">
+                <!-- Sidebar -->
+                <div class="persona-sidebar">
+                    <div class="persona-avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="persona-name">Alexandre</div>
+                    <div class="persona-role">L'Utilisateur Archétype</div>
+                    <div class="persona-quote">"Je cherche avant tout à gagner du temps dans mes tâches quotidiennes."</div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="persona-main">
+                    <div class="attribute-grid">
+                        <div class="attr-box">
+                            <h4><i class="fa-solid fa-fingerprint"></i> Identité</h4>
+                            <p><strong>Âge :</strong> 30-40 ans<br>
+                            <strong>Profession :</strong> Cadre dynamique<br>
+                            <strong>Lieu :</strong> Urbain</p>
+                        </div>
+                        <div class="attr-box">
+                            <h4><i class="fa-solid fa-heart"></i> Style de Vie</h4>
+                            <div class="tag-cloud">
+                                <span class="tag">Technophile</span>
+                                <span class="tag">Pressé</span>
+                                <span class="tag">Écologique</span>
+                                <span class="tag">Connecté</span>
+                            </div>
+                        </div>
+                        <div class="attr-box">
+                            <h4><i class="fa-solid fa-bullseye"></i> Motivations</h4>
+                            <p>Optimiser son workflow, réduire son empreinte carbone, rester performant.</p>
+                        </div>
+                        <div class="attr-box">
+                            <h4><i class="fa-solid fa-ban"></i> Frustrations</h4>
+                            <p>Interfaces complexes, perte de temps, manque de transparence.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="critique-box">
+            <div class="critique-title"><i class="fa-solid fa-triangle-exclamation"></i> Limites & Points de Vigilance</div>
+            <p>Bien que très populaire (Cooper, 1999), la méthode Persona a ses critiques :</p>
+            <ul style="margin-top:10px; padding-left:20px; line-height:1.6;">
+                <li><strong>Manque de preuves empiriques :</strong> Risque de baser le persona sur des stéréotypes plutôt que sur des données réelles (Miaskiewicz & Kozar, 2011).</li>
+                <li><strong>Solution :</strong> Il est recommandé d'utiliser des méthodes statistiques (Big Data) pour valider les archétypes (Stevenson & Mattson, 2019) ou de les combiner avec des scénarios d'usage (Vallet et al, 2020).</li>
+            </ul>
+        </div>
+
+        <div class="source-footer">
+            SOURCES :<br>
+            Cooper, A. (1999). The inmates are running the asylum. Macmillan.<br>
+            Grudin J., & Pruitt J. (2002). Personas, Participatory Design and Product Development.<br>
+            Gonzalez de Heredia A. et al. (2018). Personas for policy-making.<br>
+            Stevenson P., & Mattson C (2019). The Personification of Big Data.
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--teal);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Validation</h3>
+            <p>Quel est le principal risque lors de la création d'un Persona sans données solides ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q13a" name="q13" value="correct">
+                    <label for="q13a">Créer un profil basé sur des stéréotypes (fiction pure).</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q13b" name="q13" value="wrong">
+                    <label for="q13b">Le rendre trop détaillé.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q13c" name="q13" value="wrong">
+                    <label for="q13c">Qu'il ne soit pas assez beau graphiquement.</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Feedback -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <p id="modalMessage">Message</p>
+            <button class="modal-btn" onclick="closeModal()">Continuer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modal.classList.add('active');
+            
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q13'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Exactement !", "Un persona doit être ancré dans la réalité (données empiriques) pour être utile à la conception.", "success");
+                
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                showModal("Pas tout à fait", "Le danger principal est le manque de fondement empirique (le stéréotype).", "error");
+            }
+        }
+    </script>
+</body>
+</html>
