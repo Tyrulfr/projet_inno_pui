@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPSULE 13 : Customer Journey Map | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- PERSONA CONTEXT --- */
+        .persona-context {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 3rem 0 1rem 0;
+            border-left: 5px solid var(--teal);
+        }
+        .pc-avatar {
+            width: 80px; height: 80px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 2rem; color: var(--teal);
+        }
+        .pc-info h3 { margin: 0 0 5px 0; font-size: 1.2rem; }
+        .pc-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
+        .pc-tag { background: rgba(46, 175, 125, 0.1); color: var(--teal); padding: 3px 10px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; }
+
+        /* --- TIMELINE SCROLL --- */
+        .timeline-wrapper {
+            overflow-x: auto;
+            padding: 20px 5px;
+            margin-bottom: 2rem;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .timeline-track {
+            display: flex;
+            gap: 20px;
+            width: max-content;
+            padding-left: 10px;
+            position: relative;
+        }
+        
+        /* Ligne connectrice */
+        .timeline-track::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #eee;
+            z-index: 0;
+        }
+        body.dark-mode .timeline-track::before { background: #333; }
+
+        .time-step {
+            position: relative;
+            z-index: 1;
+            width: 200px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #ccc;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .time-step:hover { transform: translateY(-5px); }
+
+        .ts-time { 
+            background: var(--bordeaux); color: white; 
+            padding: 2px 10px; border-radius: 10px; 
+            font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; 
+        }
+        
+        .ts-icon {
+            width: 50px; height: 50px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            border: 2px solid white;
+        }
+        body.dark-mode .ts-icon { background: #333; border-color: #444; }
+
+        .ts-title { font-weight: 800; font-size: 0.95rem; line-height: 1.2; margin-bottom: 5px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        
+        /* Emotional State */
+        .ts-mood {
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            width: 100%;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Mood Colors */
+        .mood-bad { color: #c62828; border-top-color: #c62828; }
+        .mood-neutral { color: #F48C2E; border-top-color: #F48C2E; }
+        .mood-good { color: #2EAF7D; border-top-color: #2EAF7D; }
+        
+        .time-step.mood-bad { border-top-color: #c62828; }
+        .time-step.mood-neutral { border-top-color: #F48C2E; }
+        .time-step.mood-good { border-top-color: #2EAF7D; }
+
+        /* Scroll Hint */
+        .scroll-hint { text-align: center; color: var(--text-light); font-size: 0.8rem; margin-top: -10px; opacity: 0.7; }
+
+        /* Methodo Box */
+        .info-box {
+            background: rgba(42, 50, 94, 0.05);
+            border-left: 5px solid var(--blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+        }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: left; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; float: right; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 13</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Outil #2 : Customer Journey Map</h1>
+        <div class="hero-subtitle">Visualiser l'expérience utilisateur dans le temps pour détecter les "Pains" et les "Gains".</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-route" style="opacity:0.8; margin-right:10px;"></i>
+                La <strong>CJM</strong> décrit l'expérience d'un utilisateur (Persona) sur une durée donnée.
+                Elle permet de comprendre ses comportements, pensées et émotions à chaque étape.
+            </span>
+        </div>
+
+        <!-- CONTEXTE PERSONA -->
+        <div class="persona-context">
+            <div class="pc-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+            <div class="pc-info">
+                <h3>Romane, Étudiante</h3>
+                <p>Scénario : Une journée type (Cours + Activités perso).</p>
+                <div class="pc-tags">
+                    <span class="pc-tag">Budget limité</span>
+                    <span class="pc-tag">Déplacements jour/nuit</span>
+                    <span class="pc-tag">Aime partager</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIMELINE HORIZONTALE -->
+        <div class="timeline-wrapper">
+            <div class="timeline-track">
+                
+                <!-- 07:00 -->
+                <div class="time-step mood-neutral" onclick="showStep(0)">
+                    <span class="ts-time">07:00</span>
+                    <div class="ts-icon"><i class="fa-solid fa-bed"></i></div>
+                    <div class="ts-title">Réveil</div>
+                    <div class="ts-mood mood-neutral"><i class="fa-solid fa-face-tired"></i> Fatiguée</div>
+                </div>
+
+                <!-- 09:00 -->
+                <div class="time-step mood-neutral" onclick="showStep(1)">
+                    <span class="ts-time">09:00</span>
+                    <div class="ts-icon"><i class="fa-solid fa-door-open"></i></div>
+                    <div class="ts-title">Départ</div>
+                    <div class="ts-mood mood-neutral"><i class="fa-solid fa-face-meh"></i> Fatiguée</div>
+                </div>
+
+                <!-- 10:30 -->
+                <div class="time-step mood-bad" onclick="showStep(2)">
+                    <span class="ts-time">10:30</span>
+                    <div class="ts-icon"><i class="fa-solid fa-mug-hot"></i></div>
+                    <div class="ts-title">Pause Café</div>
+                    <div class="ts-mood mood-bad"><i class="fa-solid fa-face-rolling-eyes"></i> Agacée</div>
+                </div>
+
+                <!-- 12:30 -->
+                <div class="time-step mood-good" onclick="showStep(3)">
+                    <span class="ts-time">12:30</span>
+                    <div class="ts-icon"><i class="fa-solid fa-guitar"></i></div>
+                    <div class="ts-title">Guitare</div>
+                    <div class="ts-mood mood-good"><i class="fa-solid fa-face-grin-stars"></i> Guitar Hero</div>
+                </div>
+
+                <!-- 14:00 -->
+                <div class="time-step mood-bad" onclick="showStep(4)">
+                    <span class="ts-time">14:00</span>
+                    <div class="ts-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                    <div class="ts-title">Shopping</div>
+                    <div class="ts-mood mood-bad"><i class="fa-solid fa-face-dizzy"></i> Affamée</div>
+                </div>
+
+                <!-- 16:00 -->
+                <div class="time-step mood-neutral" onclick="showStep(5)">
+                    <span class="ts-time">16:00</span>
+                    <div class="ts-icon"><i class="fa-solid fa-utensils"></i></div>
+                    <div class="ts-title">Cafétéria</div>
+                    <div class="ts-mood mood-neutral"><i class="fa-solid fa-face-meh-blank"></i> Intéressée</div>
+                </div>
+
+                <!-- 18:00 -->
+                <div class="time-step mood-bad" onclick="showStep(6)">
+                    <span class="ts-time">18:00</span>
+                    <div class="ts-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="ts-title">Cours</div>
+                    <div class="ts-mood mood-bad"><i class="fa-solid fa-face-frown"></i> Frustrée</div>
+                </div>
+
+                <!-- 20:30 -->
+                <div class="time-step mood-bad" onclick="showStep(7)">
+                    <span class="ts-time">20:30</span>
+                    <div class="ts-icon"><i class="fa-solid fa-house"></i></div>
+                    <div class="ts-title">Retour</div>
+                    <div class="ts-mood mood-bad"><i class="fa-solid fa-sack-dollar"></i> Trop cher</div>
+                </div>
+
+                <!-- 23:00 -->
+                <div class="time-step mood-bad" onclick="showStep(8)">
+                    <span class="ts-time">23:00</span>
+                    <div class="ts-icon"><i class="fa-solid fa-wine-glass"></i></div>
+                    <div class="ts-title">Verre amis</div>
+                    <div class="ts-mood mood-bad"><i class="fa-solid fa-sack-dollar"></i> Trop cher</div>
+                </div>
+
+                <!-- 01:00 -->
+                <div class="time-step mood-bad" onclick="showStep(9)">
+                    <span class="ts-time">01:00</span>
+                    <div class="ts-icon"><i class="fa-solid fa-music"></i></div>
+                    <div class="ts-title">Concert</div>
+                    <div class="ts-mood mood-bad"><i class="fa-solid fa-snowflake"></i> Froid & Bruit</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="scroll-hint"><i class="fa-solid fa-arrows-left-right"></i> Faites défiler pour voir la journée</div>
+
+        <div class="info-box">
+            <h4><i class="fa-solid fa-magnifying-glass-plus"></i> Méthodologie RID</h4>
+            <p>La CJM est excellente pour lier l'expérience aux catégories d'utilisateurs. Cependant, il n'est pas toujours facile d'inventorier toutes les frustrations, irritants et attentes pour alimenter l'analyse de valeur. Une méthodologie structurée (comme RID) aide à systématiser cette étape.</p>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--teal);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Validation</h3>
+            <p>Dans cet exemple, quelle est une des principales douleurs (Pain Point) récurrentes de Romane ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q13a" name="q13" value="wrong">
+                    <label for="q13a">Elle n'aime pas ses amis.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q13b" name="q13" value="correct">
+                    <label for="q13b">Le coût financier (Trop cher).</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q13c" name="q13" value="wrong">
+                    <label for="q13c">Elle ne sait pas jouer de guitare.</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Détails -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <div class="modal-text" id="modalMessage">Message</div>
+            <button class="modal-btn" onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('detailModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        // Data from the CJM Example
+        const stepsData = [
+            { t: "07:00 - Réveil", q: "Besoin d'intimité ?", a: "Non.", s: "Non.", icon: "bed", color: "var(--orange)" },
+            { t: "09:00 - Départ", q: "Partager ?", a: "Oui, avec des amis.", s: "Oui.", icon: "door-open", color: "var(--orange)" },
+            { t: "10:30 - Pause Café", q: "Partager ?", a: "Oui, avec des amis.", s: "Oui.", icon: "mug-hot", color: "#c62828" },
+            { t: "12:30 - Guitare", q: "Partager ?", a: "Oui, avec des amis.", s: "Oui.", icon: "guitar", color: "var(--teal)" },
+            { t: "14:00 - Shopping", q: "Transport ?", a: "Vélo free-floating.", s: "Oui, ça me va.", icon: "bag-shopping", color: "#c62828" },
+            { t: "16:00 - Cafétéria", q: "Partager ?", a: "Ça ne me dérange pas.", s: "Oui.", icon: "utensils", color: "var(--orange)" },
+            { t: "18:00 - Cours", q: "Partager ?", a: "Ça ne me dérange pas.", s: "Oui.", icon: "graduation-cap", color: "#c62828" },
+            { t: "20:30 - Retour", q: "Partager ?", a: "Oui avec des amis.", s: "Oui.", icon: "house", color: "#c62828" },
+            { t: "23:00 - Verre", q: "Sentiment ?", a: "Trop cher !", s: "Frustrée.", icon: "wine-glass", color: "#c62828" },
+            { t: "01:00 - Concert", q: "Sentiment ?", a: "Bruyant ! Tard et froid.", s: "Trop cher.", icon: "music", color: "#c62828" }
+        ];
+
+        function showStep(index) {
+            const data = stepsData[index];
+            modalTitle.innerText = data.t;
+            modalMsg.innerHTML = `
+                <p><strong>Pensée :</strong> ${data.q}</p>
+                <p><strong>Réponse :</strong> ${data.a}</p>
+                <p><strong>Partage possible :</strong> ${data.s}</p>
+            `;
+            modalIcon.innerHTML = `<i class="fa-solid fa-${data.icon}"></i>`;
+            
+            // Apply Colors
+            modalIcon.style.color = data.color;
+            modalTitle.style.color = data.color;
+            modalBox.style.borderTopColor = data.color;
+            modalBtn.style.backgroundColor = data.color;
+
+            modal.classList.add('active');
+        }
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modal.classList.add('active');
+            
+            // Success Style
+            modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+            modalTitle.style.color = 'var(--teal)';
+            modalBox.style.borderTopColor = 'var(--teal)';
+            modalBtn.style.backgroundColor = 'var(--teal)';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q13'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Bien vu !", "Le coût est un 'Pain Point' majeur pour ce profil étudiant, qui revient à plusieurs étapes (soirée, transport).", "success");
+                
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                // Error Style override
+                modalTitle.innerText = "Pas tout à fait";
+                modalMsg.innerText = "Regardez les cases rouges : 'Too expensive' revient souvent.";
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+                modal.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

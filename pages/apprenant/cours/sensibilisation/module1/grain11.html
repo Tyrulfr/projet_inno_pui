@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPSULE 11 : Qu'est-ce que le Design Thinking ? | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- PRINCIPLES GRID (Flip Cards) --- */
+        .principles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        
+        .flip-card {
+            background-color: transparent;
+            min-height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 12px;
+        }
+
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flip-card-front { background: var(--bg-card); border-top: 5px solid var(--teal); }
+        .flip-card-back { background: var(--teal); color: white; transform: rotateY(180deg); border-top: 5px solid var(--bordeaux); }
+
+        .p-icon { font-size: 2.5rem; margin-bottom: 15px; color: var(--teal); }
+        .flip-card-front h4 { margin: 0; color: var(--bordeaux); }
+        .flip-indicator { margin-top: auto; font-size: 0.8rem; color: #999; margin-top: 15px; }
+
+        /* --- HONEYCOMB SCHEMA --- */
+        .honeycomb-section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .honeycomb-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .hex-wrapper {
+            filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.1));
+            transition: transform 0.3s;
+            cursor: pointer;
+            margin: 0 -15px;
+        }
+        .hex-wrapper:hover { transform: scale(1.1); z-index: 10; filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.2)); }
+
+        .hex {
+            width: 160px;
+            height: 180px;
+            background-color: var(--bg-card);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+
+        .hex-icon { font-size: 2rem; margin-bottom: 10px; }
+        .hex-title { font-weight: 800; font-size: 0.9rem; text-transform: uppercase; }
+        .hex-action { font-size: 0.7rem; margin-top: 5px; opacity: 0.8; font-style: italic; }
+
+        .hex-empathize .hex { background: linear-gradient(135deg, #42a5f5, #1e88e5); }
+        .hex-define .hex { background: linear-gradient(135deg, #26a69a, #00897b); }
+        .hex-ideate .hex { background: linear-gradient(135deg, #ffa726, #fb8c00); }
+        .hex-prototype .hex { background: linear-gradient(135deg, #ab47bc, #8e24aa); }
+        .hex-test .hex { background: linear-gradient(135deg, #ef5350, #e53935); }
+
+        @media (max-width: 768px) { .hex-wrapper { margin: 10px 0; } }
+
+        /* --- CRITIQUE SECTION --- */
+        .critique-section {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--orange);
+        }
+        
+        .critique-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (max-width: 768px) { .critique-grid { grid-template-columns: 1fr; } }
+
+        .critique-col h4 { text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        .critique-list { list-style: none; padding: 0; }
+        .critique-list li { margin-bottom: 15px; font-size: 0.95rem; padding-left: 25px; position: relative; line-height: 1.5; }
+        
+        .col-keep h4 { color: var(--teal); border-color: var(--teal); }
+        .col-keep li::before { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--teal); top: 3px; }
+
+        .col-reject h4 { color: var(--bordeaux); border-color: var(--bordeaux); }
+        .col-reject li::before { content: '\f00d'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--bordeaux); top: 3px; }
+
+        .col-augment h4 { color: var(--blue); border-color: var(--blue); }
+        .col-augment li::before { content: '\f067'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--blue); top: 3px; }
+
+        /* --- TOOLS & RESOURCES --- */
+        .tools-box { margin-top: 3rem; }
+        .tool-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
+        .tool-tag { 
+            background: white; 
+            border: 1px solid #ddd; 
+            padding: 8px 15px; 
+            border-radius: 20px; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .tool-tag:hover { background: var(--blue); color: white; border-color: var(--blue); transform: translateY(-2px); }
+        .tool-tag i { color: var(--orange); }
+        .tool-tag:hover i { color: white; }
+
+        .source-footer { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #ddd; font-size: 0.8rem; color: #888; font-style: italic; }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 600px; text-align: left; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; float: right; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 11</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Qu'est-ce que le Design Thinking ?</h1>
+        <div class="hero-subtitle">Un processus ou une approche ? Comprendre l'héritage de Stanford et IDEO.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-quote-left" style="opacity:0.5; margin-right:10px;"></i>
+                Inventé en Californie pour le secteur IT. Développé dans les années 80 par <strong>Rolf Faste (Stanford)</strong> et popularisé dans les années 2000 par <strong>IDEO (Tim Brown)</strong>. Le Design Thinking a démocratisé le design dans les entreprises.
+            </span>
+        </div>
+
+        <!-- PRINCIPES CLES (FLIP CARDS) -->
+        <h2 id="principes">Les Principes Fondamentaux</h2>
+        <div class="principles-grid">
+            <!-- Carte 1 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><i class="fa-solid fa-users-viewfinder p-icon"></i><h4>Centré Utilisateur</h4><div class="flip-indicator"><i class="fa-solid fa-rotate"></i></div></div>
+                    <div class="flip-card-back"><p>Innovation centrée sur l'humain. Tout part de l'utilisateur.</p></div>
+                </div>
+            </div>
+            <!-- Carte 2 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><i class="fa-solid fa-heart p-icon"></i><h4>Empathie</h4><div class="flip-indicator"><i class="fa-solid fa-rotate"></i></div></div>
+                    <div class="flip-card-back"><p>Étude de terrain (observation ethnographique) pour comprendre en profondeur.</p></div>
+                </div>
+            </div>
+            <!-- Carte 3 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><i class="fa-solid fa-star p-icon"></i><h4>Désirabilité</h4><div class="flip-indicator"><i class="fa-solid fa-rotate"></i></div></div>
+                    <div class="flip-card-back"><p>La première valeur est la désirabilité. Créer ce que les gens veulent.</p></div>
+                </div>
+            </div>
+            <!-- Carte 4 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><i class="fa-solid fa-rotate-right p-icon"></i><h4>Fail Fast</h4><div class="flip-indicator"><i class="fa-solid fa-rotate"></i></div></div>
+                    <div class="flip-card-back"><p>Itérations rapides, boucles de rétroaction. Échouer tôt pour apprendre vite.</p></div>
+                </div>
+            </div>
+            <!-- Carte 5 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><i class="fa-solid fa-people-group p-icon"></i><h4>Co-Conception</h4><div class="flip-indicator"><i class="fa-solid fa-rotate"></i></div></div>
+                    <div class="flip-card-back"><p>Intelligence collective. On conçoit "avec" l'utilisateur, pas juste "pour" lui.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCHÉMA ALVÉOLES (HONEYCOMB) -->
+        <div class="honeycomb-section">
+            <h2 style="color:var(--bordeaux);">Le Processus Standard</h2>
+            <p>Cliquez sur les alvéoles pour voir les méthodes associées.</p>
+            <div class="honeycomb-grid">
+                <div class="hex-wrapper hex-empathize" onclick="showHoneycomb('empathize')"><div class="hex"><i class="fa-solid fa-ear-listen hex-icon"></i><span class="hex-title">Empathize</span><span class="hex-action">Comprendre</span></div></div>
+                <div class="hex-wrapper hex-define" onclick="showHoneycomb('define')"><div class="hex"><i class="fa-solid fa-filter hex-icon"></i><span class="hex-title">Define</span><span class="hex-action">Cadrer</span></div></div>
+                <div class="hex-wrapper hex-ideate" onclick="showHoneycomb('ideate')"><div class="hex"><i class="fa-solid fa-lightbulb hex-icon"></i><span class="hex-title">Ideate</span><span class="hex-action">Imaginer</span></div></div>
+                <div class="hex-wrapper hex-prototype" onclick="showHoneycomb('prototype')"><div class="hex"><i class="fa-solid fa-hammer hex-icon"></i><span class="hex-title">Prototype</span><span class="hex-action">Matérialiser</span></div></div>
+                <div class="hex-wrapper hex-test" onclick="showHoneycomb('test')"><div class="hex"><i class="fa-solid fa-vial hex-icon"></i><span class="hex-title">Test</span><span class="hex-action">Valider</span></div></div>
+            </div>
+        </div>
+
+        <!-- SECTION CRITIQUE -->
+        <div class="critique-section">
+            <h2 style="color:var(--bordeaux); margin-top:0;">Nécessité d'une nouvelle méthodologie ?</h2>
+            <p style="margin-bottom:1.5rem;">(Le point de vue des auteurs RID sur les limites du Design Thinking)</p>
+            
+            <div class="critique-grid">
+                
+                <div class="critique-col col-keep">
+                    <h4><i class="fa-solid fa-check"></i> Ce qu'on garde (To Keep)</h4>
+                    <ul class="critique-list">
+                        <li><strong>Approches ethnographiques :</strong> Étude de terrain, empathie, expérimentations.</li>
+                        <li><strong>Processus centrés utilisateur</strong> et co-conception.</li>
+                    </ul>
+                </div>
+
+                <div class="critique-col col-augment">
+                    <h4><i class="fa-solid fa-plus"></i> Ce qu'il faut augmenter (To Augment)</h4>
+                    <ul class="critique-list">
+                        <li><strong>Connaissance profonde :</strong> La conception UX doit être approfondie avec l'ergonomie, la psychologie, la médecine, la sociologie, la théorie de l'activité...</li>
+                        <li><strong>Science de la valeur :</strong> Toute science permettant de comprendre les valeurs (ou non-valeurs) à court, moyen et long terme pour les personnes.</li>
+                    </ul>
+                </div>
+
+                <div class="critique-col col-reject" style="grid-column: span 2;">
+                    <h4><i class="fa-solid fa-ban"></i> Ce qu'il faut rejeter (To Reject)</h4>
+                    <ul class="critique-list">
+                        <li><strong>Dynamique des processus ("Fail Fast") :</strong> Le paradigme systématique "échouer rapidement et itérer" est plus adapté aux riches start-ups américaines qu'aux industriels européens plus sobres. Une exploration riche du problème en amont est plus efficace.</li>
+                        <li><strong>Valeur maximale (Désirabilité) :</strong> La désirabilité est souvent synonyme d'envie soudaine d'acheter et de consommer. D'autres valeurs (durabilité, sens) devraient régir l'innovation dans un monde souffrant de consommation excessive et futile.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- OUTILS & RESSOURCES -->
+        <div class="tools-box">
+            <h3><i class="fa-solid fa-toolbox"></i> La Boîte à Outils & Ressources</h3>
+            <p>Le Design Thinking s'accompagne d'une riche collection d'outils. Cliquez pour voir des exemples :</p>
+            
+            <div class="tool-tags">
+                <div class="tool-tag" onclick="showTool('empathy')"><i class="fa-regular fa-id-card"></i> Carte d'Empathie</div>
+                <div class="tool-tag" onclick="showTool('persona')"><i class="fa-solid fa-user-tag"></i> Méthode Persona</div>
+                <div class="tool-tag" onclick="showTool('journey')"><i class="fa-solid fa-route"></i> Customer Journey Map</div>
+                <div class="tool-tag" onclick="window.open('https://dschool.stanford.edu/resources', '_blank')"><i class="fa-solid fa-link"></i> Stanford d.school</div>
+                <div class="tool-tag" onclick="window.open('https://www.sessionlab.com/blog/design-thinking-tools/', '_blank')"><i class="fa-solid fa-link"></i> SessionLab (20 outils)</div>
+                <div class="tool-tag" onclick="window.open('https://www.designkit.org/', '_blank')"><i class="fa-solid fa-link"></i> IDEO Design Kit</div>
+                <div class="tool-tag" onclick="window.open('https://designsprintkit.withgoogle.com/', '_blank')"><i class="fa-solid fa-link"></i> Google Design Sprints</div>
+                <div class="tool-tag" onclick="window.open('https://www.alexandercowan.com/venture-design/', '_blank')"><i class="fa-solid fa-link"></i> Venture Design (A. Cowan)</div>
+            </div>
+        </div>
+
+        <div class="source-footer">
+            SOURCES : Brown, T. (2008). Design Thinking. Harvard Business Review, 86, 84–92. / Bernard Yannou, François Cluzel. Radical Innovation Design: A systematic and usage-driven innovation methodology. EDP Sciences, Inpress, 978-2-7598-3066-4.
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--teal);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz Critique</h3>
+            <p>Selon la critique formulée dans ce grain, quel est le risque de se focaliser uniquement sur la "Désirabilité" ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q11a" name="q11" value="wrong">
+                    <label for="q11a">C'est trop difficile à mesurer.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q11b" name="q11" value="correct">
+                    <label for="q11b">Cela favorise une consommation impulsive et futile.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q11c" name="q11" value="wrong">
+                    <label for="q11c">Cela ralentit trop le processus.</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer le Module <i class="fa-solid fa-check-double"></i></button>
+    </div>
+
+    <!-- Modal pour Feedback -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <div id="modalMessage" class="modal-text">Message</div>
+            <button class="modal-btn" onclick="closeModal()">Continuer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerHTML = msg;
+            modal.classList.add('active');
+            
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else if (type === 'info') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-info" style="color: var(--blue);"></i>';
+                modalTitle.style.color = 'var(--blue)';
+                modalBox.style.borderTopColor = 'var(--blue)';
+                modalBtn.style.backgroundColor = 'var(--blue)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+            }
+        }
+
+        // Honeycomb Data
+        const hcData = {
+            'empathize': { title: 'EMPATHIZE', content: '<ul style="text-align:left; padding-left:20px; line-height:1.6;"><li>Interviews</li><li>Shadowing</li><li>Seek to understand</li><li>Non-judgmental</li></ul>' },
+            'define': { title: 'DEFINE', content: '<ul style="text-align:left; padding-left:20px; line-height:1.6;"><li>Personas</li><li>Role objectives</li><li>Decisions & Challenges</li><li>Pain Points</li></ul>' },
+            'ideate': { title: 'IDEATE', content: '<ul style="text-align:left; padding-left:20px; line-height:1.6;"><li>Share ideas</li><li>All ideas worthy</li><li>Diverge/Converge</li><li>"Yes and" thinking</li></ul>' },
+            'prototype': { title: 'PROTOTYPE', content: '<ul style="text-align:left; padding-left:20px; line-height:1.6;"><li>Mock-ups</li><li>Storyboards</li><li>Keep it simple</li><li>Fail fast</li></ul>' },
+            'test': { title: 'TEST', content: '<ul style="text-align:left; padding-left:20px; line-height:1.6;"><li>Understand impediments</li><li>What works?</li><li>Role play</li><li>Iterate quickly</li></ul>' }
+        };
+
+        function showHoneycomb(step) {
+            const data = hcData[step];
+            if(data) showModal(data.title, data.content, 'info');
+        }
+
+        // Tools Data (Simulation)
+        function showTool(tool) {
+            if(tool === 'empathy') showModal('Carte d\'Empathie', '<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:center; font-size:0.9rem;"><div style="background:#e3f2fd; padding:10px;">DIT</div><div style="background:#f3e5f5; padding:10px;">PENSE</div><div style="background:#fff3e0; padding:10px;">FAIT</div><div style="background:#e8f5e9; padding:10px;">RESSENT</div></div>', 'info');
+            if(tool === 'persona') showModal('Persona', '<div style="background:#f9f9f9; padding:15px; border-radius:8px;"><strong>Marie, 34 ans</strong><br><em>Gestionnaire pressée</em><br>But: Gagner du temps.<br>Frustration: Outils complexes.</div>', 'info');
+            if(tool === 'journey') showModal('Customer Journey', '<div style="border-left:3px solid #ccc; padding-left:15px;">1. Découverte (Pub)<br>2. Achat (Site Web)<br>3. Livraison (Retard) <span style="color:red">☹</span><br>4. Usage (Satisfait)</div>', 'info');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q11'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Félicitations !", "Vous avez terminé ce module. Vous comprenez que le Design Thinking est puissant mais doit être complété par une vision long terme et des sciences humaines.", "success");
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                showModal("Pas tout à fait", "La critique porte sur le risque de superficialité et de surconsommation ('Désirabilité' mal comprise).", "error");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -121,6 +121,53 @@
         .icon-blue { color: var(--blue); background: rgba(42, 50, 94, 0.1); }
         .icon-bordeaux { color: var(--bordeaux); background: rgba(88, 15, 69, 0.1); }
 
+        /* Séquences */
+        .sequence-section { margin-bottom: 4rem; }
+        
+        .sequence-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--teal);
+        }
+        
+        .sequence-header.seq-1 { border-left-color: var(--teal); }
+        .sequence-header.seq-2 { border-left-color: var(--orange); }
+        .sequence-header.seq-3 { border-left-color: var(--bordeaux); }
+        
+        .seq-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .seq-1 .seq-number { background: var(--teal); }
+        .seq-2 .seq-number { background: var(--orange); }
+        .seq-3 .seq-number { background: var(--bordeaux); }
+        
+        .seq-info h2 { margin: 0 0 0.3rem 0; font-size: 1.4rem; }
+        .seq-info p { margin: 0; font-size: 0.95rem; color: var(--text-light); }
+        
+        .seq-1 .seq-info h2 { color: var(--teal); }
+        .seq-2 .seq-info h2 { color: var(--orange); }
+        .seq-3 .seq-info h2 { color: var(--bordeaux); }
+        
+        body.dark-mode .seq-1 .seq-info h2 { color: var(--teal); }
+        body.dark-mode .seq-2 .seq-info h2 { color: var(--orange); }
+        body.dark-mode .seq-3 .seq-info h2 { color: #e88ba1; }
+
     </style>
 </head>
 <body>
@@ -149,122 +196,246 @@
             <h1 class="hero-title">Module 1 : Sensibilisation à l'Innovation</h1>
             <p class="hero-desc">Découvrez les fondamentaux, le vocabulaire et les processus clés pour comprendre comment transformer une idée en valeur réelle.</p>
             <div class="progress-bar-container"><div class="progress-bar" style="width: 0%"></div></div>
-            <p style="font-size:0.8rem; margin-top:10px; opacity:0.8;">10 Leçons disponibles</p>
+            <p style="font-size:0.8rem; margin-top:10px; opacity:0.8;">18 Leçons réparties en 3 Séquences</p>
         </div>
 
-        <div class="grains-grid">
-
-            <!-- Grain 1 -->
-            <div class="grain-card">
-                <div class="card-number">01</div>
-                <div class="card-body">
-                    <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                    <div class="card-title">Les Fondamentaux</div>
-                    <div class="card-desc">L'innovation est à la fois un processus et un résultat. Comprendre la différence entre nouveauté et valeur.</div>
+        <!-- ======================= SÉQUENCE 1 ======================= -->
+        <div class="sequence-section">
+            <div class="sequence-header seq-1">
+                <div class="seq-number">1</div>
+                <div class="seq-info">
+                    <h2><i class="fa-solid fa-cloud-sun"></i> Dissiper le Brouillard</h2>
+                    <p>Définitions, vocabulaire et concepts fondamentaux pour comprendre l'innovation.</p>
                 </div>
-                <div class="card-footer"><a href="grain1.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
-
-            <!-- Grain 2 -->
-            <div class="grain-card border-orange">
-                <div class="card-number">02</div>
-                <div class="card-body">
-                    <div class="card-icon icon-orange"><i class="fa-solid fa-box-open"></i></div>
-                    <div class="card-title">Sur quoi innover ?</div>
-                    <div class="card-desc">Produit, service, organisation... Le champ des possibles est vaste. Découvrez les catégories privilégiées.</div>
+            
+            <div class="grains-grid">
+                <!-- 1.1 Définition & Fondamentaux -->
+                <div class="grain-card">
+                    <div class="card-number">1.1</div>
+                    <div class="card-body">
+                        <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                        <div class="card-title">Définition & Fondamentaux</div>
+                        <div class="card-desc">L'innovation est à la fois un processus et un résultat. Comprendre la différence entre nouveauté et valeur (Oslo + Opérationnelle).</div>
+                    </div>
+                    <div class="card-footer"><a href="grain1.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
                 </div>
-                <div class="card-footer"><a href="grain2.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
-            </div>
 
-            <!-- Grain 3 -->
-            <div class="grain-card border-blue">
-                <div class="card-number">03</div>
-                <div class="card-body">
-                    <div class="card-icon icon-blue"><i class="fa-solid fa-arrows-rotate"></i></div>
-                    <div class="card-title">Le Processus</div>
-                    <div class="card-desc">La différence fondamentale entre Recherche (Argent → Savoir) et Innovation (Savoir → Argent).</div>
+                <!-- 1.2 Sur quoi innover ? -->
+                <div class="grain-card border-orange">
+                    <div class="card-number">1.2</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-orange"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="card-title">Sur quoi innover ?</div>
+                        <div class="card-desc">Produit, service, organisation... Le champ des possibles est vaste. Impact/Intensité - Tout est possible.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain2.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
                 </div>
-                <div class="card-footer"><a href="grain3.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
-            </div>
 
-            <!-- Grain 4 -->
-            <div class="grain-card border-bordeaux">
-                <div class="card-number">04</div>
-                <div class="card-body">
-                    <div class="card-icon icon-bordeaux"><i class="fa-solid fa-book"></i></div>
-                    <div class="card-title">Le Vocabulaire</div>
-                    <div class="card-desc">Invention vs Innovation, Rupture vs Incrémentale. Ne vous perdez plus dans la jungle des mots.</div>
+                <!-- 1.3 L'Innovation est un Processus -->
+                <div class="grain-card border-blue">
+                    <div class="card-number">1.3</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-blue"><i class="fa-solid fa-arrows-rotate"></i></div>
+                        <div class="card-title">L'Innovation est un Processus</div>
+                        <div class="card-desc">La différence fondamentale entre Recherche (Argent → Savoir) et Innovation (Savoir → Valeur).</div>
+                    </div>
+                    <div class="card-footer"><a href="grain3.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
                 </div>
-                <div class="card-footer"><a href="grain4.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
-            </div>
 
-            <!-- Grain 5 -->
-            <div class="grain-card">
-                <div class="card-number">05</div>
-                <div class="card-body">
-                    <div class="card-icon"><i class="fa-solid fa-network-wired"></i></div>
-                    <div class="card-title">La Chaîne de Valeur</div>
-                    <div class="card-desc">Visualisez les flux parallèles de financement et de création de valeur, du laboratoire au marché.</div>
+                <!-- 1.4 Le Nuage de Vocabulaire -->
+                <div class="grain-card border-bordeaux">
+                    <div class="card-number">1.4</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-bordeaux"><i class="fa-solid fa-book"></i></div>
+                        <div class="card-title">Le Nuage de Vocabulaire</div>
+                        <div class="card-desc">Invention vs Innovation, Rupture vs Incrémentale. S'adapter au lexique projet.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain4.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
                 </div>
-                <div class="card-footer"><a href="grain5.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
-            </div>
 
-            <!-- Grain 6 -->
-            <div class="grain-card border-orange">
-                <div class="card-number">06</div>
-                <div class="card-body">
-                    <div class="card-icon icon-orange"><i class="fa-solid fa-scale-balanced"></i></div>
-                    <div class="card-title">L'Organisation</div>
-                    <div class="card-desc">Le grand écart : comment réconcilier rigueur organisationnelle et spontanéité créative ?</div>
+                <!-- 1.5 La Chaîne de Valeur -->
+                <div class="grain-card">
+                    <div class="card-number">1.5</div>
+                    <div class="card-body">
+                        <div class="card-icon"><i class="fa-solid fa-network-wired"></i></div>
+                        <div class="card-title">La Chaîne de Valeur</div>
+                        <div class="card-desc">Visualisez les flux parallèles de financement et de création de valeur, du laboratoire au marché.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain5.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
                 </div>
-                <div class="card-footer"><a href="grain6.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
             </div>
-
-            <!-- Grain 7 -->
-            <div class="grain-card border-blue">
-                <div class="card-number">07</div>
-                <div class="card-body">
-                    <div class="card-icon icon-blue"><i class="fa-solid fa-layer-group"></i></div>
-                    <div class="card-title">La Méthodologie</div>
-                    <div class="card-desc">Pourquoi structurer l'innovation ? Philosophie, Processus et Outils pour être efficace.</div>
-                </div>
-                <div class="card-footer"><a href="grain7.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
-            </div>
-
-            <!-- Grain 8 -->
-            <div class="grain-card border-bordeaux">
-                <div class="card-number">08</div>
-                <div class="card-body">
-                    <div class="card-icon icon-bordeaux"><i class="fa-solid fa-language"></i></div>
-                    <div class="card-title">Langage des Méthodes</div>
-                    <div class="card-desc">Design Thinking, C-K, TRIZ, Lean Startup... Comprendre les spécificités de chaque approche.</div>
-                </div>
-                <div class="card-footer"><a href="grain8.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
-            </div>
-
-            <!-- Grain 9 -->
-            <div class="grain-card">
-                <div class="card-number">09</div>
-                <div class="card-body">
-                    <div class="card-icon"><i class="fa-solid fa-filter"></i></div>
-                    <div class="card-title">Front-End Innovation</div>
-                    <div class="card-desc">Plongée dans le "Vortex" de l'exploration préliminaire. Stratégie, opportunité et brief.</div>
-                </div>
-                <div class="card-footer"><a href="grain9.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
-            </div>
-
-            <!-- Grain 10 -->
-            <div class="grain-card border-orange">
-                <div class="card-number">10</div>
-                <div class="card-body">
-                    <div class="card-icon icon-orange"><i class="fa-regular fa-gem"></i></div>
-                    <div class="card-title">Le Double Diamant</div>
-                    <div class="card-desc">Le modèle de référence pour structurer la pensée : Cadrage du problème (Setting) puis Résolution (Solving).</div>
-                </div>
-                <div class="card-footer"><a href="grain10.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
-            </div>
-
         </div>
+
+        <!-- ======================= SÉQUENCE 2 ======================= -->
+        <div class="sequence-section">
+            <div class="sequence-header seq-2">
+                <div class="seq-number">2</div>
+                <div class="seq-info">
+                    <h2><i class="fa-solid fa-gears"></i> Processus & Méthodes</h2>
+                    <p>Pourquoi et comment structurer l'innovation ? Panorama des approches et outils.</p>
+                </div>
+            </div>
+            
+            <div class="grains-grid">
+                <!-- 2.1 Pourquoi une Méthode ? -->
+                <div class="grain-card border-orange">
+                    <div class="card-number">2.1</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-orange"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <div class="card-title">Pourquoi une Méthode ?</div>
+                        <div class="card-desc">Le grand écart : comment réconcilier rigueur organisationnelle et spontanéité créative ? Philosophie & Organisation.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain6.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 2.2 Panorama des Méthodes -->
+                <div class="grain-card border-blue">
+                    <div class="card-number">2.2</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-blue"><i class="fa-solid fa-language"></i></div>
+                        <div class="card-title">Panorama des Méthodes</div>
+                        <div class="card-desc">Design Thinking, C-K, TRIZ, Lean Startup... Comparatif des langages et spécificités.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain8.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 2.3 Le Front-End Innovation -->
+                <div class="grain-card border-bordeaux">
+                    <div class="card-number">2.3</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-bordeaux"><i class="fa-solid fa-filter"></i></div>
+                        <div class="card-title">Le Front-End Innovation</div>
+                        <div class="card-desc">Plongée dans le "Vortex" de l'exploration préliminaire. Gérer le flou initial.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain9.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 2.4 Setting vs Solving -->
+                <div class="grain-card">
+                    <div class="card-number">2.4</div>
+                    <div class="card-body">
+                        <div class="card-icon"><i class="fa-regular fa-gem"></i></div>
+                        <div class="card-title">Setting vs Solving</div>
+                        <div class="card-desc">Le Double Diamant générique : Cadrage du problème (Setting) puis Résolution (Solving).</div>
+                    </div>
+                    <div class="card-footer"><a href="grain10.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 2.5 Design Thinking : Principes -->
+                <div class="grain-card border-orange">
+                    <div class="card-number">2.5</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-orange"><i class="fa-solid fa-pen-ruler"></i></div>
+                        <div class="card-title">Design Thinking : Principes</div>
+                        <div class="card-desc">Comprendre l'héritage de Stanford et IDEO : Empathie, Idéation, Prototypage et Test.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain11.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 2.6 Outils DT : Personas & Journey -->
+                <div class="grain-card border-blue">
+                    <div class="card-number">2.6</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-blue"><i class="fa-solid fa-route"></i></div>
+                        <div class="card-title">Outils DT : Personas & Journey</div>
+                        <div class="card-desc">Fusion des outils pratiques : Méthode Persona et Customer Journey Map pour comprendre l'utilisateur.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain12.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================= SÉQUENCE 3 ======================= -->
+        <div class="sequence-section">
+            <div class="sequence-header seq-3">
+                <div class="seq-number">3</div>
+                <div class="seq-info">
+                    <h2><i class="fa-solid fa-chess-knight"></i> Stratégie & Positionnement</h2>
+                    <p>Typologies, radicalité et positionnement stratégique de l'innovation.</p>
+                </div>
+            </div>
+            
+            <div class="grains-grid">
+                <!-- 3.1 Typologies Industrielles -->
+                <div class="grain-card border-bordeaux">
+                    <div class="card-number">3.1</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-bordeaux"><i class="fa-solid fa-microscope"></i></div>
+                        <div class="card-title">Typologies Industrielles</div>
+                        <div class="card-desc">Le modèle de Henderson & Clark (1990) : comprendre l'impact sur l'architecture et la technologie.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain14.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 3.2 Radicalité par l'Usage (RID) -->
+                <div class="grain-card">
+                    <div class="card-number">3.2</div>
+                    <div class="card-body">
+                        <div class="card-icon"><i class="fa-solid fa-rocket"></i></div>
+                        <div class="card-title">Radicalité par l'Usage (RID)</div>
+                        <div class="card-desc">Vision centrée utilisateur : approfondir la méthodologie RID pour structurer l'innovation radicale.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain15.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 3.3 Disruption (Cas Dyson) -->
+                <div class="grain-card border-orange">
+                    <div class="card-number">3.3</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-orange"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="card-title">Disruption (Cas Dyson)</div>
+                        <div class="card-desc">Illustration concrète de la radicalité : comment James Dyson a révolutionné le marché.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain16.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 3.4 Les 3 Stratégies -->
+                <div class="grain-card border-blue">
+                    <div class="card-number">3.4</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-blue"><i class="fa-solid fa-chess"></i></div>
+                        <div class="card-title">Les 3 Stratégies</div>
+                        <div class="card-desc">Need Seeker, Market Reader, Technology Driver : comprendre les approches stratégiques.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain18.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 3.5 Le Triple Diamant RID -->
+                <div class="grain-card border-bordeaux">
+                    <div class="card-number">3.5</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-bordeaux"><i class="fa-solid fa-shapes"></i></div>
+                        <div class="card-title">Le Triple Diamant RID</div>
+                        <div class="card-desc">Positionnement global : Investigation, Idéation et Implémentation.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain17.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 3.6 Méthode Vianeo -->
+                <div class="grain-card">
+                    <div class="card-number">3.6</div>
+                    <div class="card-body">
+                        <div class="card-icon"><i class="fa-solid fa-bullseye"></i></div>
+                        <div class="card-title">Méthode Vianeo</div>
+                        <div class="card-desc">Focus sur le Marché et la Faisabilité : structurer la validation business de l'innovation.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain19.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+
+                <!-- 3.7 Nature de l'Idée -->
+                <div class="grain-card border-orange">
+                    <div class="card-number">3.7</div>
+                    <div class="card-body">
+                        <div class="card-icon icon-orange"><i class="fa-solid fa-question"></i></div>
+                        <div class="card-title">Nature de l'Idée</div>
+                        <div class="card-desc">Idée de Problème vs Idée de Solution : distinguer et articuler les deux types d'idées.</div>
+                    </div>
+                    <div class="card-footer"><a href="grain20.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>

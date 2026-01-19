@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPSULE 14 : Qu'est-ce que l'Innovation Radicale ? | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- MATRIX HENDERSON & CLARK --- */
+        .matrix-wrapper {
+            margin: 4rem 0;
+            overflow-x: auto;
+        }
+
+        .matrix-grid {
+            display: grid;
+            /* 4 Colonnes : Axe Y (Titre) | Axe Y (Labels) | Quadrants Gauche | Quadrants Droite */
+            grid-template-columns: 40px 60px 1fr 1fr;
+            grid-template-rows: auto auto 1fr 1fr;
+            gap: 10px;
+            min-width: 600px;
+        }
+
+        /* AXES */
+        .axis-x-title {
+            grid-column: 3 / span 2; /* Span sur les deux colonnes de quadrants */
+            grid-row: 1;
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--bordeaux);
+            background: rgba(88, 15, 69, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .axis-y-title {
+            grid-column: 1;
+            grid-row: 3 / span 2; /* Span sur les deux lignes de quadrants */
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--blue);
+            background: rgba(42, 50, 94, 0.1);
+            padding: 5px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem; /* Réduit pour lisibilité */
+            width: 100%;
+        }
+
+        /* HEADER CELLULES */
+        .header-cell {
+            text-align: center;
+            font-weight: 700;
+            padding: 8px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.8rem; /* Réduit */
+        }
+        
+        .header-cell-vertical {
+             writing-mode: vertical-rl; 
+             transform: rotate(180deg);
+             width: 100%;
+             height: 100%;
+        }
+
+        /* QUADRANTS */
+        .quadrant-card {
+            background: var(--bg-card);
+            padding: 1.2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 6px solid #ccc;
+            transition: transform 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+        }
+
+        .quadrant-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 10; }
+
+        /* Couleurs Quadrants */
+        .q-incremental { border-color: var(--teal); background: linear-gradient(to bottom right, white, rgba(46, 175, 125, 0.05)); }
+        .q-incremental .q-title { color: var(--teal); }
+        .q-incremental .q-number { background: var(--teal); }
+
+        .q-architectural { border-color: var(--orange); background: linear-gradient(to bottom right, white, rgba(244, 140, 46, 0.05)); }
+        .q-architectural .q-title { color: var(--orange); }
+        .q-architectural .q-number { background: var(--orange); }
+
+        .q-modular { border-color: var(--blue); background: linear-gradient(to bottom right, white, rgba(42, 50, 94, 0.05)); }
+        .q-modular .q-title { color: var(--blue); }
+        .q-modular .q-number { background: var(--blue); }
+
+        .q-radical { border-color: var(--bordeaux); background: linear-gradient(to bottom right, white, rgba(88, 15, 69, 0.05)); }
+        .q-radical .q-title { color: var(--bordeaux); }
+        .q-radical .q-number { background: var(--bordeaux); }
+
+        /* Contenu Quadrant */
+        .q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; }
+        .q-number { color: white; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.9rem; }
+        .q-title { font-weight: 900; font-size: 1rem; text-transform: uppercase; width: calc(100% - 30px); }
+        
+        .q-example { font-size: 0.8rem; color: var(--text-light); background: rgba(255,255,255,0.8); padding: 8px; border-radius: 8px; margin-top: auto; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(0,0,0,0.05); }
+        body.dark-mode .q-example { background: rgba(0,0,0,0.2); }
+        .q-icon { font-size: 1.2rem; }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(42, 50, 94, 0.05);
+            border-left: 5px solid var(--blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+        }
+
+        /* Footer & Modal */
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: left; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; text-align: left; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; float: right; }
+
+        @media (max-width: 768px) {
+            .matrix-grid { display: flex; flex-direction: column; }
+            .axis-x-title, .axis-y-title, .header-cell { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 14</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Qu'est-ce que l'Innovation Radicale ?</h1>
+        <div class="hero-subtitle">Le modèle de Henderson & Clark (1990) : comprendre l'impact sur l'architecture et la technologie.</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-microscope" style="opacity:0.8; margin-right:10px;"></i>
+                Pour définir l'intensité d'une innovation, on croise deux critères : <br>
+                <strong>1. Les composants changent-ils ?</strong> (Technologie)<br>
+                <strong>2. Leurs liens changent-ils ?</strong> (Architecture)
+            </span>
+        </div>
+
+        <!-- MATRIX HENDERSON & CLARK -->
+        <div class="matrix-wrapper">
+            <div class="matrix-grid">
+                
+                <!-- Titre AXE X (Haut) -->
+                <div class="axis-x-title">Lien entre les composants (Architecture)</div>
+
+                <!-- En-têtes Colonnes -->
+                <div class="header-cell" style="grid-column: 3; grid-row: 2;">
+                    <i class="fa-solid fa-link"></i> INCHANGÉ
+                </div>
+                <div class="header-cell" style="grid-column: 4; grid-row: 2;">
+                    <i class="fa-solid fa-link-slash"></i> CHANGÉ
+                </div>
+
+                <!-- Titre AXE Y (Gauche - Colonne 1) -->
+                <div class="axis-y-title">Concepts Clés<br>(Technologie)</div>
+
+                <!-- En-têtes Lignes (Gauche - Colonne 2) -->
+                <div class="header-cell header-cell-vertical" style="grid-column: 2; grid-row: 3;">
+                    <i class="fa-solid fa-cube"></i> INCHANGÉS
+                </div>
+                <div class="header-cell header-cell-vertical" style="grid-column: 2; grid-row: 4;">
+                    <i class="fa-solid fa-cubes"></i> CHANGÉS
+                </div>
+
+                <!-- QUADRANT 1 : INCREMENTALE (Haut Gauche) -->
+                <div class="quadrant-card q-inc" style="grid-column: 3; grid-row: 3;" onclick="showDetail('incremental')">
+                    <div class="q-header">
+                        <div class="q-title">Incrémentale</div>
+                        <div class="q-number">1</div>
+                    </div>
+                    <div class="q-desc">On améliore l'existant sans rien bouleverser.</div>
+                    <div class="q-example">
+                        <i class="fa-brands fa-usb q-icon"></i>
+                        <span>Clé USB (Capacité +)</span>
+                    </div>
+                </div>
+
+                <!-- QUADRANT 2 : ARCHITECTURALE (Haut Droite) -->
+                <div class="quadrant-card q-arch" style="grid-column: 4; grid-row: 3;" onclick="showDetail('architectural')">
+                    <div class="q-header">
+                        <div class="q-title">Architecturale</div>
+                        <div class="q-number">2</div>
+                    </div>
+                    <div class="q-desc">Mêmes composants, mais organisés différemment.</div>
+                    <div class="q-example">
+                        <i class="fa-solid fa-car-side q-icon"></i>
+                        <span>Traction Avant</span>
+                    </div>
+                </div>
+
+                <!-- QUADRANT 3 : MODULAIRE (Bas Gauche) -->
+                <div class="quadrant-card q-mod" style="grid-column: 3; grid-row: 4;" onclick="showDetail('modular')">
+                    <div class="q-header">
+                        <div class="q-title">Modulaire</div>
+                        <div class="q-number">3</div>
+                    </div>
+                    <div class="q-desc">Nouvelle techno dans une structure existante.</div>
+                    <div class="q-example">
+                        <i class="fa-solid fa-key q-icon"></i>
+                        <span>Clé sans contact</span>
+                    </div>
+                </div>
+
+                <!-- QUADRANT 4 : RADICALE (Bas Droite) -->
+                <div class="quadrant-card q-rad" style="grid-column: 4; grid-row: 4;" onclick="showDetail('radical')">
+                    <div class="q-header">
+                        <div class="q-title">Radicale</div>
+                        <div class="q-number">4</div>
+                    </div>
+                    <div class="q-desc">Rupture totale : nouvelle techno ET nouvelle architecture.</div>
+                    <div class="q-example">
+                        <i class="fa-solid fa-computer q-icon"></i>
+                        <span>Machine à écrire > PC</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fa-solid fa-sitemap"></i> Analyse du Modèle</h4>
+            <p>Ce modèle de Henderson & Clark (1990) est fondamental car il montre que l'innovation n'est pas seulement technologique. Elle peut être <strong>architecturale</strong> (changer la façon dont les composants sont liés) ou <strong>modulaire</strong> (changer un composant clé sans toucher au reste). Chaque type a des impacts différents sur l'organisation industrielle, les investissements et la gestion des risques.</p>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--bordeaux);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Validation</h3>
+            <p>Selon ce modèle, comment appelle-t-on une innovation qui change l'architecture du système (les liens) mais conserve les technologies de base ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q14a" name="q14" value="correct">
+                    <label for="q14a">Innovation Architecturale (Architectural)</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q14b" name="q14" value="wrong">
+                    <label for="q14b">Innovation Modulaire (Modular)</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q14c" name="q14" value="wrong">
+                    <label for="q14c">Innovation Radicale (Radical)</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Détails -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-box">
+            <div class="modal-title" id="mTitle">Titre</div>
+            <div class="modal-text" id="mText">Message</div>
+            <button class="modal-btn" onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('detailModal');
+        const mTitle = document.getElementById('mTitle');
+        const mText = document.getElementById('mText');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        const details = {
+            'incremental': { title: "Innovation Incrémentale", text: "Amélioration continue. On ne change ni l'architecture, ni la technologie de base. Ex: Augmenter la mémoire d'une clé USB.", color: "var(--teal)" },
+            'architectural': { title: "Innovation Architecturale", text: "On réorganise les composants existants d'une nouvelle manière. La technologie de base reste la même, mais les liens changent. Ex: Passer de la propulsion à la traction sur une voiture.", color: "var(--orange)" },
+            'modular': { title: "Innovation Modulaire", text: "On remplace un composant clé par une nouvelle technologie, mais l'architecture globale du système reste identique. Ex: Remplacer une clé physique par une clé électronique.", color: "var(--blue)" },
+            'radical': { title: "Innovation Radicale", text: "Tout change : nouvelle technologie de base ET nouvelle architecture. C'est une rupture totale qui rend l'ancien système obsolète. Ex: Passer de la machine à écrire à l'ordinateur de traitement de texte.", color: "var(--bordeaux)" }
+        };
+
+        function showDetail(type) {
+            const data = details[type];
+            if(data) {
+                mTitle.innerText = data.title;
+                mText.innerText = data.text;
+                
+                mTitle.style.color = data.color;
+                modalBox.style.borderTopColor = data.color;
+                modalBtn.style.backgroundColor = data.color;
+                
+                modal.classList.add('active');
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q14'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Correct !", "C'est bien une innovation architecturale : on change l'organisation des composants sans changer la technologie fondamentale.", "success");
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html'; };
+                    }
+                }, 100);
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                showModal("Incorrect", "Regardez la matrice : Architecture changée + Techno inchangée = Quadrant 2 (Orange).", "error");
+            }
+        }
+
+        function showModal(title, msg, type) {
+            mTitle.innerText = title;
+            mText.innerText = msg;
+            modal.classList.add('active');
+            // Reset styles for feedback
+            if(type === 'success') {
+                mTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else {
+                mTitle.style.color = 'var(--orange)';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+            }
+        }
+    </script>
+</body>
+</html>
