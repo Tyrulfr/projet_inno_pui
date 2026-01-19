@@ -186,7 +186,6 @@ layout: null
             background: var(--blue);
         }
         .card.modules::before { background: var(--teal); }
-        .card.gazette::before { background: var(--bordeaux); }
 
         .icon-circle {
             width: 80px;
@@ -202,7 +201,6 @@ layout: null
         body.dark-mode .icon-circle { background: rgba(255,255,255,0.05); }
 
         .modules .icon-circle { color: var(--teal); }
-        .gazette .icon-circle { color: var(--bordeaux); }
 
         .card h3 { margin: 0 0 10px 0; font-size: 1.5rem; }
         .card p { margin: 0; opacity: 0.7; font-size: 0.95rem; line-height: 1.5; }
@@ -218,13 +216,9 @@ layout: null
             display: inline-block;
         }
         .modules .btn-card { background: rgba(46, 175, 125, 0.1); color: var(--teal); }
-        .gazette .btn-card { background: rgba(88, 15, 69, 0.1); color: var(--bordeaux); }
         
         .card:hover .btn-card {
             background: var(--teal); color: white;
-        }
-        .card.gazette:hover .btn-card {
-            background: var(--bordeaux);
         }
 
         /* --- 7. FOOTER --- */
@@ -276,19 +270,6 @@ layout: null
                 </div>
             </div>
 
-            <!-- CARTE 2 : GAZETTE (Ressources) -->
-            <div class="card gazette" onclick="window.location.href='gazette.html'">
-                <div>
-                    <div class="icon-circle">
-                        <i class="fa-regular fa-newspaper"></i>
-                    </div>
-                    <h3>La Gazette</h3>
-                    <p>Actualités de l'innovation, veille technologique et ressources documentaires.</p>
-                </div>
-                <div>
-                    <span class="btn-card">Lire la Gazette</span>
-                </div>
-            </div>
         </div>
     </section>
 
