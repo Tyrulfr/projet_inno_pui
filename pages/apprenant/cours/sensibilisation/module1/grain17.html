@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPSULE 17 : Le Triple Diamant RID | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- TRIPLE DIAMOND SCHEMA STYLES --- */
+        .schema-wrapper {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow-x: auto;
+            margin: 3rem 0;
+            border: 1px solid #ddd;
+        }
+        body.dark-mode .schema-wrapper {
+            background: #2b2f3b;
+            border-color: #444;
+        }
+
+        .td-svg {
+            min-width: 1000px;
+            height: 650px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        /* Crédit schéma Hyb'rid en dessous à gauche */
+        .schema-credit {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        body.dark-mode .schema-credit {
+            color: #ccc;
+        }
+        .schema-credit-logo {
+            height: 20px;
+            width: auto;
+        }
+
+        /* SVG Text Styles */
+        .svg-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 20px; fill: white; text-transform: uppercase; }
+        
+        /* Labels Généraux */
+        .svg-label { font-size: 12px; font-weight: 700; fill: #333; text-anchor: middle; }
+        
+        /* Titres de parties (Gros, sous diamants) */
+        .svg-part-title { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; fill: var(--bordeaux); text-anchor: middle; text-transform: uppercase; }
+        
+        /* Termes clés (Sous titres) */
+        .svg-key-term { font-size: 12px; font-weight: 600; fill: #666; text-anchor: middle; font-style: italic; }
+        
+        .svg-label-white { font-size: 12px; font-weight: 700; fill: white; text-anchor: middle; }
+        .svg-label-blue { font-size: 11px; font-weight: 700; fill: var(--blue); text-anchor: middle; }
+        .svg-oblique { font-size: 10px; fill: #444; font-weight: 600; text-anchor: middle; }
+        
+        /* Diamond Triangles */
+        .tri-dark { stroke: white; stroke-width: 1; opacity: 1; }
+        .tri-light { stroke: white; stroke-width: 1; opacity: 0.7; }
+
+        /* Fills based on Charter */
+        .fill-blue-dark { fill: var(--blue); }
+        .fill-blue-light { fill: var(--teal); }
+        .fill-orange-dark { fill: #d8761e; }
+        .fill-orange-light { fill: var(--orange); }
+        .fill-bordeaux-dark { fill: var(--bordeaux); }
+        .fill-bordeaux-light { fill: #8a2a70; }
+
+        /* Box Styles mapped to Phases */
+        .box-phase1 { fill: var(--teal); stroke: none; }
+        .box-phase2 { fill: var(--orange); stroke: none; }
+        .box-phase3 { fill: var(--bordeaux); stroke: none; }
+        .box-header { fill: var(--blue); stroke: none; }
+        
+        /* Dark Mode Adjustments */
+        body.dark-mode .svg-label, body.dark-mode .svg-key-term { fill: white; }
+        body.dark-mode .svg-label-blue { fill: #4fc3f7; }
+        body.dark-mode .svg-oblique { fill: #ccc; }
+        body.dark-mode .svg-part-title { fill: var(--orange); }
+
+        .info-box {
+            background: rgba(42, 50, 94, 0.05);
+            border-left: 5px solid var(--orange);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; text-align: left; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="sommaire_module1.html#grain17" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 16</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Le Triple Diamant</h1>
+        <div class="hero-subtitle">Une approche intégrée selon la méthodologie RID (Radical Innovation Design).</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-layer-group" style="opacity:0.8; margin-right:10px;"></i>
+                Ce modèle structure la rencontre entre la Science et le Marché. Il ajoute une phase cruciale de <strong>maturation technologique</strong> en amont pour transformer une invention brute en une <strong>valeur d'usage</strong> réelle, avant de concevoir la solution finale.
+            </span>
+        </div>
+
+        <!-- SCHEMA TRIPLE DIAMANT -->
+        <div class="schema-wrapper">
+            <svg class="td-svg" viewBox="0 0 1200 650" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <marker id="arrowBlack" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="black" /></marker>
+                    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2EAF7D" /></marker>
+                </defs>
+
+                <!-- HEADER -->
+                <rect x="0" y="0" width="1200" height="60" fill="white" />
+                <!-- Logo projet Inno intégré dans le bandeau -->
+                <image x="20" y="10" width="140" height="40" xlink:href="../../../../../assets/image/logo_oser_pour_innover.png" />
+                <rect x="350" y="10" width="500" height="40" rx="20" class="box-header" />
+                <text x="600" y="38" text-anchor="middle" class="svg-title" font-size="18">Le Triple Diamant selon RID</text>
+                <text x="1100" y="38" class="svg-label" style="font-size:14px;">CC BY-NC-ND</text>
+
+                <!-- SEPARATEURS VERTICAUX (Pointillés) -->
+                <line x1="450" y1="200" x2="450" y2="550" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" />
+                <line x1="750" y1="200" x2="750" y2="550" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" />
+
+
+                <!-- === DIAMANT 1 : TECHNO (Bleu/Teal) === -->
+                <!-- Left: 150, Right: 450 -->
+                <polygon points="150,350 300,250 300,450" class="tri-dark fill-blue-dark" />
+                <polygon points="300,250 450,350 300,450" class="tri-light fill-blue-light" />
+                
+                <!-- Labels D1 -->
+                <text x="225" y="240" class="svg-label">Inventer</text>
+                <text x="375" y="240" class="svg-label">Maturer</text>
+                
+                <!-- Stratégie Techno Driver -->
+                <rect x="150" y="100" width="200" height="40" rx="5" class="box-phase1" />
+                <text x="250" y="125" class="svg-label-white">Stratégie « Techno driver »</text>
+                <!-- Flèche verticale perpendiculaire au sas (début diamant x=150) depuis (150, 140) vers (150, 350) -->
+                <path d="M 150,140 L 150,350" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+                <!-- Textes Bas D1 (Hiérarchie) -->
+                <text x="300" y="500" class="svg-part-title">Développement technologique</text>
+                <text x="300" y="530" class="svg-key-term">Technologie</text>
+                <text x="300" y="555" class="svg-part-title">Innovation Deeptech</text>
+
+
+                <!-- === DIAMANT 2 : BESOIN (Orange) === -->
+                <!-- Left: 450, Right: 750 -->
+                <polygon points="450,350 600,250 600,450" class="tri-dark fill-orange-dark" />
+                <polygon points="600,250 750,350 600,450" class="tri-light fill-orange-light" />
+
+                <!-- Labels D2 -->
+                <text x="525" y="240" class="svg-label">Découvrir</text>
+                <text x="675" y="240" class="svg-label">Définir</text>
+                
+                <!-- Stratégie Need Seeker -->
+                <rect x="450" y="100" width="200" height="40" rx="5" class="box-phase2" />
+                <text x="550" y="125" class="svg-label-white">Stratégie « Need seeker »</text>
+                
+                <!-- Flèche verticale perpendiculaire au sas (ligne pointillée x=450) depuis (450,140) vers (450,350) -->
+                <path d="M 450,140 L 450,350" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+                <!-- Stratégie RID -->
+                <rect x="440" y="70" width="120" height="25" class="box-header" />
+                <text x="500" y="87" class="svg-label-white">RID, VIANEO</text>
+                <path d="M 500,95 L 500,330" fill="none" stroke="var(--blue)" stroke-width="2" marker-end="url(#arrowBlue)" stroke-dasharray="3,3" />
+
+                <!-- Textes Bas D2 -->
+                <text x="600" y="500" class="svg-part-title">Pose du problème</text>
+                <text x="600" y="530" class="svg-key-term">Besoin</text>
+                <text x="600" y="555" class="svg-part-title">Innovation par les usages</text>
+
+                <!-- Obliques -->
+
+
+                <!-- === DIAMANT 3 : SOLUTION (Bordeaux) === -->
+                <!-- Left: 750, Right: 1050 -->
+                <polygon points="750,350 900,250 900,450" class="tri-dark fill-bordeaux-dark" />
+                <polygon points="900,250 1050,350 900,450" class="tri-light fill-bordeaux-light" />
+
+                <!-- Labels D3 -->
+                <text x="825" y="240" class="svg-label">Développer</text>
+                <text x="975" y="240" class="svg-label">Délivrer</text>
+
+                <!-- Stratégie Market Reader -->
+                <rect x="750" y="100" width="200" height="40" rx="5" class="box-phase3" />
+                <text x="850" y="125" class="svg-label-white">Stratégie « Market reader »</text>
+                <!-- Flèche verticale perpendiculaire au sas (ligne pointillée x=750) depuis (750,140) vers (750,350) -->
+                <path d="M 750,140 L 750,350" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+                <!-- Textes Bas D3 -->
+                <text x="900" y="500" class="svg-part-title">Résolution du problème</text>
+                <text x="900" y="530" class="svg-key-term">Solution</text>
+                <text x="900" y="555" class="svg-part-title">
+                    <tspan x="900" y="555">Innovation incrémentale</tspan>
+                    <tspan x="900" dy="14">par le marché</tspan>
+                </text>
+
+                <!-- Fin Lancement -->
+                <circle cx="1050" cy="350" r="6" fill="black" />
+                <text x="1050" y="380" class="svg-label" font-weight="bold">Lancement</text>
+
+
+                <!-- POINTS DE JONCTION NOIRS & LABELS OBLIQUES -->
+                <!-- 1. Départ (Techno Initiale) -->
+                <circle cx="150" cy="350" r="6" fill="black" />
+                <text x="120" y="400" class="svg-oblique" transform="rotate(-35, 120, 400)" text-anchor="start" font-size="12">Techno initiale</text>
+
+                <!-- 2. Jonction D1-D2 -->
+                <circle cx="450" cy="350" r="6" fill="black" />
+                <text x="400" y="400" class="svg-oblique" transform="rotate(-35, 400, 400)" text-anchor="start" font-size="12">Idée initiale du problème</text>
+
+                <!-- 3. Jonction D2-D3 -->
+                <circle cx="750" cy="350" r="6" fill="black" />
+                <text x="700" y="400" class="svg-oblique" transform="rotate(-35, 700, 400)" text-anchor="start" font-size="12">Brief Marketing</text>
+                <text x="700" y="415" class="svg-oblique" transform="rotate(-35, 700, 415)" text-anchor="start" font-size="10">Cahier des charges innovations</text>
+
+                <!-- 4. Fin D3 -->
+                <circle cx="1050" cy="350" r="6" fill="black" />
+                <text x="1050" y="335" class="svg-oblique" transform="rotate(-35, 1050, 335)" text-anchor="start" font-size="12">Lancement</text>
+
+                <!-- === PUCES BLEU ROYAL ET TERMES EN OBLIQUE (PREMIER PLAN) === -->
+                
+                <!-- Terme "Recherche" centré sur la ligne médiane -->
+                <text x="225" y="350" text-anchor="middle" font-family="Montserrat" font-weight="700" font-size="11" fill="#F1C40F" stroke="#2A325E" stroke-width="0.3">Recherche</text>
+                
+                <!-- (125, 350) Prématuration -->
+                <circle cx="350" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="350" y="330" transform="rotate(-35, 350, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Prématuration</text>
+                
+                <!-- (175, 350) Maturation -->
+                <circle cx="400" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="400" y="330" transform="rotate(-35, 400, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Maturation</text>
+                
+                <!-- Milieu D1 (300, 350) Etude de marché 360° et de brevetabilité -->
+                <circle cx="300" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="300" y="330" transform="rotate(-35, 300, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">
+                    <tspan x="300" y="330">Etude de marché 360°</tspan>
+                    <tspan x="300" dy="12">et de brevetabilité</tspan>
+                </text>
+                
+                <!-- Jonction 1 (440, 350) Secteur socio-économique / Marché -->
+                <circle cx="440" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="440" y="330" transform="rotate(-35, 440, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Secteur socio-économique / Marché</text>
+                
+                <!-- (525, 350) Etude de besoin -->
+                <circle cx="540" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="540" y="330" transform="rotate(-35, 540, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Etude de besoin</text>
+                
+                <!-- (625, 350) Etude de la concurrence, réduction espace de marché -->
+                <circle cx="655" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="655" y="330" transform="rotate(-35, 655, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">
+                    <tspan x="655" y="330">Etude de la concurrence</tspan>
+                    <tspan x="655" dy="12">réduction espace de marché</tspan>
+                </text>
+                
+                <!-- (775, 350) Proposition de valeur -->
+                <circle cx="800" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="800" y="330" transform="rotate(-35, 800, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Proposition de valeur</text>
+                
+                <!-- (825, 350) Idéation architecture et BM -->
+                <circle cx="850" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="850" y="330" transform="rotate(-35, 850, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Idéation architecture et BM</text>
+                
+                <!-- Milieu D3 (900, 350) Choix architecture et BM -->
+                <circle cx="900" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="900" y="330" transform="rotate(-35, 900, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Choix architecture et BM</text>
+                
+                <!-- (925, 350) Design détaillée -->
+                <circle cx="950" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="950" y="330" transform="rotate(-35, 950, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Design détaillée</text>
+                
+                <!-- (975, 350) Test -->
+                <circle cx="1000" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="1000" y="330" transform="rotate(-35, 1000, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Test</text>
+
+            </svg>
+            <!-- Crédit discret pour le schéma Hyb'rid -->
+            <div class="schema-credit">
+                <img src="../../../../../assets/image/Visuel Osez pour Innover.png" alt="Hyb'rid" class="schema-credit-logo" />
+                <span>Schéma original Hyb'rid, adapté pour le parcours Projet Inno.</span>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fa-solid fa-layer-group"></i> Comprendre la mécanique du Triple Diamant</h4>
+            <p>Ce schéma ne se contente pas d'ajouter une étape ; il modélise la <strong>rencontre entre la Science et le Marché</strong>.</p>
+            <ul style="margin-top:15px; padding-left:20px; line-height:1.6;">
+                <li><strong>Les Termes en Bleu (L'Axe de Maturation) :</strong> Ils représentent le chemin critique de la technologie. Contrairement à un projet purement numérique, une innovation Deeptech doit passer par la <em>Prématuration</em> et la <em>Maturation</em> pour dérisquer l'actif technologique avant même de chercher son marché.</li>
+                <li><strong>Le Premier Diamant (Inventer / Maturer) :</strong> C'est le monde de la Recherche. L'objectif n'est pas de vendre, mais de prouver que la technologie fonctionne et qu'elle est protégeable (Brevet).</li>
+                <li><strong>L'Alignement (RID / Vianeo) :</strong> C'est la clé de voûte. La méthodologie RID intervient pour transformer ce potentiel technologique en <strong>Utilité</strong>. On ne passe au "Besoin" (Diamant 2) que lorsque la technologie a trouvé sa "Légitimité" d'usage.</li>
+            </ul>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--orange);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Compréhension</h3>
+            <p>Quelle est la particularité du premier diamant de ce modèle ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q12a" name="q12" value="wrong">
+                    <label for="q12a">Il sert à vendre le produit immédiatement.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q12b" name="q12" value="correct">
+                    <label for="q12b">Il concerne la maturation technologique (inventer et maturer).</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q12c" name="q12" value="wrong">
+                    <label for="q12c">Il remplace l'étude de marché.</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Feedback -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <p id="modalMessage">Message</p>
+            <button class="modal-btn" onclick="closeModal()">Continuer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modal.classList.add('active');
+            
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q12'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Excellent !", "Vous avez compris la nuance : le premier diamant sécurise la technologie avant d'attaquer le problème des utilisatrices et utilisateurs (2ème diamant) et la solution (3ème diamant).", "success");
+                
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html#grain17'; };
+                    }
+                }, 100);
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                showModal("Pas tout à fait", "Le premier diamant est dédié à la 'Techno initiale' et sa maturation. La vente arrive bien plus tard.", "error");
+            }
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPSULE 13 : Le Triple Diamant RID | Projet Inno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
+        .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .btn-back:hover { color: var(--orange); }
+        
+        .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        .hero-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; border-left: 4px solid var(--orange); padding-left: 15px; }
+        
+        .def-box { background: linear-gradient(135deg, var(--blue), var(--bordeaux)); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; box-shadow: 0 10px 20px rgba(42, 50, 94, 0.2); position: relative; }
+        .def-quote { font-size: 1.2rem; font-weight: 500; text-align: center; margin-bottom: 1rem; display: block; font-style: italic; }
+
+        /* --- TRIPLE DIAMOND SCHEMA STYLES --- */
+        .schema-wrapper {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow-x: auto;
+            margin: 3rem 0;
+            border: 1px solid #ddd;
+        }
+        body.dark-mode .schema-wrapper {
+            background: #2b2f3b;
+            border-color: #444;
+        }
+
+        .td-svg {
+            min-width: 1000px;
+            height: 650px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        /* Crédit schéma Hyb'rid en dessous à gauche */
+        .schema-credit {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        body.dark-mode .schema-credit {
+            color: #ccc;
+        }
+        .schema-credit-logo {
+            height: 20px;
+            width: auto;
+        }
+
+        /* SVG Text Styles */
+        .svg-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 20px; fill: white; text-transform: uppercase; }
+        
+        /* Labels Généraux */
+        .svg-label { font-size: 12px; font-weight: 700; fill: #333; text-anchor: middle; }
+        
+        /* Titres de parties (Gros, sous diamants) */
+        .svg-part-title { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; fill: var(--bordeaux); text-anchor: middle; text-transform: uppercase; }
+        
+        /* Termes clés (Sous titres) */
+        .svg-key-term { font-size: 12px; font-weight: 600; fill: #666; text-anchor: middle; font-style: italic; }
+        
+        .svg-label-white { font-size: 12px; font-weight: 700; fill: white; text-anchor: middle; }
+        .svg-label-blue { font-size: 11px; font-weight: 700; fill: var(--blue); text-anchor: middle; }
+        .svg-oblique { font-size: 10px; fill: #444; font-weight: 600; text-anchor: middle; }
+        
+        /* Diamond Triangles */
+        .tri-dark { stroke: white; stroke-width: 1; opacity: 1; }
+        .tri-light { stroke: white; stroke-width: 1; opacity: 0.7; }
+
+        /* Fills based on Charter */
+        .fill-blue-dark { fill: var(--blue); }
+        .fill-blue-light { fill: var(--teal); }
+        .fill-orange-dark { fill: #d8761e; }
+        .fill-orange-light { fill: var(--orange); }
+        .fill-bordeaux-dark { fill: var(--bordeaux); }
+        .fill-bordeaux-light { fill: #8a2a70; }
+
+        /* Box Styles mapped to Phases */
+        .box-phase1 { fill: var(--teal); stroke: none; }
+        .box-phase2 { fill: var(--orange); stroke: none; }
+        .box-phase3 { fill: var(--bordeaux); stroke: none; }
+        .box-header { fill: var(--blue); stroke: none; }
+        
+        /* Dark Mode Adjustments */
+        body.dark-mode .svg-label, body.dark-mode .svg-key-term { fill: white; }
+        body.dark-mode .svg-label-blue { fill: #4fc3f7; }
+        body.dark-mode .svg-oblique { fill: #ccc; }
+        body.dark-mode .svg-part-title { fill: var(--orange); }
+
+        .info-box {
+            background: rgba(42, 50, 94, 0.05);
+            border-left: 5px solid var(--orange);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+        .btn-validate { background: var(--teal); color: white; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3); }
+        .btn-validate:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 175, 125, 0.4); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-box { background: var(--bg-card); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: center; border-top: 5px solid var(--orange); transform: translateY(20px); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 0.5rem; font-weight: 900; }
+        .modal-text { font-size: 1rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem; text-align: left; }
+        .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="sommaire_module1.html#grain17" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
+        <div style="font-weight: 800; color: var(--bordeaux);">Capsule 13</div>
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <h1 class="hero-title">Le Triple Diamant</h1>
+        <div class="hero-subtitle">Une approche intégrée selon la méthodologie RID (Radical Innovation Design).</div>
+
+        <div class="def-box">
+            <span class="def-quote">
+                <i class="fa-solid fa-layer-group" style="opacity:0.8; margin-right:10px;"></i>
+                Ce modèle structure la rencontre entre la Science et le Marché. Il ajoute une phase cruciale de <strong>maturation technologique</strong> en amont pour transformer une invention brute en une <strong>valeur d'usage</strong> réelle, avant de concevoir la solution finale.
+            </span>
+        </div>
+
+        <!-- SCHEMA TRIPLE DIAMANT -->
+        <div class="schema-wrapper">
+            <svg class="td-svg" viewBox="0 0 1200 650" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <marker id="arrowBlack" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="black" /></marker>
+                    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2EAF7D" /></marker>
+                </defs>
+
+                <!-- HEADER -->
+                <rect x="0" y="0" width="1200" height="60" fill="white" />
+                <!-- Logo projet Inno intégré dans le bandeau -->
+                <image x="20" y="10" width="140" height="40" xlink:href="../../../../../assets/image/logo_oser_pour_innover.png" />
+                <rect x="350" y="10" width="500" height="40" rx="20" class="box-header" />
+                <text x="600" y="38" text-anchor="middle" class="svg-title" font-size="18">Le Triple Diamant selon RID</text>
+                <text x="1100" y="38" class="svg-label" style="font-size:14px;">CC BY-NC-ND</text>
+
+                <!-- SEPARATEURS VERTICAUX (Pointillés) -->
+                <line x1="450" y1="200" x2="450" y2="550" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" />
+                <line x1="750" y1="200" x2="750" y2="550" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5" />
+
+
+                <!-- === DIAMANT 1 : TECHNO (Bleu/Teal) === -->
+                <!-- Left: 150, Right: 450 -->
+                <polygon points="150,350 300,250 300,450" class="tri-dark fill-blue-dark" />
+                <polygon points="300,250 450,350 300,450" class="tri-light fill-blue-light" />
+                
+                <!-- Labels D1 -->
+                <text x="225" y="240" class="svg-label">Inventer</text>
+                <text x="375" y="240" class="svg-label">Maturer</text>
+                
+                <!-- Stratégie Techno Driver -->
+                <rect x="150" y="100" width="200" height="40" rx="5" class="box-phase1" />
+                <text x="250" y="125" class="svg-label-white">Stratégie « Techno driver »</text>
+                <!-- Flèche verticale perpendiculaire au sas (début diamant x=150) depuis (150, 140) vers (150, 350) -->
+                <path d="M 150,140 L 150,350" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+                <!-- Textes Bas D1 (Hiérarchie) -->
+                <text x="300" y="500" class="svg-part-title">Développement technologique</text>
+                <text x="300" y="530" class="svg-key-term">Technologie</text>
+                <text x="300" y="555" class="svg-part-title">Innovation Deeptech</text>
+
+
+                <!-- === DIAMANT 2 : BESOIN (Orange) === -->
+                <!-- Left: 450, Right: 750 -->
+                <polygon points="450,350 600,250 600,450" class="tri-dark fill-orange-dark" />
+                <polygon points="600,250 750,350 600,450" class="tri-light fill-orange-light" />
+
+                <!-- Labels D2 -->
+                <text x="525" y="240" class="svg-label">Découvrir</text>
+                <text x="675" y="240" class="svg-label">Définir</text>
+                
+                <!-- Stratégie Need Seeker -->
+                <rect x="450" y="100" width="200" height="40" rx="5" class="box-phase2" />
+                <text x="550" y="125" class="svg-label-white">Stratégie « Need seeker »</text>
+                
+                <!-- Flèche verticale perpendiculaire au sas (ligne pointillée x=450) depuis (450,140) vers (450,350) -->
+                <path d="M 450,140 L 450,350" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+                <!-- Stratégie RID -->
+                <rect x="440" y="70" width="120" height="25" class="box-header" />
+                <text x="500" y="87" class="svg-label-white">RID, VIANEO</text>
+                <path d="M 500,95 L 500,330" fill="none" stroke="var(--blue)" stroke-width="2" marker-end="url(#arrowBlue)" stroke-dasharray="3,3" />
+
+                <!-- Textes Bas D2 -->
+                <text x="600" y="500" class="svg-part-title">Pose du problème</text>
+                <text x="600" y="530" class="svg-key-term">Besoin</text>
+                <text x="600" y="555" class="svg-part-title">Innovation par les usages</text>
+
+                <!-- Obliques -->
+
+
+                <!-- === DIAMANT 3 : SOLUTION (Bordeaux) === -->
+                <!-- Left: 750, Right: 1050 -->
+                <polygon points="750,350 900,250 900,450" class="tri-dark fill-bordeaux-dark" />
+                <polygon points="900,250 1050,350 900,450" class="tri-light fill-bordeaux-light" />
+
+                <!-- Labels D3 -->
+                <text x="825" y="240" class="svg-label">Développer</text>
+                <text x="975" y="240" class="svg-label">Délivrer</text>
+
+                <!-- Stratégie Market Reader -->
+                <rect x="750" y="100" width="200" height="40" rx="5" class="box-phase3" />
+                <text x="850" y="125" class="svg-label-white">Stratégie « Market reader »</text>
+                <!-- Flèche verticale perpendiculaire au sas (ligne pointillée x=750) depuis (750,140) vers (750,350) -->
+                <path d="M 750,140 L 750,350" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowBlack)" />
+
+                <!-- Textes Bas D3 -->
+                <text x="900" y="500" class="svg-part-title">Résolution du problème</text>
+                <text x="900" y="530" class="svg-key-term">Solution</text>
+                <text x="900" y="555" class="svg-part-title">
+                    <tspan x="900" y="555">Innovation incrémentale</tspan>
+                    <tspan x="900" dy="14">par le marché</tspan>
+                </text>
+
+                <!-- Fin Lancement -->
+                <circle cx="1050" cy="350" r="6" fill="black" />
+                <text x="1050" y="380" class="svg-label" font-weight="bold">Lancement</text>
+
+
+                <!-- POINTS DE JONCTION NOIRS & LABELS OBLIQUES -->
+                <!-- 1. Départ (Techno Initiale) -->
+                <circle cx="150" cy="350" r="6" fill="black" />
+                <text x="120" y="400" class="svg-oblique" transform="rotate(-35, 120, 400)" text-anchor="start" font-size="12">Techno initiale</text>
+
+                <!-- 2. Jonction D1-D2 -->
+                <circle cx="450" cy="350" r="6" fill="black" />
+                <text x="400" y="400" class="svg-oblique" transform="rotate(-35, 400, 400)" text-anchor="start" font-size="12">Idée initiale du problème</text>
+
+                <!-- 3. Jonction D2-D3 -->
+                <circle cx="750" cy="350" r="6" fill="black" />
+                <text x="700" y="400" class="svg-oblique" transform="rotate(-35, 700, 400)" text-anchor="start" font-size="12">Brief Marketing</text>
+                <text x="700" y="415" class="svg-oblique" transform="rotate(-35, 700, 415)" text-anchor="start" font-size="10">Cahier des charges innovations</text>
+
+                <!-- 4. Fin D3 -->
+                <circle cx="1050" cy="350" r="6" fill="black" />
+                <text x="1050" y="335" class="svg-oblique" transform="rotate(-35, 1050, 335)" text-anchor="start" font-size="12">Lancement</text>
+
+                <!-- === PUCES BLEU ROYAL ET TERMES EN OBLIQUE (PREMIER PLAN) === -->
+                
+                <!-- Terme "Recherche" centré sur la ligne médiane -->
+                <text x="225" y="350" text-anchor="middle" font-family="Montserrat" font-weight="700" font-size="11" fill="#F1C40F" stroke="#2A325E" stroke-width="0.3">Recherche</text>
+                
+                <!-- (125, 350) Prématuration -->
+                <circle cx="350" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="350" y="330" transform="rotate(-35, 350, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Prématuration</text>
+                
+                <!-- (175, 350) Maturation -->
+                <circle cx="400" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="400" y="330" transform="rotate(-35, 400, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Maturation</text>
+                
+                <!-- Milieu D1 (300, 350) Etude de marché 360° et de brevetabilité -->
+                <circle cx="300" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="300" y="330" transform="rotate(-35, 300, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">
+                    <tspan x="300" y="330">Etude de marché 360°</tspan>
+                    <tspan x="300" dy="12">et de brevetabilité</tspan>
+                </text>
+                
+                <!-- Jonction 1 (440, 350) Secteur socio-économique / Marché -->
+                <circle cx="440" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="440" y="330" transform="rotate(-35, 440, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Secteur socio-économique / Marché</text>
+                
+                <!-- (525, 350) Etude de besoin -->
+                <circle cx="540" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="540" y="330" transform="rotate(-35, 540, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Etude de besoin</text>
+                
+                <!-- (625, 350) Etude de la concurrence, réduction espace de marché -->
+                <circle cx="655" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="655" y="330" transform="rotate(-35, 655, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">
+                    <tspan x="655" y="330">Etude de la concurrence</tspan>
+                    <tspan x="655" dy="12">réduction espace de marché</tspan>
+                </text>
+                
+                <!-- (775, 350) Proposition de valeur -->
+                <circle cx="800" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="800" y="330" transform="rotate(-35, 800, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Proposition de valeur</text>
+                
+                <!-- (825, 350) Idéation architecture et BM -->
+                <circle cx="850" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="850" y="330" transform="rotate(-35, 850, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Idéation architecture et BM</text>
+                
+                <!-- Milieu D3 (900, 350) Choix architecture et BM -->
+                <circle cx="900" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="900" y="330" transform="rotate(-35, 900, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Choix architecture et BM</text>
+                
+                <!-- (925, 350) Design détaillée -->
+                <circle cx="950" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="950" y="330" transform="rotate(-35, 950, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Design détaillée</text>
+                
+                <!-- (975, 350) Test -->
+                <circle cx="1000" cy="350" r="8" fill="#4169E1" stroke="#2A325E" stroke-width="1" />
+                <text x="1000" y="330" transform="rotate(-35, 1000, 330)" text-anchor="start" font-size="11" font-weight="700" fill="#4169E1" font-weight="700">Test</text>
+
+            </svg>
+            <!-- Crédit discret pour le schéma Hyb'rid -->
+            <div class="schema-credit">
+                <img src="../../../../../assets/image/Visuel Osez pour Innover.png" alt="Hyb'rid" class="schema-credit-logo" />
+                <span>Schéma original Hyb'rid, adapté pour le parcours Projet Inno.</span>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h4><i class="fa-solid fa-layer-group"></i> Comprendre la mécanique du Triple Diamant</h4>
+            <p>Ce schéma ne se contente pas d'ajouter une étape ; il modélise la <strong>rencontre entre la Science et le Marché</strong>.</p>
+            <ul style="margin-top:15px; padding-left:20px; line-height:1.6;">
+                <li><strong>Les Termes en Bleu (L'Axe de Maturation) :</strong> Ils représentent le chemin critique de la technologie. Contrairement à un projet purement numérique, une innovation Deeptech doit passer par la <em>Prématuration</em> et la <em>Maturation</em> pour dérisquer l'actif technologique avant même de chercher son marché.</li>
+                <li><strong>Le Premier Diamant (Inventer / Maturer) :</strong> C'est le monde de la Recherche. L'objectif n'est pas de vendre, mais de prouver que la technologie fonctionne et qu'elle est protégeable (Brevet).</li>
+                <li><strong>L'Alignement (RID / Vianeo) :</strong> C'est la clé de voûte. La méthodologie RID intervient pour transformer ce potentiel technologique en <strong>Utilité</strong>. On ne passe au "Besoin" (Diamant 2) que lorsque la technologie a trouvé sa "Légitimité" d'usage.</li>
+            </ul>
+        </div>
+
+        <!-- Quiz -->
+        <div style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 15px; border: 1px solid #ddd; border-left: 5px solid var(--orange);">
+            <h3><i class="fa-solid fa-clipboard-question"></i> Quiz de Compréhension</h3>
+            <p>Quelle est la particularité du premier diamant de ce modèle ?</p>
+            <form id="quizForm">
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q12a" name="q12" value="wrong">
+                    <label for="q12a">Il sert à vendre le produit immédiatement.</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q12b" name="q12" value="correct">
+                    <label for="q12b">Il concerne la maturation technologique (inventer et maturer).</label>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="radio" id="q12c" name="q12" value="wrong">
+                    <label for="q12c">Il remplace l'étude de marché.</label>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer Action -->
+    <div class="action-footer">
+        <button class="btn-validate" onclick="finishGrain()">Terminer ce Grain <i class="fa-solid fa-check"></i></button>
+    </div>
+
+    <!-- Modal pour Feedback -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-box">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 10px;"></div>
+            <div class="modal-title" id="modalTitle">Titre</div>
+            <p id="modalMessage">Message</p>
+            <button class="modal-btn" onclick="closeModal()">Continuer</button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Modal Logic
+        const modal = document.getElementById('feedbackModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMsg = document.getElementById('modalMessage');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalBox = modal.querySelector('.modal-box');
+        const modalBtn = modal.querySelector('.modal-btn');
+
+        function showModal(title, msg, type) {
+            modalTitle.innerText = title;
+            modalMsg.innerText = msg;
+            modal.classList.add('active');
+            
+            if(type === 'success') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: var(--teal);"></i>';
+                modalTitle.style.color = 'var(--teal)';
+                modalBox.style.borderTopColor = 'var(--teal)';
+                modalBtn.style.backgroundColor = 'var(--teal)';
+            } else {
+                modalIcon.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color: var(--orange);"></i>';
+                modalTitle.style.color = 'var(--orange)';
+                modalBox.style.borderTopColor = 'var(--orange)';
+                modalBtn.style.backgroundColor = 'var(--orange)';
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Quiz Validation
+        function finishGrain() {
+            const radios = document.getElementsByName('q12'); 
+            let val = ""; 
+            for(const r of radios) if(r.checked) val = r.value;
+            
+            if(val === "correct") { 
+                showModal("Excellent !", "Vous avez compris la nuance : le premier diamant sécurise la technologie avant d'attaquer le problème des utilisatrices et utilisateurs (2ème diamant) et la solution (3ème diamant).", "success");
+                
+                setTimeout(() => {
+                    const btn = document.querySelector('.modal-btn');
+                    if(btn) {
+                        btn.innerText = "Retour au Sommaire";
+                        btn.onclick = function() { window.location.href = 'sommaire_module1.html#grain17'; };
+                    }
+                }, 100);
+            } else if (val === "") { 
+                alert("Veuillez sélectionner une réponse au quiz.");
+            } else { 
+                showModal("Pas tout à fait", "Le premier diamant est dédié à la 'Techno initiale' et sa maturation. La vente arrive bien plus tard.", "error");
+            }
+        }
+    </script>
+</body>
+</html>

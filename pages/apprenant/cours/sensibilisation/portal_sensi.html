@@ -1,6 +1,3 @@
----
-layout: null
----
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -175,22 +172,22 @@ layout: null
 
     <!-- HUD : Barre de Navigation -->
     <nav class="gamification-bar">
-        <div class="logo" onclick="window.location.href='{{ '/' | relative_url }}'" style="cursor: pointer;">
+        <div class="logo" onclick="window.location.href='../../../../index.html'" style="cursor: pointer;">
             <i class="fa-solid fa-atom" style="color: var(--orange);"></i>
             PROJET INNO
         </div>
 
         <div class="hud-actions">
             <button class="btn-icon" onclick="toggleTheme()" title="Mode Nuit/Jour"><i class="fa-solid fa-moon"></i></button>
-            <a href="{{ '/pages/apprenant/portal.html' | relative_url }}" class="btn-icon" title="Retour au Portail"><i class="fa-solid fa-arrow-left"></i></a>
-            <a href="{{ '/' | relative_url }}" class="btn-icon" title="Quitter vers l'accueil"><i class="fa-solid fa-power-off"></i></a>
+            <a href="../portal.html" class="btn-icon" title="Retour au Portail"><i class="fa-solid fa-arrow-left"></i></a>
+            <a href="../../../../index.html" class="btn-icon" title="Quitter vers l'accueil"><i class="fa-solid fa-power-off"></i></a>
         </div>
     </nav>
 
     <!-- FIL D'ARIANE -->
     <div class="breadcrumb">
-        <a href="{{ '/' | relative_url }}"><i class="fa-solid fa-house"></i> Accueil</a> &gt; 
-        <a href="{{ '/pages/apprenant/portal.html' | relative_url }}">Espace Apprenant</a> &gt; 
+        <a href="../../../../index.html"><i class="fa-solid fa-house"></i> Accueil</a> &gt; 
+        <a href="../portal.html">Espace Apprenant·e·s</a> &gt; 
         <span style="font-weight: bold; color: var(--bordeaux);">Sensibilisation</span>
     </div>
 
@@ -200,7 +197,7 @@ layout: null
         <div class="mission-map">
             
             <!-- MODULE 1 -->
-            <div class="module-card module-featured" onclick="startModule(1)">
+            <div class="module-card module-featured" onclick="window.location.href='module1/sommaire_module1.html'">
                 <div class="module-number">M1</div>
                 <div class="module-content">
                     <div class="tags">
@@ -208,7 +205,7 @@ layout: null
                         <span class="tag tag-info">Fondamentaux</span>
                     </div>
                     <h2 class="module-title">Vocabulaire & Typologie</h2>
-                    <p class="module-desc">Innovation de rupture, incrémentale, adjacente... Maîtrisez le langage des innovateurs.</p>
+                    <p class="module-desc">Innovation de rupture, incrémentale, adjacente... Maîtrisez le langage des innovatrices et innovateurs.</p>
                     <button class="btn-start">
                         <i class="fa-solid fa-play"></i> Accéder au module
                     </button>
@@ -326,13 +323,8 @@ layout: null
         };
 
         function startModule(id) {
-            // Base URL pour le dossier sensibilisation
-            // Note: On utilise le filtre relative_url de Jekyll pour s'assurer que le chemin est bon quel que soit l'hébergement
-            const basePath = "{{ '/pages/apprenant/cours/sensibilisation/' | relative_url }}";
-            
-            // Construction dynamique du chemin basé sur votre structure de dossiers :
-            // .../sensibilisation/moduleX/sommaire_moduleX.html
-            const targetUrl = basePath + "module" + id + "/sommaire_module" + id + ".html";
+            // Chemin relatif simple depuis portal_sensi.html vers les modules
+            const targetUrl = "module" + id + "/sommaire_module" + id + ".html";
             
             console.log("Navigation vers : " + targetUrl);
             window.location.href = targetUrl;
