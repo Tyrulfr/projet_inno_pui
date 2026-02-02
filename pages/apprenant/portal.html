@@ -6,7 +6,7 @@ layout: null
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJET INNO | Espace Apprenant</title>
+    <title>OSER POUR INNOVER | Espace Apprenant</title>
 
     <!-- Polices Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,16 +76,12 @@ layout: null
         }
 
         .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 1.5rem;
-            color: var(--bordeaux);
             display: flex;
             align-items: center;
-            gap: 10px;
             cursor: pointer;
+            text-decoration: none;
         }
-        body.dark-mode .logo { color: white; }
+        .logo img { height: 108px; width: auto; max-width: 540px; object-fit: contain; display: block; }
 
         .theme-btn {
             background: none;
@@ -235,10 +231,9 @@ layout: null
 
     <!-- NAVIGATION -->
     <nav class="navbar">
-        <div class="logo" onclick="window.location.href='../../index.html'">
-            <i class="fa-solid fa-atom" style="color: var(--orange);"></i>
-            PROJET INNO
-        </div>
+        <a href="../../index.html" class="logo" title="OSER POUR INNOVER">
+            <img src="../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" />
+        </a>
         <button class="theme-btn" onclick="toggleTheme()">
             <i class="fa-solid fa-moon"></i> Mode Nuit
         </button>
@@ -275,7 +270,7 @@ layout: null
 
     <!-- PIED DE PAGE -->
     <footer>
-        &copy; {{ "now" | date: "%Y" }} Projet Inno - Espace Formation
+        &copy; {{ "now" | date: "%Y" }} OSER POUR INNOVER - Espace Formation
     </footer>
 
     <!-- SCRIPT JS -->
