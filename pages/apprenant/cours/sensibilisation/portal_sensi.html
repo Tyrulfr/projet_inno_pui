@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PARCOURS APPRENANT | Projet Inno</title>
+    <title>PARCOURS APPRENANT | OSER POUR INNOVER</title>
     
     <!-- Polices & Icônes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,6 +64,8 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             border-bottom: 3px solid var(--orange);
         }
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 108px; width: auto; max-width: 540px; object-fit: contain; display: block; }
 
         .hud-actions { display: flex; gap: 1rem; align-items: center; }
         .btn-icon {
@@ -172,10 +174,9 @@
 
     <!-- HUD : Barre de Navigation -->
     <nav class="gamification-bar">
-        <div class="logo" onclick="window.location.href='../../../../index.html'" style="cursor: pointer;">
-            <i class="fa-solid fa-atom" style="color: var(--orange);"></i>
-            PROJET INNO
-        </div>
+        <a href="../../../../index.html" class="logo" title="OSER POUR INNOVER" style="cursor: pointer;">
+            <img src="../../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" />
+        </a>
 
         <div class="hud-actions">
             <button class="btn-icon" onclick="toggleTheme()" title="Mode Nuit/Jour"><i class="fa-solid fa-moon"></i></button>
@@ -296,7 +297,7 @@
     </div>
 
     <footer>
-        &copy; {{ "now" | date: "%Y" }} Projet Inno - Espace Formation
+        &copy; {{ "now" | date: "%Y" }} OSER POUR INNOVER - Espace Formation
     </footer>
 
     <script>

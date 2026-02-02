@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activité Expérimentale : Construire un Persona et une Customer Journey Map | Module 1 | OSER POUR INNOVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 0.8rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--orange); }
+        
+        .btn-back { 
+            text-decoration: none; 
+            color: var(--text-main); 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 1.1rem;
+        }
+        .btn-back:hover { color: var(--orange); }
+
+        .nav-center { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .brand-logo-link { display: block; line-height: 0; margin-bottom: -8px; }
+        .brand-logo-link img { height: 108px; width: auto; max-width: 540px; object-fit: contain; display: block; vertical-align: bottom; }
+        .brand-name { font-weight: 900; font-size: 1.2rem; color: var(--bordeaux); letter-spacing: 1px; }
+        body.dark-mode .brand-name { color: var(--orange); }
+        
+        .breadcrumbs { font-size: 0.85rem; color: var(--text-light); margin-top: 0; }
+        .breadcrumbs a { text-decoration: none; color: inherit; font-weight: 600; transition: color 0.2s; border-bottom: 1px solid transparent; }
+        .breadcrumbs a:hover { color: var(--orange); border-bottom-color: var(--orange); }
+        body.dark-mode .breadcrumbs a:hover { color: white; border-bottom-color: white; }
+        .separator { opacity: 0.4; margin: 0 5px; }
+
+        .content-container { max-width: 1400px; margin: 2rem auto; padding: 0 1.5rem; }
+        
+        /* Hero Section */
+        .hero-section { text-align: center; margin-bottom: 3rem; padding: 2rem 1rem; background: linear-gradient(135deg, var(--orange), var(--blue)); border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(244, 140, 46, 0.3); }
+        .hero-title { font-size: 2rem; margin-bottom: 0.5rem; color: white; }
+        .hero-desc { font-size: 1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+
+        /* Interview Section */
+        .interview-section {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .interview-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--orange);
+        }
+        .interview-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(244, 140, 46, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--orange);
+            font-size: 1.5rem;
+        }
+        .interview-content {
+            background: rgba(244, 140, 46, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--orange);
+            line-height: 1.8;
+        }
+
+        /* Draggable text spans */
+        .draggable-text {
+            background: rgba(244, 140, 46, 0.2);
+            border-bottom: 2px dashed var(--orange);
+            padding: 2px 4px;
+            cursor: move;
+            display: inline-block;
+            border-radius: 3px;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .draggable-text:hover {
+            background: rgba(244, 140, 46, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(244, 140, 46, 0.3);
+        }
+
+        .draggable-text.dragging {
+            opacity: 0.5;
+            background: rgba(244, 140, 46, 0.1);
+        }
+
+        .interview-instruction {
+            background: rgba(46, 175, 125, 0.1);
+            border-left: 4px solid var(--teal);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Two Column Layout */
+        .two-column-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1200px) {
+            .two-column-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Interview Section */
+        .interview-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        /* Notebook/Carnet Style */
+        .notebook-container {
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            height: fit-content;
+            min-height: 600px;
+        }
+
+        .notebook-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+
+        .notebook-tab {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: #e8e8e8;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: all 0.3s;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .notebook-tab:hover {
+            background: #d8d8d8;
+        }
+
+        .notebook-tab.active {
+            background: var(--bg-card);
+            color: var(--bordeaux);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .notebook-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--bg-card);
+        }
+
+        .notebook-page {
+            display: none;
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.5rem;
+            min-height: 500px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .notebook-page.active {
+            display: block;
+            animation: pageOpen 0.3s ease-in-out;
+        }
+
+        @keyframes pageOpen {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Persona Section */
+        .persona-section, .journey-section {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--bordeaux);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        body.dark-mode .section-title { color: var(--orange); }
+
+        /* Drop zone styles */
+
+        .drop-zone {
+            min-height: 200px;
+            border: 2px dashed var(--teal);
+            border-radius: 10px;
+            padding: 1.5rem;
+            background: rgba(46, 175, 125, 0.05);
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .drop-zone.drag-over {
+            background: rgba(46, 175, 125, 0.15);
+            border-color: var(--teal);
+            border-style: solid;
+        }
+
+        .drop-zone:not(:has(.dropped-item))::after {
+            content: "Glissez les termes du texte ici";
+            color: var(--text-light);
+            font-style: italic;
+            display: block;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .journey-drop:empty::after {
+            content: "Glissez les événements du texte ici";
+            color: var(--text-light);
+            font-style: italic;
+            display: block;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .dropped-item {
+            background: var(--bg-card);
+            border: 2px solid var(--teal);
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+
+        .dropped-item:hover {
+            background: rgba(46, 175, 125, 0.1);
+        }
+
+        .remove-btn {
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: var(--bordeaux);
+            transform: scale(1.1);
+        }
+
+        /* Persona Card */
+        .persona-card {
+            background: linear-gradient(135deg, var(--teal), var(--blue));
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 1rem;
+            box-shadow: 0 10px 30px rgba(46, 175, 125, 0.3);
+        }
+
+        .persona-field {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .persona-field-label {
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .persona-field-value {
+            font-size: 1.1rem;
+        }
+
+        /* Journey Map */
+        .journey-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .journey-stage {
+            background: var(--bg-card);
+            border-left: 4px solid var(--teal);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-stage-header {
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-events {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .journey-event {
+            background: rgba(46, 175, 125, 0.1);
+            border: 1px solid var(--teal);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn-reset {
+            background: var(--orange);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-reset:hover {
+            background: var(--bordeaux);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(88, 15, 69, 0.3);
+        }
+
+        .btn-validate {
+            background: var(--teal);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            margin-left: 1rem;
+        }
+
+        .btn-validate:hover {
+            background: var(--blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 175, 125, 0.3);
+        }
+
+        .success-message {
+            background: var(--teal);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="sommaire_sequence2.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Retour</a>
+        
+        <div class="nav-center">
+            <a href="../../../../../index.html" class="brand-logo-link" title="OSER POUR INNOVER">
+                <img src="../../../../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" />
+            </a>
+            <div class="breadcrumbs">
+                <span class="separator">/</span> 
+                <a href="../../../portal.html">Accueil</a> 
+                <span class="separator">/</span> 
+                <a href="../portal_sensi.html">Sensibilisation</a>
+                <span class="separator">/</span> 
+                <a href="sommaire_module1.html">Module 1</a>
+                <span class="separator">/</span> 
+                <a href="sommaire_sequence2.html">Séquence 2</a>
+            </div>
+        </div>
+        
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <div class="hero-section">
+            <h1 class="hero-title"><i class="fa-solid fa-puzzle-piece"></i> Activité Expérimentale</h1>
+            <p class="hero-desc">À partir d'un entretien utilisateur, construisez un Persona et une Customer Journey Map</p>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="two-column-layout">
+            <!-- Left Column: Interview -->
+            <div class="interview-section">
+                <div class="interview-header">
+                    <div class="interview-icon"><i class="fa-solid fa-microphone"></i></div>
+                    <div>
+                        <h2 style="margin: 0; color: var(--bordeaux);">Entretien Utilisateur</h2>
+                        <p style="margin: 0; color: var(--text-light); font-size: 0.9rem;">Témoignage d'une journée type</p>
+                    </div>
+                </div>
+                <div class="interview-content">
+                    <div class="interview-instruction">
+                        <i class="fa-solid fa-info-circle"></i> <strong>Instructions :</strong> Analysez le témoignage et glissez les termes surlignés vers les pages du carnet (Persona ou Customer Journey Map). Cliquez sur les onglets pour changer de page.
+                    </div>
+                    <p><strong><span class="draggable-text" draggable="true" data-value="Sophie">Sophie</span>, <span class="draggable-text" draggable="true" data-value="32 ans">32 ans</span>, <span class="draggable-text" draggable="true" data-value="Responsable Marketing">Responsable Marketing</span></strong></p>
+                    <p>"Je me réveille généralement vers <span class="draggable-text" draggable="true" data-value="6h30">6h30</span>. Mon réveil sonne, je l'éteins et je reste encore 10 minutes au lit à <span class="draggable-text" draggable="true" data-value="consulter mes notifications sur mon téléphone">consulter mes notifications sur mon téléphone</span>. Ensuite, je me lève, je prends <span class="draggable-text" draggable="true" data-value="une douche rapide et je prépare un café">une douche rapide et je prépare un café</span>. Je n'ai pas vraiment le temps de prendre un vrai petit-déjeuner, donc je bois mon café en m'habillant.</p>
+                    <p>Vers <span class="draggable-text" draggable="true" data-value="7h30">7h30</span>, je pars au travail. J'habite en <span class="draggable-text" draggable="true" data-value="banlieue">banlieue</span> et je dois prendre <span class="draggable-text" draggable="true" data-value="le train puis le métro">le train puis le métro</span>. Pendant le trajet, <span class="draggable-text" draggable="true" data-value="j'écoute des podcasts ou je lis des articles sur mon téléphone">j'écoute des podcasts ou je lis des articles sur mon téléphone</span>. Le trajet dure environ 45 minutes.</p>
+                    <p>Arrivée au bureau vers <span class="draggable-text" draggable="true" data-value="8h30">8h30</span>, je commence par <span class="draggable-text" draggable="true" data-value="consulter mes emails et organiser ma journée">consulter mes emails et organiser ma journée</span>. J'ai beaucoup de <span class="draggable-text" draggable="true" data-value="réunions, surtout le matin">réunions, surtout le matin</span>. Entre les réunions, <span class="draggable-text" draggable="true" data-value="je travaille sur des campagnes marketing">je travaille sur des campagnes marketing</span>, je prépare des présentations, je coordonne avec mon équipe.</p>
+                    <p>Le midi, <span class="draggable-text" draggable="true" data-value="je déjeune souvent rapidement au bureau">je déjeune souvent rapidement au bureau</span> ou je sors avec des collègues si j'ai le temps. L'après-midi, <span class="draggable-text" draggable="true" data-value="je continue mon travail">je continue mon travail</span>, je réponds aux emails urgents, <span class="draggable-text" draggable="true" data-value="je prépare des rapports">je prépare des rapports</span>.</p>
+                    <p>Je quitte le bureau vers <span class="draggable-text" draggable="true" data-value="18h30">18h30</span>. <span class="draggable-text" draggable="true" data-value="Le trajet retour est similaire">Le trajet retour est similaire</span>, mais je suis souvent plus fatiguée. Le soir, <span class="draggable-text" draggable="true" data-value="je fais les courses si nécessaire, je prépare le dîner">je fais les courses si nécessaire, je prépare le dîner</span>, <span class="draggable-text" draggable="true" data-value="je regarde une série ou je lis">je regarde une série ou je lis</span>. Je me couche généralement vers <span class="draggable-text" draggable="true" data-value="23h">23h</span>.</p>
+                    <p>Le week-end, j'aime faire du sport, voir mes amis, et parfois je travaille un peu si j'ai des deadlines importantes. <span class="draggable-text" draggable="true" data-value="J'aimerais avoir plus de temps pour moi">J'aimerais avoir plus de temps pour moi</span>, mais <span class="draggable-text" draggable="true" data-value="c'est difficile avec mon rythme de travail">c'est difficile avec mon rythme de travail</span>."</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Notebook/Carnet -->
+            <div class="notebook-container">
+                <div class="notebook-tabs">
+                    <button class="notebook-tab active" onclick="switchTab('persona')">
+                        <i class="fa-solid fa-user"></i> Persona
+                    </button>
+                    <button class="notebook-tab" onclick="switchTab('journey')">
+                        <i class="fa-solid fa-route"></i> Customer Journey Map
+                    </button>
+                </div>
+
+                <!-- Persona Page -->
+                <div class="notebook-page active" id="persona-page">
+                    <div class="persona-section">
+                        <h2 class="section-title"><i class="fa-solid fa-user"></i> Construire le Persona</h2>
+                        
+                        <p style="margin-bottom: 1rem; color: var(--text-light);">Analysez le témoignage et glissez les termes pertinents dans les zones appropriées :</p>
+
+                <div class="drop-zone" id="persona-name" data-field="name">
+                    <strong>Nom :</strong>
+                </div>
+                <div class="drop-zone" id="persona-age" data-field="age">
+                    <strong>Âge :</strong>
+                </div>
+                <div class="drop-zone" id="persona-job" data-field="job">
+                    <strong>Profession :</strong>
+                </div>
+                <div class="drop-zone" id="persona-location" data-field="location">
+                    <strong>Localisation :</strong>
+                </div>
+                <div class="drop-zone" id="persona-pain" data-field="pain">
+                    <strong>Point de friction :</strong>
+                </div>
+
+                <div class="persona-card" id="persona-preview" style="display: none;">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem;">Persona : Sophie</h3>
+                    <div id="persona-content"></div>
+                </div>
+                    </div>
+                </div>
+
+                <!-- Journey Map Page -->
+                <div class="notebook-page" id="journey-page">
+                    <div class="journey-section">
+                        <h2 class="section-title"><i class="fa-solid fa-route"></i> Construire la Customer Journey Map</h2>
+                        
+                        <p style="margin-bottom: 1rem; color: var(--text-light);">Reconstruisez la journée en glissant les événements dans les étapes chronologiques :</p>
+
+                <div class="journey-timeline">
+                    <div class="journey-stage">
+                        <div class="journey-stage-header">🌅 Réveil & Matin</div>
+                        <div class="drop-zone journey-drop" id="journey-reveil" data-stage="reveil"></div>
+                    </div>
+                    <div class="journey-stage">
+                        <div class="journey-stage-header">🚇 Trajet</div>
+                        <div class="drop-zone journey-drop" id="journey-trajet" data-stage="trajet"></div>
+                    </div>
+                    <div class="journey-stage">
+                        <div class="journey-stage-header">💼 Bureau</div>
+                        <div class="drop-zone journey-drop" id="journey-bureau" data-stage="bureau"></div>
+                    </div>
+                    <div class="journey-stage">
+                        <div class="journey-stage-header">🍽️ Midi</div>
+                        <div class="drop-zone journey-drop" id="journey-midi" data-stage="midi"></div>
+                    </div>
+                    <div class="journey-stage">
+                        <div class="journey-stage-header">📊 Après-midi</div>
+                        <div class="drop-zone journey-drop" id="journey-apres-midi" data-stage="apres-midi"></div>
+                    </div>
+                    <div class="journey-stage">
+                        <div class="journey-stage-header">🌙 Soir</div>
+                        <div class="drop-zone journey-drop" id="journey-soir" data-stage="soir"></div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <button class="btn-reset" onclick="resetActivity()"><i class="fa-solid fa-rotate"></i> Réinitialiser</button>
+            <button class="btn-validate" onclick="validateActivity()"><i class="fa-solid fa-check"></i> Valider</button>
+        </div>
+
+        <div class="success-message" id="success-message">
+            <i class="fa-solid fa-check-circle"></i> Excellent ! Vous avez construit le Persona et la Customer Journey Map avec succès !
+        </div>
+
+    </div>
+
+    <script>
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        // Tab switching function
+        function switchTab(tabName) {
+            // Hide all pages
+            document.querySelectorAll('.notebook-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.notebook-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(tabName + '-page').classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.closest('.notebook-tab').classList.add('active');
+        }
+
+        // Drag and Drop Functionality
+        let draggedElement = null;
+
+        // Make all draggable text elements draggable
+        document.querySelectorAll('.draggable-text').forEach(item => {
+            item.addEventListener('dragstart', function(e) {
+                draggedElement = this;
+                this.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', this.dataset.value);
+            });
+
+            item.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+                draggedElement = null;
+            });
+        });
+
+        // Persona Drop Zones
+        document.querySelectorAll('.drop-zone[id^="persona-"]').forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+                e.dataTransfer.dropEffect = 'move';
+            });
+
+            zone.addEventListener('dragleave', function() {
+                this.classList.remove('drag-over');
+            });
+
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                
+                if (draggedElement) {
+                    // Remove existing content
+                    const existing = this.querySelector('.dropped-item');
+                    if (existing) {
+                        // Return existing item to text
+                        returnItemToText(existing);
+                    }
+                    
+                    // Add new item
+                    const item = document.createElement('div');
+                    item.className = 'dropped-item';
+                    item.innerHTML = `
+                        <span>${draggedElement.dataset.value}</span>
+                        <button class="remove-btn" onclick="removePersonaItem(this)"><i class="fa-solid fa-times"></i></button>
+                    `;
+                    item.dataset.field = this.dataset.field;
+                    item.dataset.value = draggedElement.dataset.value;
+                    item.dataset.originalText = draggedElement.textContent.trim();
+                    item.dataset.originalId = draggedElement.getAttribute('id') || 'item-' + Date.now();
+                    
+                    // Store reference to original element
+                    if (!draggedElement.id) {
+                        draggedElement.id = 'drag-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    }
+                    item.dataset.originalId = draggedElement.id;
+                    
+                    const label = this.querySelector('strong');
+                    this.innerHTML = '';
+                    this.appendChild(label);
+                    this.appendChild(item);
+                    
+                    // Hide the dragged element in text
+                    draggedElement.style.display = 'none';
+                    draggedElement.dataset.used = 'true';
+                    
+                    updatePersonaPreview();
+                }
+            });
+        });
+
+        // Journey Map Drop Zones
+        document.querySelectorAll('.journey-drop').forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+                e.dataTransfer.dropEffect = 'move';
+            });
+
+            zone.addEventListener('dragleave', function() {
+                this.classList.remove('drag-over');
+            });
+
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                
+                if (draggedElement) {
+                    const item = document.createElement('div');
+                    item.className = 'journey-event';
+                    item.textContent = draggedElement.dataset.value;
+                    item.dataset.stage = this.dataset.stage;
+                    item.dataset.value = draggedElement.dataset.value;
+                    item.dataset.originalText = draggedElement.textContent.trim();
+                    
+                    // Store reference to original element
+                    if (!draggedElement.id) {
+                        draggedElement.id = 'drag-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    }
+                    item.dataset.originalId = draggedElement.id;
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.style.marginLeft = '0.5rem';
+                    removeBtn.innerHTML = '<i class="fa-solid fa-times"></i>';
+                    removeBtn.onclick = function() {
+                        returnJourneyItemToText(item);
+                    };
+                    
+                    item.appendChild(removeBtn);
+                    this.appendChild(item);
+                    
+                    // Hide the dragged element in text
+                    draggedElement.style.display = 'none';
+                    draggedElement.dataset.used = 'true';
+                }
+            });
+        });
+
+        function returnItemToText(droppedItem) {
+            const originalId = droppedItem.dataset.originalId;
+            
+            if (originalId) {
+                const draggableText = document.getElementById(originalId);
+                if (draggableText) {
+                    draggableText.style.display = 'inline';
+                    draggableText.dataset.used = 'false';
+                }
+            }
+        }
+
+        function returnJourneyItemToText(journeyItem) {
+            const originalId = journeyItem.dataset.originalId;
+            
+            if (originalId) {
+                const draggableText = document.getElementById(originalId);
+                if (draggableText) {
+                    draggableText.style.display = 'inline';
+                    draggableText.dataset.used = 'false';
+                }
+            }
+            
+            journeyItem.remove();
+        }
+
+        function removePersonaItem(btn) {
+            const item = btn.closest('.dropped-item');
+            const zone = item.closest('.drop-zone');
+            
+            returnItemToText(item);
+            
+            // Remove from zone
+            const label = zone.querySelector('strong');
+            zone.innerHTML = '';
+            zone.appendChild(label);
+            
+            updatePersonaPreview();
+        }
+
+        // Initialize IDs for all draggable elements
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.draggable-text').forEach((el, index) => {
+                if (!el.id) {
+                    el.id = 'drag-item-' + index;
+                }
+            });
+        });
+
+        function updatePersonaPreview() {
+            const fields = ['name', 'age', 'job', 'location', 'pain'];
+            const labels = {
+                'name': 'Nom',
+                'age': 'Âge',
+                'job': 'Profession',
+                'location': 'Localisation',
+                'pain': 'Point de friction'
+            };
+            
+            let hasContent = false;
+            let content = '';
+            
+            fields.forEach(field => {
+                const zone = document.querySelector(`#persona-${field}`);
+                const item = zone.querySelector('.dropped-item');
+                if (item) {
+                    hasContent = true;
+                    content += `
+                        <div class="persona-field">
+                            <span class="persona-field-label">${labels[field]} :</span>
+                            <span class="persona-field-value">${item.dataset.value}</span>
+                        </div>
+                    `;
+                }
+            });
+            
+            if (hasContent) {
+                document.getElementById('persona-content').innerHTML = content;
+                document.getElementById('persona-preview').style.display = 'block';
+            } else {
+                document.getElementById('persona-preview').style.display = 'none';
+            }
+        }
+
+        // Initialize on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.draggable-text').forEach((el, index) => {
+                    if (!el.id) {
+                        el.id = 'drag-item-' + index;
+                    }
+                });
+            });
+        } else {
+            document.querySelectorAll('.draggable-text').forEach((el, index) => {
+                if (!el.id) {
+                    el.id = 'drag-item-' + index;
+                }
+            });
+        }
+
+        function resetActivity() {
+            location.reload();
+        }
+
+        function validateActivity() {
+            const personaFields = document.querySelectorAll('.drop-zone[id^="persona-"] .dropped-item');
+            const journeyEvents = document.querySelectorAll('.journey-event');
+            
+            if (personaFields.length > 0 && journeyEvents.length > 0) {
+                document.getElementById('success-message').classList.add('show');
+                setTimeout(() => {
+                    document.getElementById('success-message').classList.remove('show');
+                }, 5000);
+            } else {
+                alert('Veuillez compléter le Persona et la Customer Journey Map avant de valider.');
+            }
+        }
+    </script>
+</body>
+</html>

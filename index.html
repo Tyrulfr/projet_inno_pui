@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJET INNO | Accueil</title>
+    <title>OSER POUR INNOVER | Accueil</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,8 +16,8 @@
         a { text-decoration: none; color: inherit; }
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
         body.dark-mode .navbar { background: rgba(26, 29, 46, 0.95); border-color: #333; }
-        .logo { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.5rem; color: var(--bordeaux); display: flex; align-items: center; gap: 10px; }
-        body.dark-mode .logo { color: white; }
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 108px; width: auto; max-width: 540px; object-fit: contain; display: block; }
         .theme-btn { background: none; border: 2px solid var(--orange); color: var(--orange); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .theme-btn:hover { background: var(--orange); color: white; }
         .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 3rem 1rem; width: 100%; box-sizing: border-box; }
@@ -37,7 +37,7 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo"><i class="fa-solid fa-atom" style="color: var(--orange);"></i> PROJET INNO</div>
+        <div class="logo"><img src="assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" /></div>
         <button class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Mode Nuit</button>
     </nav>
     <section class="hero">
@@ -53,7 +53,7 @@
             </div>
         </div>
     </section>
-    <footer>&copy; {{ "now" | date: "%Y" }} Projet Inno - V 1.0</footer>
+    <footer>&copy; {{ "now" | date: "%Y" }} OSER POUR INNOVER - V 1.0</footer>
     <script>
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');

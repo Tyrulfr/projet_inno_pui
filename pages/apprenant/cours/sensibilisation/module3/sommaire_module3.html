@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sommaire Module 3 : Retours d'Expérience | Projet Inno</title>
+    <title>Sommaire Module 3 : Retours d'Expérience | OSER POUR INNOVER</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- Styles de base (Charte Projet Inno) --- */
+        /* --- Styles de base (Charte OSER POUR INNOVER) --- */
         :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
         body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
         * { box-sizing: border-box; transition: all 0.3s ease; }
@@ -20,8 +20,8 @@
         
         /* Navigation */
         .top-bar { background: var(--bg-card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--bordeaux); }
-        .logo { font-weight: 900; font-size: 1.2rem; color: var(--bordeaux); text-decoration: none; }
-        body.dark-mode .logo { color: var(--orange); }
+        .brand-logo-link { display: block; line-height: 0; }
+        .brand-logo-link img { height: 108px; width: auto; max-width: 540px; object-fit: contain; display: block; }
         .btn-back { text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
         .btn-back:hover { color: var(--orange); }
 
@@ -70,7 +70,9 @@
 
     <nav class="top-bar">
         <!-- Lien vers le portail parent (Portal Sensi) -->
-        <a href="../../portal_sensi.html" class="logo"><i class="fa-solid fa-shapes"></i> PROJET INNO</a>
+        <a href="../../../../../index.html" class="brand-logo-link" title="OSER POUR INNOVER">
+        <img src="../../../../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" />
+        </a>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
 

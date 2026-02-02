@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séquence 1 : Dissiper le Brouillard | Module 1 | OSER POUR INNOVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- Styles de base --- */
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --bg-page: #F8F9FA; --bg-card: #FFFFFF; --text-main: #2A325E; --text-light: #555; }
+        body.dark-mode { --bg-page: #1A1D2E; --bg-card: #232742; --text-main: #EAEAEA; --text-light: #BBB; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; padding-bottom: 100px; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; }
+        body.dark-mode { background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--bordeaux); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--orange); }
+        
+        /* Navigation */
+        .top-bar { background: var(--bg-card); padding: 0.8rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-bottom: 3px solid var(--teal); }
+        
+        /* Style du bouton Retour */
+        .btn-back { 
+            text-decoration: none; 
+            color: var(--text-main); 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 1.1rem;
+        }
+        .btn-back:hover { color: var(--orange); }
+
+        /* Styles Fil d'Ariane (Breadcrumbs) */
+        .nav-center { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .brand-logo-link { display: block; line-height: 0; margin-bottom: -8px; }
+        .brand-logo-link img { height: 108px; width: auto; max-width: 540px; object-fit: contain; display: block; vertical-align: bottom; }
+        .brand-name { font-weight: 900; font-size: 1.2rem; color: var(--bordeaux); letter-spacing: 1px; }
+        body.dark-mode .brand-name { color: var(--orange); }
+        
+        .breadcrumbs { font-size: 0.85rem; color: var(--text-light); margin-top: 0; }
+        .breadcrumbs a { text-decoration: none; color: inherit; font-weight: 600; transition: color 0.2s; border-bottom: 1px solid transparent; }
+        .breadcrumbs a:hover { color: var(--orange); border-bottom-color: var(--orange); }
+        body.dark-mode .breadcrumbs a:hover { color: white; border-bottom-color: white; }
+        .separator { opacity: 0.4; margin: 0 5px; }
+
+        .content-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+        
+        /* Hero Section */
+        .hero-section { text-align: center; margin-bottom: 4rem; padding: 3rem 1rem; background: linear-gradient(135deg, var(--teal), var(--blue)); border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(46, 175, 125, 0.3); }
+        .hero-title { font-size: 2.5rem; margin-bottom: 1rem; color: white; }
+        .hero-desc { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+        .progress-bar-container { width: 100%; max-width: 400px; background: rgba(255,255,255,0.2); height: 10px; border-radius: 5px; margin: 2rem auto 0; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: white; border-radius: 5px; transition: width 1s ease; }
+
+        /* Grid Grains */
+        .grains-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        
+        .grain-card { 
+            background: var(--bg-card); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative;
+            border-top: 5px solid var(--teal);
+        }
+        
+        .grain-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        
+        .card-number { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            font-size: 2.5rem; 
+            font-weight: 900; 
+            color: rgba(0,0,0,0.05); 
+            font-family: 'Montserrat';
+        }
+        
+        .card-body { padding: 2rem 1.5rem; flex-grow: 1; }
+        
+        .card-icon { 
+            font-size: 2rem; 
+            color: var(--teal); 
+            margin-bottom: 1rem; 
+            background: rgba(46, 175, 125, 0.1); 
+            width: 60px; 
+            height: 60px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%;
+        }
+        
+        .card-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); }
+        .card-desc { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+        
+        .card-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); text-align: right; }
+        
+        .btn-start { 
+            display: inline-block; 
+            text-decoration: none; 
+            background: var(--blue); 
+            color: white; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            transition: background 0.3s; 
+        }
+        .btn-start:hover { background: var(--orange); }
+
+        /* Specific Colors per context */
+        .border-orange { border-top-color: var(--orange); }
+        .border-blue { border-top-color: var(--blue); }
+        .border-bordeaux { border-top-color: var(--bordeaux); }
+
+        .icon-orange { color: var(--orange); background: rgba(244, 140, 46, 0.1); }
+        .icon-blue { color: var(--blue); background: rgba(42, 50, 94, 0.1); }
+        .icon-bordeaux { color: var(--bordeaux); background: rgba(88, 15, 69, 0.1); }
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-bar">
+        <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Retour</a>
+        
+        <!-- HEADER CENTRAL AVEC FIL D'ARIANE -->
+        <div class="nav-center">
+            <a href="../../../../../index.html" class="brand-logo-link" title="OSER POUR INNOVER">
+                <img src="../../../../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" />
+            </a>
+            <div class="breadcrumbs">
+                <span class="separator">/</span> 
+                <a href="../../../portal.html">Accueil</a> 
+                <span class="separator">/</span> 
+                <a href="../portal_sensi.html">Sensibilisation</a>
+                <span class="separator">/</span> 
+                <a href="sommaire_module1.html">Module 1</a>
+            </div>
+        </div>
+        
+        <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="content-container">
+        
+        <!-- Hero -->
+        <div class="hero-section">
+            <h1 class="hero-title"><i class="fa-solid fa-cloud-sun"></i> Séquence 1 : Dissiper le Brouillard</h1>
+            <p class="hero-desc">Définitions, vocabulaire et concepts fondamentaux pour comprendre l'innovation.</p>
+            <div class="progress-bar-container"><div class="progress-bar" style="width: 0%"></div></div>
+            <p style="font-size:0.8rem; margin-top:10px; opacity:0.8;">5 Leçons</p>
+        </div>
+
+        <!-- Grains de la Séquence 1 -->
+        <div class="grains-grid">
+            <!-- 1.1 Définition & Fondamentaux -->
+            <div class="grain-card" id="grain1">
+                <div class="card-number">1.1</div>
+                <div class="card-body">
+                    <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <div class="card-title">Définition & Fondamentaux</div>
+                    <div class="card-desc">L'innovation est à la fois un processus et un résultat. Comprendre la différence entre nouveauté et valeur (Oslo + Opérationnelle).</div>
+                </div>
+                <div class="card-footer"><a href="grain1.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+            </div>
+
+            <!-- 1.2 Sur quoi innover ? -->
+            <div class="grain-card border-orange" id="grain2">
+                <div class="card-number">1.2</div>
+                <div class="card-body">
+                    <div class="card-icon icon-orange"><i class="fa-solid fa-box-open"></i></div>
+                    <div class="card-title">Sur quoi innover ?</div>
+                    <div class="card-desc">Produit, service, organisation... Le champ des possibles est vaste. Impact/Intensité - Tout est possible.</div>
+                </div>
+                <div class="card-footer"><a href="grain2.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+            </div>
+
+            <!-- 1.3 L'Innovation est un Processus -->
+            <div class="grain-card border-blue" id="grain3">
+                <div class="card-number">1.3</div>
+                <div class="card-body">
+                    <div class="card-icon icon-blue"><i class="fa-solid fa-arrows-rotate"></i></div>
+                    <div class="card-title">L'Innovation est un Processus</div>
+                    <div class="card-desc">La différence fondamentale entre Recherche (Argent → Savoir) et Innovation (Savoir → Valeur).</div>
+                </div>
+                <div class="card-footer"><a href="grain3.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+            </div>
+
+            <!-- 1.4 Le Nuage de Vocabulaire -->
+            <div class="grain-card border-bordeaux" id="grain4">
+                <div class="card-number">1.4</div>
+                <div class="card-body">
+                    <div class="card-icon icon-bordeaux"><i class="fa-solid fa-book"></i></div>
+                    <div class="card-title">Le Nuage de Vocabulaire</div>
+                    <div class="card-desc">Invention vs Innovation, Rupture vs Incrémentale. S'adapter au lexique projet.</div>
+                </div>
+                <div class="card-footer"><a href="grain4.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+            </div>
+
+            <!-- 1.5 La Chaîne de Valeur -->
+            <div class="grain-card" id="grain5">
+                <div class="card-number">1.5</div>
+                <div class="card-body">
+                    <div class="card-icon"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="card-title">La Chaîne de Valeur</div>
+                    <div class="card-desc">Visualisez les flux parallèles de financement et de création de valeur, du laboratoire au marché.</div>
+                </div>
+                <div class="card-footer"><a href="grain5.html" class="btn-start">Commencer <i class="fa-solid fa-arrow-right"></i></a></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleTheme() { 
+            document.body.classList.toggle('dark-mode'); 
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); 
+        }
+        if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+        
+        // Scroll automatique vers la carte du grain quand on arrive avec un hash
+        window.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetElement = document.querySelector(hash);
+                if (targetElement) {
+                    setTimeout(function() {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Ajouter un effet visuel pour mettre en évidence la carte
+                        targetElement.style.transition = 'box-shadow 0.3s ease';
+                        targetElement.style.boxShadow = '0 15px 40px rgba(244, 140, 46, 0.4)';
+                        setTimeout(function() {
+                            targetElement.style.boxShadow = '';
+                        }, 2000);
+                    }, 100);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
