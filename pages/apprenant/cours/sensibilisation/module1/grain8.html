@@ -119,6 +119,10 @@
         .card-rid .method-icon { background: #4CAF50; }
         .card-rid:hover .method-footer { background: #4CAF50; }
 
+        .card-vianeo { border-color: #00838F; }
+        .card-vianeo .method-icon { background: #00838F; }
+        .card-vianeo:hover .method-footer { background: #00838F; }
+
 
         /* Footer & Modal */
         .action-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 1rem 5%; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
@@ -137,6 +141,10 @@
         .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; float: right; }
         .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #aaa; }
         .close-icon:hover { color: var(--bordeaux); }
+        .modal-links { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.1); display: flex; flex-wrap: wrap; gap: 10px; clear: both; }
+        .modal-links a { display: inline-flex; align-items: center; gap: 6px; color: var(--orange); font-weight: 700; font-size: 0.9rem; text-decoration: none; }
+        .modal-links a:hover { text-decoration: underline; }
+        .modal-links a::after { content: "\f35d"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 0.75rem; opacity: 0.8; }
 
     </style>
 </head>
@@ -165,7 +173,7 @@
         <!-- GRID DES METHODES -->
         <div class="methods-grid">
             
-            <!-- Design Thinking -->
+            <!-- 1. Design Thinking -->
             <div class="method-card card-design" onclick="openMethod('dt')">
                 <div class="method-header">
                     <div class="method-icon"><i class="fa-solid fa-people-group"></i></div>
@@ -182,75 +190,7 @@
                 <div class="method-footer">Lire la définition</div>
             </div>
 
-            <!-- CK Theory -->
-            <div class="method-card card-ck" onclick="openMethod('ck')">
-                <div class="method-header">
-                    <div class="method-icon"><i class="fa-solid fa-diagram-project"></i></div>
-                    <div class="method-name">C-K Theory</div>
-                </div>
-                <div class="method-body">
-                    <p>Théorie du raisonnement conceptuel (Concept-Knowledge) régie par la théorie des ensembles.</p>
-                    <div class="method-keywords">
-                        <span class="keyword-tag">Concept</span>
-                        <span class="keyword-tag">Connaissance</span>
-                        <span class="keyword-tag">Expansion</span>
-                    </div>
-                </div>
-                <div class="method-footer">Explorer la théorie</div>
-            </div>
-
-            <!-- TRIZ -->
-            <div class="method-card card-triz" onclick="openMethod('triz')">
-                <div class="method-header">
-                    <div class="method-icon"><i class="fa-solid fa-wrench"></i></div>
-                    <div class="method-name">TRIZ</div>
-                </div>
-                <div class="method-body">
-                    <p>Approche heuristique pour résoudre les problèmes techniques via l'analyse des brevets.</p>
-                    <div class="method-keywords">
-                        <span class="keyword-tag">Brevets</span>
-                        <span class="keyword-tag">Technique</span>
-                        <span class="keyword-tag">Analogie</span>
-                    </div>
-                </div>
-                <div class="method-footer">Voir les détails</div>
-            </div>
-
-            <!-- Lean Startup -->
-            <div class="method-card card-lean" onclick="openMethod('lean')">
-                <div class="method-header">
-                    <div class="method-icon"><i class="fa-solid fa-rocket"></i></div>
-                    <div class="method-name">Lean Startup</div>
-                </div>
-                <div class="method-body">
-                    <p>Raccourcir les cycles de développement et valider l'apprentissage commercial.</p>
-                    <div class="method-keywords">
-                        <span class="keyword-tag">MVP</span>
-                        <span class="keyword-tag">Pivot</span>
-                        <span class="keyword-tag">Apprentissage</span>
-                    </div>
-                </div>
-                <div class="method-footer">Comprendre la méthode</div>
-            </div>
-
-            <!-- Blue Ocean -->
-            <div class="method-card card-blue" onclick="openMethod('blue')">
-                <div class="method-header">
-                    <div class="method-icon"><i class="fa-solid fa-water"></i></div>
-                    <div class="method-name">Blue Ocean</div>
-                </div>
-                <div class="method-body">
-                    <p>Rendre la concurrence non pertinente en créant une nouvelle demande.</p>
-                    <div class="method-keywords">
-                        <span class="keyword-tag">Marketing</span>
-                        <span class="keyword-tag">Valeur</span>
-                        <span class="keyword-tag">Coût</span>
-                    </div>
-                </div>
-                <div class="method-footer">Plonger dans l'océan</div>
-            </div>
-
-            <!-- Business Model Canvas -->
+            <!-- 2. Business Model Canvas -->
             <div class="method-card card-bmc" onclick="openMethod('bmc')">
                 <div class="method-header">
                     <div class="method-icon"><i class="fa-solid fa-th"></i></div>
@@ -267,7 +207,92 @@
                 <div class="method-footer">Voir le canevas</div>
             </div>
 
-            <!-- RID -->
+            <!-- 3. VIANEO -->
+            <div class="method-card card-vianeo" onclick="openMethod('vianeo')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-compass"></i></div>
+                    <div class="method-name">VIANEO</div>
+                </div>
+                <div class="method-body">
+                    <p>Plateforme et méthode de Business Design pour structurer le management de l'innovation et piloter la création de valeur.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Business Design</span>
+                        <span class="keyword-tag">Plateforme</span>
+                        <span class="keyword-tag">ISO 56001</span>
+                    </div>
+                </div>
+                <div class="method-footer">Explorer la méthode</div>
+            </div>
+
+            <!-- 4. Lean Startup -->
+            <div class="method-card card-lean" onclick="openMethod('lean')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <div class="method-name">Lean Startup</div>
+                </div>
+                <div class="method-body">
+                    <p>Raccourcir les cycles de développement et valider l'apprentissage commercial.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">MVP</span>
+                        <span class="keyword-tag">Pivot</span>
+                        <span class="keyword-tag">Apprentissage</span>
+                    </div>
+                </div>
+                <div class="method-footer">Comprendre la méthode</div>
+            </div>
+
+            <!-- 5. CK Theory -->
+            <div class="method-card card-ck" onclick="openMethod('ck')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                    <div class="method-name">C-K Theory</div>
+                </div>
+                <div class="method-body">
+                    <p>Théorie du raisonnement conceptuel (Concept-Knowledge) régie par la théorie des ensembles.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Concept</span>
+                        <span class="keyword-tag">Connaissance</span>
+                        <span class="keyword-tag">Expansion</span>
+                    </div>
+                </div>
+                <div class="method-footer">Explorer la théorie</div>
+            </div>
+
+            <!-- 6. TRIZ -->
+            <div class="method-card card-triz" onclick="openMethod('triz')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-wrench"></i></div>
+                    <div class="method-name">TRIZ</div>
+                </div>
+                <div class="method-body">
+                    <p>Approche heuristique pour résoudre les problèmes techniques via l'analyse des brevets.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Brevets</span>
+                        <span class="keyword-tag">Technique</span>
+                        <span class="keyword-tag">Analogie</span>
+                    </div>
+                </div>
+                <div class="method-footer">Voir les détails</div>
+            </div>
+
+            <!-- 7. Blue Ocean -->
+            <div class="method-card card-blue" onclick="openMethod('blue')">
+                <div class="method-header">
+                    <div class="method-icon"><i class="fa-solid fa-water"></i></div>
+                    <div class="method-name">Blue Ocean</div>
+                </div>
+                <div class="method-body">
+                    <p>Rendre la concurrence non pertinente en créant une nouvelle demande.</p>
+                    <div class="method-keywords">
+                        <span class="keyword-tag">Marketing</span>
+                        <span class="keyword-tag">Valeur</span>
+                        <span class="keyword-tag">Coût</span>
+                    </div>
+                </div>
+                <div class="method-footer">Plonger dans l'océan</div>
+            </div>
+
+            <!-- 8. RID -->
             <div class="method-card card-rid" onclick="openMethod('rid')">
                 <div class="method-header">
                     <div class="method-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
@@ -320,6 +345,7 @@
             <div class="modal-title" id="mTitle">Titre</div>
             <div class="modal-highlight" id="mHighlight">Concept clé</div>
             <div class="modal-text" id="mText">Description complète...</div>
+            <div class="modal-links" id="mLinks" style="display: none;"></div>
             <button class="modal-btn" onclick="closeModal()">Fermer</button>
         </div>
     </div>
@@ -375,6 +401,16 @@
                 color: "#4CAF50",
                 highlight: "Pilotée par l'usage, centrée sur l'activité, exploration des problèmes.",
                 text: "Au-delà du Design Thinking, RID est une méthodologie de conception innovante nouvelle, complète et bien structurée. Elle priorise l'amélioration de l'expérience des utilisatrices et utilisateurs au sein d'un domaine d'activité. Elle est délibérément pilotée par l'usage et centrée sur l'activité. RID guide les innovatrices et innovateurs pour explorer systématiquement les problèmes des utilisatrices et utilisateurs et les besoins non exprimés. Elle révolutionne la définition des cibles d'innovation avec son concept unique de 'périmètre d'ambition', composé de 'seaux de valeur' (value buckets). Elle mesure les quantités de douleurs (pains) pour prioriser les pistes."
+            },
+            'vianeo': {
+                title: "VIANEO",
+                color: "#00838F",
+                highlight: "De l'idée à la création de valeur : plateforme de Business Design et management de l'innovation.",
+                text: "Vianeo est un éditeur de solutions d'innovation qui accompagne les organisations depuis plus de quinze ans. L'offre combine une plateforme digitale (marque blanche), une méthode de Business Design, de l'intelligence artificielle générative, du conseil et de la formation. L'objectif : structurer le système de management de l'innovation, aligner la gouvernance, sécuriser les décisions et créer de la valeur. La plateforme repose sur une approche systémique exclusive de Business Design ; elle centralise les données, fluidifie la collaboration et offre une vision partagée de l'avancement. Vianeo est membre du groupe de travail sur la norme ISO 56001 (management de l'innovation). L'ensemble permet de passer de l'opportunité à la validation marché en professionnalisant les capacités d'innovation.",
+                links: [
+                    { label: "Site VIANEO – Méthode et plateforme", url: "https://www.vianeo.com/fr/" },
+                    { label: "Article scientifique ISMA360® (Cairn – Entreprendre & Innover, 2015)", url: "https://shs.cairn.info/journal-entreprendre-et-innover-2015-1-page-66" }
+                ]
             }
         };
 
@@ -383,6 +419,7 @@
         const mTitle = document.getElementById('mTitle');
         const mHighlight = document.getElementById('mHighlight');
         const mText = document.getElementById('mText');
+        const mLinks = document.getElementById('mLinks');
         const modalBox = modal.querySelector('.modal-box');
         const modalBtn = modal.querySelector('.modal-btn');
 
@@ -392,6 +429,15 @@
                 mTitle.innerText = data.title;
                 mHighlight.innerText = data.highlight;
                 mText.innerText = data.text;
+                
+                // Liens (ex. VIANEO)
+                if(data.links && data.links.length > 0) {
+                    mLinks.innerHTML = data.links.map(l => '<a href="' + l.url + '" target="_blank" rel="noopener noreferrer">' + l.label + '</a>').join('');
+                    mLinks.style.display = 'flex';
+                } else {
+                    mLinks.innerHTML = '';
+                    mLinks.style.display = 'none';
+                }
                 
                 // Style coloring
                 mTitle.style.color = data.color;
