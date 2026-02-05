@@ -169,8 +169,9 @@
             margin-top: auto;
         }
     </style>
+    <link rel="stylesheet" href="../../../assets/css/progress-indicators.css">
 </head>
-<body>
+<body data-module="module1">
 
     <!-- HUD : Barre de Navigation -->
     <nav class="gamification-bar">
@@ -184,6 +185,7 @@
             <a href="../../../../index.html" class="btn-icon" title="Quitter vers l'accueil"><i class="fa-solid fa-power-off"></i></a>
         </div>
     </nav>
+    <div id="progress-widget" class="progress-widget"></div>
 
     <!-- FIL D'ARIANE -->
     <div class="breadcrumb">
@@ -331,5 +333,6 @@
             window.location.href = targetUrl;
         }
     </script>
+    <script src="../../../assets/js/progress-indicators.js"></script>
 </body>
 </html>
