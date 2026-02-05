@@ -306,8 +306,9 @@
         .modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; color: var(--bordeaux); margin-bottom: 1rem; font-weight: 900; }
         .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 1rem; cursor: pointer; font-weight: bold; }
     </style>
+    <link rel="stylesheet" href="../../../../../assets/css/progress-indicators.css">
 </head>
-<body>
+<body data-module="module1" data-grain="grain3">
 
     <!-- Navigation Top Correction -->
     <nav class="top-bar">
@@ -315,6 +316,7 @@
         <div style="font-weight: 800; color: var(--bordeaux);">Capsule 3</div>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
+    <div id="progress-widget" class="progress-widget"></div>
 
     <div class="content-container">
         
@@ -562,5 +564,6 @@
             }
         }
     </script>
+    <script src="../../../../../assets/js/progress-indicators.js"></script>
 </body>
 </html>

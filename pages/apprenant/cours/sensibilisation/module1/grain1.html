@@ -66,8 +66,9 @@
         .modal-btn { background: var(--orange); color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 1rem; cursor: pointer; font-weight: bold; }
 
     </style>
+    <link rel="stylesheet" href="../../../../../assets/css/progress-indicators.css">
 </head>
-<body>
+<body data-module="module1" data-grain="grain1">
 
     <!-- Navigation Top : CORRECTION ICI (Lien vers sommaire + Nom Capsule) -->
     <nav class="top-bar">
@@ -75,6 +76,7 @@
         <div style="font-weight: 800; color: var(--bordeaux);">Capsule 1</div>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);" aria-label="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
     </nav>
+    <div id="progress-widget" class="progress-widget"></div>
 
     <!-- Contenu Principal -->
     <div class="content-container">
@@ -257,5 +259,6 @@
             }
         }
     </script>
+    <script src="../../../../../assets/js/progress-indicators.js"></script>
 </body>
 </html>

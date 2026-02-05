@@ -124,8 +124,9 @@
         .icon-bordeaux { color: var(--bordeaux); background: rgba(88, 15, 69, 0.1); }
 
     </style>
+    <link rel="stylesheet" href="../../../../../assets/css/progress-indicators.css">
 </head>
-<body>
+<body data-module="module1">
 
     <nav class="top-bar">
         <a href="sommaire_module1.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> Retour</a>
@@ -147,6 +148,7 @@
         
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
+    <div id="progress-widget" class="progress-widget"></div>
 
     <div class="content-container">
         
@@ -288,5 +290,6 @@
             }
         });
     </script>
+    <script src="../../../../../assets/js/progress-indicators.js"></script>
 </body>
 </html>

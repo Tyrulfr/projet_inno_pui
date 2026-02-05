@@ -1,0 +1,81 @@
+/* Widget progression : barre module en cours + 6 ronds (formation) */
+.progress-widget {
+    background: var(--bg-card, #fff);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-size: 0.85rem;
+}
+.progress-widget .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+.progress-widget .progress-row:last-child,
+.progress-widget .progress-row.progress-row-circles { margin-bottom: 0; }
+.progress-widget .progress-row-circles .progress-label { align-self: center; }
+.progress-widget .progress-label {
+    min-width: 100px;
+    font-weight: 700;
+    color: var(--bordeaux, #580F45);
+}
+body.dark-mode .progress-widget .progress-label { color: var(--orange, #F48C2E); }
+.progress-widget .bar-container {
+    flex: 1;
+    max-width: 280px;
+    height: 8px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.progress-widget .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+    background: linear-gradient(90deg, var(--teal, #2EAF7D), var(--bordeaux, #580F45));
+}
+.progress-widget .bar-pct {
+    min-width: 2.5rem;
+    text-align: right;
+    font-weight: 700;
+    color: var(--text-main, #2A325E);
+}
+/* Ronds modules */
+.progress-widget .modules-circles {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.progress-widget .module-circle-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+.progress-widget .module-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+}
+.progress-widget .module-circle-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--teal, #2EAF7D);
+    border-radius: 0 0 50% 50%;
+    transition: height 0.5s ease;
+}
+.progress-widget .module-circle-wrap.current .module-circle { box-shadow: 0 0 0 2px var(--orange, #F48C2E); }
+.progress-widget .module-circle-wrap.current .module-circle-fill { background: var(--orange, #F48C2E); }
+.progress-widget .module-circle-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-light, #555);
+}
+body.dark-mode .progress-widget .module-circle { background: rgba(255,255,255,0.15); }
+body.dark-mode .progress-widget .bar-container { background: rgba(255,255,255,0.2); }

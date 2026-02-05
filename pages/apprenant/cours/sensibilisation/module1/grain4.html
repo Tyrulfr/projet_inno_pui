@@ -70,13 +70,15 @@
         body.dark-mode .buzz-item { background: #2c3149; border-color: #444; color: #aaa; }
         body.dark-mode .buzz-item.visited { background: rgba(46, 175, 125, 0.2); color: #81c784; border-color: #81c784; }
     </style>
+    <link rel="stylesheet" href="../../../../../assets/css/progress-indicators.css">
 </head>
-<body>
+<body data-module="module1" data-grain="grain4">
     <nav class="top-bar">
         <a href="sommaire_module1.html#grain4" class="btn-back"><i class="fa-solid fa-list"></i> Sommaire</a>
         <div style="font-weight: 800; color: var(--bordeaux);">Capsule 4</div>
         <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--text-main);"><i class="fa-solid fa-moon"></i></button>
     </nav>
+    <div id="progress-widget" class="progress-widget"></div>
 
     <div class="content-container">
         <h1 class="hero-title">Le Vocabulaire... une jungle ?</h1>
@@ -235,5 +237,6 @@
             }
         }
     </script>
+    <script src="../../../../../assets/js/progress-indicators.js"></script>
 </body>
 </html>
