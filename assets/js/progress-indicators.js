@@ -34,6 +34,51 @@
         return (body && body.getAttribute('data-module')) || 'module1';
     }
 
+    function getFormationProgress(completed) {
+        var total = 0;
+        MODULES.forEach(function (m) { total += m.grains.length; });
+        return total > 0 ? Math.round((completed.length / total) * 100) : 0;
+    }
+
+    /** Marque un grain comme complété (localStorage). Pour apprenant direct / invité. */
+    function markGrainCompleted(grainId) {
+        if (!grainId) return;
+        var completed = getCompleted();
+        if (completed.indexOf(grainId) !== -1) return;
+        completed.push(grainId);
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+        } catch (e) { return; }
+        if (window.progressIndicatorsRefresh) window.progressIndicatorsRefresh();
+    }
+
+    /** Marque le grain courant (data-grain sur body) comme complété. */
+    window.markCurrentGrainCompleted = function () {
+        var body = document.body;
+        var grainId = body && body.getAttribute('data-grain');
+        if (grainId) markGrainCompleted(grainId);
+    };
+
+    /** API pour la page Ma progression : données agrégées (localStorage ou futur Moodle) */
+    window.getProgressData = function () {
+        var completed = getCompleted();
+        var formationPct = getFormationProgress(completed);
+        var byModule = {};
+        MODULES.forEach(function (m) {
+            byModule[m.id] = getModuleProgress(m.id, completed);
+        });
+        var totalGrains = 0;
+        MODULES.forEach(function (m) { totalGrains += m.grains.length; });
+        return {
+            completed: completed,
+            modules: MODULES,
+            formationPct: formationPct,
+            byModule: byModule,
+            totalGrains: totalGrains,
+            completedCount: completed.length
+        };
+    };
+
     function render() {
         var container = document.getElementById('progress-widget');
         if (!container) return;
@@ -67,6 +112,15 @@
         render();
         window.addEventListener('storage', render);
         window.progressIndicatorsRefresh = render;
+        // En mode invité/direct : au clic sur "Terminer ce grain", marquer le grain courant comme complété
+        var grainId = document.body && document.body.getAttribute('data-grain');
+        if (grainId) {
+            document.querySelectorAll('.btn-validate').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    setTimeout(function () { window.markCurrentGrainCompleted(); }, 400);
+                });
+            });
+        }
     }
 
     if (document.readyState === 'loading') {

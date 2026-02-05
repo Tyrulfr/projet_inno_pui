@@ -103,49 +103,67 @@ if (-not $authOk) {
     exit 1
 }
 
-# Collection apprenants
-Write-Host "Creation de la collection apprenants..."
+# --- Modele multi-origine (Moodle / FunMooc / direct) : supprimer l'ancien puis recréer ---
+
+# 1) Supprimer progress d'abord (FK vers apprenants)
+Write-Host "Suppression des anciennes collections (si elles existent)..."
 try {
-    $null = Invoke-DirectusApi -Method Get -Path "/collections/apprenants"
-    Write-Host "  -> La collection apprenants existe deja."
+    Invoke-DirectusApi -Method Delete -Path "/collections/progress"
+    Write-Host "  -> Collection progress supprimee."
 } catch {
-    $body = @{
-        collection = "apprenants"
-        meta      = @{ icon = "person"; note = "Profils apprenants (lien Moodle)" }
-        schema    = @{}
-        fields   = @(
-            @{ field = "id"; type = "integer"; meta = @{ hidden = $true; readonly = $true; interface = "input"; special = @("integer", "primary") }; schema = @{ is_primary_key = $true; has_auto_increment = $true } },
-            @{ field = "moodle_user_id"; type = "string"; meta = @{ interface = "input"; required = $true; note = "Identifiant Moodle" }; schema = @{ is_nullable = $false } },
-            @{ field = "email"; type = "string"; meta = @{ interface = "input" }; schema = @{ is_nullable = $true } },
-            @{ field = "date_creation"; type = "timestamp"; meta = @{ interface = "datetime"; readonly = $true }; schema = @{ is_nullable = $true; default_value = "CURRENT_TIMESTAMP" } }
-        )
-    }
-    Invoke-DirectusApi -Method Post -Path "/collections" -Body $body
-    Write-Host "  -> Collection apprenants creee."
+    if ($_.Exception.Message -match "404|NotFound|not found") { Write-Host "  -> Pas de collection progress a supprimer." }
+    else { Write-Host "  -> progress : $($_.Exception.Message)" }
 }
 
-# Collection progress
-Write-Host "Creation de la collection progress..."
+# 2) Supprimer apprenants
 try {
-    $null = Invoke-DirectusApi -Method Get -Path "/collections/progress"
-    Write-Host "  -> La collection progress existe deja."
+    Invoke-DirectusApi -Method Delete -Path "/collections/apprenants"
+    Write-Host "  -> Collection apprenants supprimee."
 } catch {
-    $body = @{
-        collection = "progress"
-        meta      = @{ icon = "check_circle"; note = "Grains completes par apprenant" }
-        schema    = @{}
-        fields   = @(
-            @{ field = "id"; type = "integer"; meta = @{ hidden = $true; readonly = $true; interface = "input"; special = @("integer", "primary") }; schema = @{ is_primary_key = $true; has_auto_increment = $true } },
-            @{ field = "apprenant_id"; type = "integer"; meta = @{ interface = "select-dropdown-m2o"; special = @("m2o"); required = $true; options = @{ template = "{{moodle_user_id}}" } }; schema = @{ is_nullable = $false; foreign_key_table = "apprenants"; foreign_key_column = "id" } },
-            @{ field = "grain_id"; type = "string"; meta = @{ interface = "input"; required = $true }; schema = @{ is_nullable = $false } },
-            @{ field = "module_id"; type = "string"; meta = @{ interface = "input"; required = $true }; schema = @{ is_nullable = $false } },
-            @{ field = "sequence_id"; type = "string"; meta = @{ interface = "input" }; schema = @{ is_nullable = $true } },
-            @{ field = "completed_at"; type = "timestamp"; meta = @{ interface = "datetime" }; schema = @{ is_nullable = $true; default_value = "CURRENT_TIMESTAMP" } }
-        )
-    }
-    Invoke-DirectusApi -Method Post -Path "/collections" -Body $body
-    Write-Host "  -> Collection progress creee."
+    if ($_.Exception.Message -match "404|NotFound|not found") { Write-Host "  -> Pas de collection apprenants a supprimer." }
+    else { Write-Host "  -> apprenants : $($_.Exception.Message)" }
 }
 
 Write-Host ""
-Write-Host "Termine. Verifiez dans Directus : Settings > Data Model."
+
+# 3) Creer apprenants (nouveau modele : origin + external_user_id)
+Write-Host "Creation de la collection apprenants (modele multi-origine)..."
+$bodyApprenants = @{
+    collection = "apprenants"
+    meta      = @{ icon = "person"; note = "Profils apprenants : Moodle, FunMooc (edX) ou site direct (origin + external_user_id)" }
+    schema    = @{}
+    fields   = @(
+        @{ field = "id"; type = "integer"; meta = @{ hidden = $true; readonly = $true; interface = "input"; special = @("integer", "primary") }; schema = @{ is_primary_key = $true; has_auto_increment = $true } },
+        @{ field = "origin"; type = "string"; meta = @{ interface = "select-dropdown"; required = $true; options = @{ choices = @(
+            @{ text = "Moodle"; value = "moodle" },
+            @{ text = "FunMooc (edX)"; value = "funmooc" },
+            @{ text = "Site direct"; value = "direct" }
+        ) }; note = "moodle | funmooc | direct" }; schema = @{ is_nullable = $false; default_value = "moodle" } },
+        @{ field = "external_user_id"; type = "string"; meta = @{ interface = "input"; required = $true; note = "Id utilisateur cote plateforme (Moodle, edX, ou UUID direct)" }; schema = @{ is_nullable = $false } },
+        @{ field = "email"; type = "string"; meta = @{ interface = "input" }; schema = @{ is_nullable = $true } },
+        @{ field = "date_creation"; type = "timestamp"; meta = @{ interface = "datetime"; readonly = $true }; schema = @{ is_nullable = $true; default_value = "CURRENT_TIMESTAMP" } }
+    )
+}
+Invoke-DirectusApi -Method Post -Path "/collections" -Body $bodyApprenants
+Write-Host "  -> Collection apprenants creee (origin, external_user_id, email, date_creation)."
+
+# 4) Creer progress (inchangé, FK vers apprenants)
+Write-Host "Creation de la collection progress..."
+$bodyProgress = @{
+    collection = "progress"
+    meta      = @{ icon = "check_circle"; note = "Grains completes par apprenant" }
+    schema    = @{}
+    fields   = @(
+        @{ field = "id"; type = "integer"; meta = @{ hidden = $true; readonly = $true; interface = "input"; special = @("integer", "primary") }; schema = @{ is_primary_key = $true; has_auto_increment = $true } },
+        @{ field = "apprenant_id"; type = "integer"; meta = @{ interface = "select-dropdown-m2o"; special = @("m2o"); required = $true; options = @{ template = "{{origin}} - {{external_user_id}}" } }; schema = @{ is_nullable = $false; foreign_key_table = "apprenants"; foreign_key_column = "id" } },
+        @{ field = "grain_id"; type = "string"; meta = @{ interface = "input"; required = $true }; schema = @{ is_nullable = $false } },
+        @{ field = "module_id"; type = "string"; meta = @{ interface = "input"; required = $true }; schema = @{ is_nullable = $false } },
+        @{ field = "sequence_id"; type = "string"; meta = @{ interface = "input" }; schema = @{ is_nullable = $true } },
+        @{ field = "completed_at"; type = "timestamp"; meta = @{ interface = "datetime" }; schema = @{ is_nullable = $true; default_value = "CURRENT_TIMESTAMP" } }
+    )
+}
+Invoke-DirectusApi -Method Post -Path "/collections" -Body $bodyProgress
+Write-Host "  -> Collection progress creee."
+
+Write-Host ""
+Write-Host "Termine. Modele multi-origine en place. Verifiez dans Directus : Settings > Data Model."

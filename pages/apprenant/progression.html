@@ -1,0 +1,201 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma progression | OSER POUR INNOVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bordeaux: #580F45;
+            --orange: #F48C2E;
+            --teal: #2EAF7D;
+            --blue: #2A325E;
+            --white: #ffffff;
+            --bg-light: #F8F9FA;
+            --bg-dark: #1A1D2E;
+            --text-main: #2A325E;
+        }
+        html, body { height: 100%; margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; background-color: var(--bg-light); color: var(--text-main); transition: all 0.3s ease; background-image: radial-gradient(rgba(42, 50, 94, 0.1) 1px, transparent 1px); background-size: 30px 30px; display: flex; flex-direction: column; box-sizing: border-box; }
+        body.dark-mode { background-color: var(--bg-dark); color: #EAEAEA; background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px); }
+        a { text-decoration: none; color: inherit; }
+
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        body.dark-mode .navbar { background: rgba(26, 29, 46, 0.95); border-color: #333; }
+        .logo { display: flex; align-items: center; cursor: pointer; }
+        .logo img { height: 108px; width: auto; max-width: 540px; object-fit: contain; display: block; }
+        .theme-btn { background: none; border: 2px solid var(--orange); color: var(--orange); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .theme-btn:hover { background: var(--orange); color: white; }
+
+        .breadcrumb { padding: 1rem 5%; font-size: 0.9rem; color: #666; }
+        body.dark-mode .breadcrumb { color: #aaa; }
+        .breadcrumb a:hover { color: var(--orange); text-decoration: underline; }
+
+        .main { flex: 1; width: 100%; max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+
+        .page-title { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin: 0 0 0.5rem 0; color: var(--blue); }
+        body.dark-mode .page-title { color: white; }
+        .page-subtitle { font-size: 1rem; margin-bottom: 1.5rem; opacity: 0.85; }
+
+        /* Badge Mode invité */
+        .guest-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(244, 140, 46, 0.15); color: var(--orange); padding: 8px 16px; border-radius: 50px; font-size: 0.9rem; font-weight: 700; margin-bottom: 2rem; border: 1px solid rgba(244, 140, 46, 0.4); }
+        body.dark-mode .guest-badge { background: rgba(244, 140, 46, 0.2); }
+        .guest-badge i { font-size: 1rem; }
+
+        /* Carte Formation globale */
+        .card-global { background: var(--white); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.06); }
+        body.dark-mode .card-global { background: #232742; border-color: #333; }
+        .card-global h2 { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; margin: 0 0 1rem 0; color: var(--bordeaux); }
+        body.dark-mode .card-global h2 { color: var(--orange); }
+        .global-bar-wrap { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .global-bar-container { flex: 1; min-width: 200px; height: 24px; background: rgba(0,0,0,0.08); border-radius: 12px; overflow: hidden; }
+        body.dark-mode .global-bar-container { background: rgba(255,255,255,0.15); }
+        .global-bar-fill { height: 100%; border-radius: 12px; background: linear-gradient(90deg, var(--teal), var(--bordeaux)); transition: width 0.6s ease; }
+        .global-pct { font-size: 1.75rem; font-weight: 900; color: var(--teal); min-width: 4rem; text-align: right; }
+        body.dark-mode .global-pct { color: var(--orange); }
+        .global-summary { font-size: 0.9rem; color: #666; margin-top: 0.75rem; }
+        body.dark-mode .global-summary { color: #aaa; }
+
+        /* Détail par module */
+        .card-modules { background: var(--white); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.06); }
+        body.dark-mode .card-modules { background: #232742; border-color: #333; }
+        .card-modules h2 { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; margin: 0 0 1.25rem 0; color: var(--bordeaux); }
+        body.dark-mode .card-modules h2 { color: var(--orange); }
+        .module-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .module-row:last-child { margin-bottom: 0; }
+        .module-label { width: 48px; font-weight: 800; color: var(--blue); font-size: 0.95rem; }
+        body.dark-mode .module-label { color: var(--teal); }
+        .module-bar-container { flex: 1; height: 14px; background: rgba(0,0,0,0.08); border-radius: 7px; overflow: hidden; }
+        body.dark-mode .module-bar-container { background: rgba(255,255,255,0.15); }
+        .module-bar-fill { height: 100%; border-radius: 7px; background: var(--teal); transition: width 0.6s ease; }
+        body.dark-mode .module-bar-fill { background: var(--orange); }
+        .module-pct { min-width: 3rem; text-align: right; font-weight: 700; font-size: 0.9rem; }
+
+        /* Ronds récap (optionnel) */
+        .circles-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+        .circle-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .circle-mini { width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.08); position: relative; overflow: hidden; }
+        body.dark-mode .circle-mini { background: rgba(255,255,255,0.15); }
+        .circle-mini-fill { position: absolute; bottom: 0; left: 0; right: 0; background: var(--teal); border-radius: 0 0 50% 50%; transition: height 0.5s ease; }
+        .circle-mini-label { font-size: 0.7rem; font-weight: 700; color: #666; }
+        body.dark-mode .circle-mini-label { color: #aaa; }
+
+        /* Actions */
+        .actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background: var(--teal); color: white; border: none; cursor: pointer; text-decoration: none; }
+        .btn-primary:hover { box-shadow: 0 6px 20px rgba(46, 175, 125, 0.4); }
+        .btn-secondary { background: transparent; color: var(--blue); border: 2px solid var(--blue); }
+        body.dark-mode .btn-secondary { color: var(--orange); border-color: var(--orange); }
+        .btn-secondary:hover { background: var(--blue); color: white; }
+        body.dark-mode .btn-secondary:hover { background: var(--orange); color: white; }
+
+        footer { padding: 20px; text-align: center; font-size: 0.8rem; opacity: 0.6; margin-top: auto; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../../index.html" class="logo" title="OSER POUR INNOVER">
+            <img src="../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" />
+        </a>
+        <button class="theme-btn" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon"></i> Mode Nuit
+        </button>
+    </nav>
+    <div class="breadcrumb">
+        <a href="../../index.html"><i class="fa-solid fa-house"></i> Accueil</a> &gt;
+        <a href="portal.html">Espace Apprenant·e·s</a> &gt;
+        <span class="current">Ma progression</span>
+    </div>
+    <main class="main">
+        <h1 class="page-title"><i class="fa-solid fa-chart-line"></i> Ma progression</h1>
+        <p class="page-subtitle">Suivi de votre avancement dans le parcours Sensibilisation.</p>
+
+        <div class="guest-badge">
+            <i class="fa-solid fa-user-clock"></i>
+            <span>Mode invité</span> — Progression enregistrée sur cet appareil uniquement (sans connexion Moodle).
+        </div>
+
+        <section class="card-global" aria-label="Formation globale">
+            <h2>Formation globale</h2>
+            <div class="global-bar-wrap">
+                <div class="global-bar-container">
+                    <div class="global-bar-fill" id="global-bar" style="width: 0%"></div>
+                </div>
+                <span class="global-pct" id="global-pct">0%</span>
+            </div>
+            <p class="global-summary" id="global-summary">0 grain complété</p>
+        </section>
+
+        <section class="card-modules" aria-label="Détail par module">
+            <h2>Détail par module</h2>
+            <div id="modules-bars"></div>
+            <div class="circles-row" id="modules-circles"></div>
+        </section>
+
+        <div class="actions">
+            <a href="portal.html" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Retour au portail</a>
+            <a href="cours/sensibilisation/portal_sensi.html" class="btn btn-primary"><i class="fa-solid fa-book-open"></i> Accéder au parcours</a>
+        </div>
+    </main>
+    <footer>
+        &copy; {{ "now" | date: "%Y" }} OSER POUR INNOVER - Espace Formation
+    </footer>
+    <script src="../../assets/js/progress-indicators.js"></script>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            var btn = document.querySelector('.theme-btn');
+            btn.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fa-solid fa-sun"></i> Mode Jour' : '<i class="fa-solid fa-moon"></i> Mode Nuit';
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.theme-btn').innerHTML = '<i class="fa-solid fa-sun"></i> Mode Jour';
+        }
+
+        function renderProgression() {
+            if (typeof window.getProgressData !== 'function') return;
+            var data = window.getProgressData();
+            var gBar = document.getElementById('global-bar');
+            var gPct = document.getElementById('global-pct');
+            var gSummary = document.getElementById('global-summary');
+            var modulesBars = document.getElementById('modules-bars');
+            var modulesCircles = document.getElementById('modules-circles');
+            if (!gBar || !data) return;
+
+            gBar.style.width = data.formationPct + '%';
+            gPct.textContent = data.formationPct + '%';
+            gSummary.textContent = data.completedCount + ' grain' + (data.completedCount > 1 ? 's' : '') + ' complété' + (data.completedCount > 1 ? 's' : '') + ' sur ' + data.totalGrains;
+
+            var barsHtml = '';
+            var circlesHtml = '';
+            data.modules.forEach(function (m) {
+                var pct = data.byModule[m.id] || 0;
+                barsHtml += '<div class="module-row">' +
+                    '<span class="module-label">' + m.name + '</span>' +
+                    '<div class="module-bar-container"><div class="module-bar-fill" style="width:' + pct + '%"></div></div>' +
+                    '<span class="module-pct">' + pct + '%</span></div>';
+                circlesHtml += '<div class="circle-wrap" title="' + m.id + ': ' + pct + '%">' +
+                    '<div class="circle-mini"><div class="circle-mini-fill" style="height:' + pct + '%"></div></div>' +
+                    '<span class="circle-mini-label">' + m.name + '</span></div>';
+            });
+            if (modulesBars) modulesBars.innerHTML = barsHtml;
+            if (modulesCircles) modulesCircles.innerHTML = circlesHtml;
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () { setTimeout(renderProgression, 50); });
+        } else {
+            setTimeout(renderProgression, 50);
+        }
+        window.addEventListener('storage', renderProgression);
+    </script>
+</body>
+</html>

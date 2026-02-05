@@ -182,6 +182,7 @@ layout: null
             background: var(--blue);
         }
         .card.modules::before { background: var(--teal); }
+        .card.progression::before { background: var(--orange); }
 
         .icon-circle {
             width: 80px;
@@ -197,6 +198,7 @@ layout: null
         body.dark-mode .icon-circle { background: rgba(255,255,255,0.05); }
 
         .modules .icon-circle { color: var(--teal); }
+        .progression .icon-circle { color: var(--orange); }
 
         .card h3 { margin: 0 0 10px 0; font-size: 1.5rem; }
         .card p { margin: 0; opacity: 0.7; font-size: 0.95rem; line-height: 1.5; }
@@ -212,10 +214,11 @@ layout: null
             display: inline-block;
         }
         .modules .btn-card { background: rgba(46, 175, 125, 0.1); color: var(--teal); }
-        
+        .progression .btn-card { background: rgba(244, 140, 46, 0.1); color: var(--orange); }
         .card:hover .btn-card {
             background: var(--teal); color: white;
         }
+        .card.progression:hover .btn-card { background: var(--orange); color: white; }
 
         /* --- 7. FOOTER --- */
         footer {
@@ -267,6 +270,19 @@ layout: null
                 </div>
             </div>
 
+            <!-- CARTE 2 : MA PROGRESSION (mode invité ou Moodle) -->
+            <div class="card progression" onclick="window.location.href='progression.html'">
+                <div>
+                    <div class="icon-circle">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3>Ma progression</h3>
+                    <p>Consultez votre avancement : formation globale, détail par module et graphiques.</p>
+                </div>
+                <div>
+                    <span class="btn-card">Voir ma progression</span>
+                </div>
+            </div>
         </div>
     </section>
 
