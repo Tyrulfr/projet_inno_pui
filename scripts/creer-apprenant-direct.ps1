@@ -62,16 +62,20 @@ if ($apiBaseUrl -and $adminSecret) {
         $resp = Invoke-RestMethod -Uri "$apiBaseUrl/api/create-apprenant" -Method Post -Headers $headers -Body $body
         $loginUrl = ($siteBaseUrl.TrimEnd('/') + '/pages/apprenant/login.html')
         if ($loginUrl -notmatch '^https?://') { $loginUrl = "https://$loginUrl" }
+        $linkApi = ($siteBaseUrl.TrimEnd('/') + '/pages/apprenant/portal.html?token=' + $resp.external_user_id)
+        if ($linkApi -notmatch '^https?://') { $linkApi = "https://$linkApi" }
         Write-Host ""
-        Write-Host "Apprenant cree. Transmettez a l'apprenant :"
+        Write-Host "==========  A COPIER DANS LE MAIL DE BIENVENUE  =========="
         Write-Host ""
-        Write-Host "  Identifiant : $ident"
-        Write-Host "  Mot de passe : $pwd"
+        Write-Host "  Lien d'acces (a ouvrir dans le navigateur) :"
+        Write-Host "  $linkApi"
         Write-Host ""
-        Write-Host "  Page de connexion : $loginUrl"
+        Write-Host "  Identifiant (pour la page Connexion du site) : $ident"
+        Write-Host "  Mot de passe (pour la page Connexion du site)     : $pwd"
         Write-Host ""
-        Write-Host "L'apprenant ouvre la page de connexion, saisit son identifiant et son mot de passe,"
-        Write-Host "puis accede a son espace et a sa progression (liee a son profil)."
+        Write-Host "  Page de connexion (identifiant + mot de passe) : $loginUrl"
+        Write-Host ""
+        Write-Host "==========  CONSERVEZ CES INFORMATIONS  =========="
         Write-Host ""
         Write-Host "Conservez ces identifiants ; le mot de passe ne peut pas etre recupere."
         exit 0
@@ -82,7 +86,7 @@ if ($apiBaseUrl -and $adminSecret) {
     }
 }
 
-# --- Mode lien magique : creation directe dans Directus ---
+# --- Mode Directus : creation dans Directus avec identifiant + mdp generes (hash local) ---
 if (-not $directusUrl) {
     Write-Host "Dans .env, renseignez DIRECTUS_URL (et DIRECTUS_TOKEN)."
     if ($apiBaseUrl -and $adminSecret) { Write-Host "L'API a repondu une erreur ; verifiez API_BASE_URL, ADMIN_SECRET et que l'API est deployee." }
@@ -119,37 +123,70 @@ if (-not $token -and $emailEnv -and $password) {
     } catch { Write-Host "Erreur login Directus."; exit 1 }
 }
 
+# Generer identifiant et mot de passe pour tous les apprenants (stockes en base + mail de bienvenue)
+$chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+$ident = "appr_"
+for ($i = 0; $i -lt 8; $i++) { $ident += $chars[(Get-Random -Maximum $chars.Length)] }
+$generatedPwd = ""
+$charsPwd = "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+for ($i = 0; $i -lt 12; $i++) { $generatedPwd += $charsPwd[(Get-Random -Maximum $charsPwd.Length)] }
+
 $externalUserId = [guid]::NewGuid().ToString()
 $body = @{
     origin           = "direct"
     external_user_id = $externalUserId
     email            = $Email
+    identifiant      = $ident
 }
 
-Write-Host "Creation de l'apprenant dans Directus (lien magique)..."
+# Hasher le mot de passe (Node + bcryptjs) pour le stocker dans Directus
+$passwordHash = $null
+$hashScript = Join-Path $scriptDir "hash-password.js"
+if (Get-Command node -ErrorAction SilentlyContinue) {
+    try {
+        Push-Location $projectRoot
+        $passwordHash = (node $hashScript $generatedPwd 2>$null)
+        if ($passwordHash) { $passwordHash = $passwordHash.Trim() }
+    } catch {}
+    finally { Pop-Location }
+}
+if ($passwordHash) {
+    $body["password_hash"] = $passwordHash
+}
+
+Write-Host "Creation de l'apprenant dans Directus..."
 $created = Invoke-DirectusApi -Method Post -Path "/items/apprenants" -Body $body
 
 $apprenantId = $created.data.id
 if (-not $apprenantId) { $apprenantId = $created.id }
 if (-not $apprenantId) { $apprenantId = "?" }
 
-Write-Host ""
-Write-Host "Apprenant cree :"
-Write-Host "  id (Directus)    : $apprenantId"
-Write-Host "  external_user_id: $externalUserId"
-Write-Host "  email           : $Email"
-Write-Host "  origin          : direct"
-Write-Host ""
-
 $pathPortal = "pages/apprenant/portal.html"
 $link = ($siteBaseUrl.TrimEnd('/') + '/' + $pathPortal + "?token=" + $externalUserId)
 if ($link -notmatch '^https?://') { $link = "https://$link" }
+$loginUrl = ($siteBaseUrl.TrimEnd('/') + '/pages/apprenant/login.html')
+if ($loginUrl -notmatch '^https?://') { $loginUrl = "https://$loginUrl" }
 
-Write-Host "Lien d'acces a envoyer a l'apprenant (conservez ce lien) :"
 Write-Host ""
-Write-Host $link
+Write-Host "==========  A COPIER DANS LE MAIL DE BIENVENUE  =========="
 Write-Host ""
-Write-Host "Pour generer un identifiant + mot de passe a la place, ajoutez dans .env :"
-Write-Host "  API_BASE_URL=https://votre-api.example.com"
-Write-Host "  ADMIN_SECRET=votre_secret_admin"
-Write-Host "et deployez l'API (dossier api/, voir docs/PROGRESSION_ET_DIRECTUS.md)."
+Write-Host "  Lien d'acces (a ouvrir dans le navigateur) :"
+Write-Host "  $link"
+Write-Host ""
+Write-Host "  Identifiant (pour la page Connexion du site) : $ident"
+if ($passwordHash) {
+    Write-Host "  Mot de passe (pour la page Connexion du site)     : $generatedPwd"
+} else {
+    Write-Host "  Mot de passe : (non genere - exécutez 'npm install' a la racine du projet puis relancez le script)"
+}
+Write-Host ""
+Write-Host "  Page de connexion (identifiant + mot de passe) : $loginUrl"
+Write-Host ""
+Write-Host "==========  CONSERVEZ CES INFORMATIONS  =========="
+Write-Host ""
+Write-Host "L'apprenant peut :"
+Write-Host "  - Ouvrir le lien directement pour acceder a son espace ;"
+Write-Host "  - Ou aller sur la page Connexion et saisir son identifiant et son mot de passe."
+Write-Host "Pour que la connexion (identifiant/mdp) et la progression en base fonctionnent, deployez l'API (dossier api/) et definissez PROGRESS_API_BASE sur le site (voir docs/PROGRESSION_ET_DIRECTUS.md)."
+Write-Host ""
+Write-Host "Rappel : le mot de passe ne peut pas etre recupere ; conservez-le si vous devez le communiquer a l'apprenant."

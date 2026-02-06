@@ -1,37 +1,30 @@
 # Connexion apprenant par identifiant et mot de passe
 
-Lorsque l’API est déployée, vous pouvez créer des apprenants avec **identifiant + mot de passe** : l’apprenant se connecte sur le site (page « Se connecter ») et accède à son espace et à sa progression, liée à son profil dans Directus.
+À chaque inscription avec `creer-apprenant-direct.bat`, le script génère **automatiquement** un **lien**, un **identifiant** et un **mot de passe**, les enregistre dans Directus (identifiant + hash du mot de passe) et affiche un bloc **« À copier dans le mail de bienvenue »**. Vous n’avez rien à configurer de plus pour cela : uniquement le .env avec DIRECTUS_URL et DIRECTUS_TOKEN.
 
 ---
 
 ## 1. Côté administrateur (vous)
 
-### Prérequis
+### Prérequis pour l’inscription (lien + identifiant + mot de passe)
 
 - **Directus** : collections `apprenants` et `progress` avec les champs **identifiant** et **password_hash** dans `apprenants`.  
   - Nouvelle base : exécutez `run-setup-directus.bat` (le schéma inclut ces champs).  
   - Base existante : exécutez une fois `scripts\add-apprenant-login-fields.ps1` pour ajouter les champs sans perdre les données.
-- **API déployée** (dossier `api/` sur Vercel, Scaleway Functions, etc.) avec les variables : `DIRECTUS_URL`, `DIRECTUS_TOKEN`, `ADMIN_SECRET`, `CORS_ORIGIN` (optionnel).
-- **Site** : `window.PROGRESS_API_BASE` défini (URL de l’API) sur les pages apprenant (portal, login), pour la connexion et la synchro progression.
+- **Fichier .env** : `DIRECTUS_URL`, `DIRECTUS_TOKEN`, `SITE_BASE_URL` (optionnel).
+- **Mot de passe hashé** : pour que le mot de passe soit stocké en base et que la connexion (identifiant/mdp) fonctionne plus tard, exécutez **une fois** à la racine du projet : `npm install`. Le script utilisera alors `scripts/hash-password.js` (bcrypt) pour enregistrer le mot de passe dans Directus. Sans cela, le script affiche quand même l’identifiant et le lien, mais pas de mot de passe (et l’apprenant devra utiliser uniquement le lien).
 
-### Fichier .env (pour le script de création)
+### Créer un apprenant et envoyer le mail de bienvenue
 
-En plus de `DIRECTUS_URL`, `DIRECTUS_TOKEN`, `SITE_BASE_URL`, ajoutez :
+1. À la racine du projet : `creer-apprenant-direct.bat "apprenant@exemple.com"` (ou saisir l’email quand il est demandé).
+2. Le script crée l’apprenant dans Directus et affiche le bloc **« À COPIER DANS LE MAIL DE BIENVENUE »** avec :
+   - le **lien d’accès** (à ouvrir dans le navigateur),
+   - l’**identifiant** (ex. `appr_xxxxxxxx`),
+   - le **mot de passe** (si `npm install` a été fait),
+   - l’URL de la **page Connexion** du site.
+3. Copiez ce bloc dans votre mail de bienvenue et envoyez-le à l’apprenant. Conservez une copie : le mot de passe ne peut pas être récupéré.
 
-- **API_BASE_URL** : URL de votre API (ex. `https://votre-api.vercel.app`).
-- **ADMIN_SECRET** : même valeur que la variable `ADMIN_SECRET` configurée côté API (secret pour protéger la création d’apprenants).
-
-### Créer un apprenant (identifiant + mot de passe)
-
-1. À la racine du projet : `creer-apprenant-direct.bat "apprenant@exemple.com"`.
-2. Le script appelle l’API `create-apprenant`, qui crée l’apprenant dans Directus avec un **identifiant** et un **mot de passe** générés.
-3. Le script affiche :
-   - **Identifiant** : ex. `appr_xxxxxxxx`
-   - **Mot de passe** : ex. 12 caractères aléatoires
-   - **Page de connexion** : `https://votre-site/pages/apprenant/login.html`
-4. Transmettez **identifiant** et **mot de passe** à l’apprenant (email, etc.). Indiquez-lui d’ouvrir la page de connexion du site et de s’y connecter. **Conservez ces identifiants** ; le mot de passe ne peut pas être récupéré.
-
-Si `API_BASE_URL` ou `ADMIN_SECRET` n’est pas dans le .env, le script crée l’apprenant directement dans Directus et affiche un **lien magique** (?token=...) comme avant (sans identifiant/mot de passe).
+**Optionnel (mode API)** : si vous avez déployé l’API et renseigné dans .env `API_BASE_URL` et `ADMIN_SECRET`, le script appellera l’API pour créer l’apprenant au lieu d’écrire directement dans Directus. Le résultat affiché (lien, identifiant, mot de passe) est le même.
 
 ---
 

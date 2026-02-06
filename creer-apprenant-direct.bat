@@ -7,8 +7,8 @@ echo   OSER POUR INNOVER - Creer un apprenant DIRECT
 echo ============================================
 echo.
 echo Utilisation : par l'ADMINISTRATEUR (vous). Fichier .env requis.
-echo Cree un profil dans Directus (origin = direct) et affiche le lien
-echo d'acces a envoyer a l'apprenant.
+echo Cree un profil dans Directus et affiche : lien, identifiant et mot de passe
+echo a copier dans le mail de bienvenue a l'apprenant.
 echo.
 echo L'apprenant se connecte au SITE inno_pui (Espace apprenants), jamais a Directus.
 echo L'apprenant n'utilise pas ce .bat ni Directus.
@@ -34,10 +34,8 @@ echo.
 if %ERRORLEVEL% NEQ 0 (
     echo Erreur : verifiez .env ^(DIRECTUS_URL, DIRECTUS_TOKEN^) et la connexion a Directus.
 ) else (
-    echo Copiez le lien ci-dessus et envoyez-le a l'apprenant.
-    echo.
-    echo Rappel : pour que la progression remonte dans Directus, deployez api/progress.js
-    echo et definissez PROGRESS_API_BASE sur le site ^(voir docs/PROGRESSION_ET_DIRECTUS.md^).
+    echo Copiez le bloc "A COPIER DANS LE MAIL DE BIENVENUE" ci-dessus dans votre mail.
+    echo Si le mot de passe n'apparait pas : exécutez une fois "npm install" a la racine du projet.
 )
 echo.
 pause
