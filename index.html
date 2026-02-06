@@ -33,6 +33,26 @@
         .btn { display: inline-block; margin-top: 1.5rem; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 0.9rem; }
         .btn-outline { background: transparent; border: 2px solid var(--teal); color: var(--teal); }
         footer { padding: 20px; text-align: center; font-size: 0.8rem; opacity: 0.6; }
+        .admin-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--bordeaux);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(88, 15, 69, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .admin-fab:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(88, 15, 69, 0.5); color: white; }
     </style>
 </head>
 <body>
@@ -54,6 +74,7 @@
         </div>
     </section>
     <footer>&copy; {{ "now" | date: "%Y" }} OSER POUR INNOVER - V 1.0</footer>
+    <a href="pages/admin/index.html" class="admin-fab" title="Espace administrateur"><i class="fa-solid fa-gear"></i></a>
     <script>
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');

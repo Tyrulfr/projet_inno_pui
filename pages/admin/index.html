@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace administrateur | OSER POUR INNOVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bordeaux: #580F45; --orange: #F48C2E; --teal: #2EAF7D; --blue: #2A325E; --white: #ffffff; --bg-light: #F8F9FA; --bg-dark: #1A1D2E; }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; font-family: 'Open Sans', sans-serif; background: var(--bg-light); color: var(--blue); display: flex; flex-direction: column; }
+        body.dark-mode { background: var(--bg-dark); color: #EAEAEA; }
+        a { text-decoration: none; color: inherit; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: rgba(255,255,255,0.95); border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        body.dark-mode .navbar { background: rgba(26,29,46,0.95); border-color: #333; }
+        .logo { display: flex; align-items: center; }
+        .logo img { height: 72px; width: auto; max-width: 360px; object-fit: contain; }
+        .theme-btn { background: none; border: 2px solid var(--orange); color: var(--orange); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
+        .theme-btn:hover { background: var(--orange); color: white; }
+        .breadcrumb { padding: 0.75rem 5%; font-size: 0.9rem; color: #666; }
+        body.dark-mode .breadcrumb { color: #aaa; }
+        .breadcrumb a:hover { color: var(--orange); }
+        main { flex: 1; padding: 1.5rem 5%; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .tabs { display: flex; gap: 0; border-bottom: 2px solid #ddd; margin-bottom: 1.5rem; }
+        body.dark-mode .tabs { border-color: #444; }
+        .tab { padding: 12px 24px; cursor: pointer; font-weight: 600; color: #666; border: none; background: none; font-size: 1rem; font-family: inherit; }
+        body.dark-mode .tab { color: #aaa; }
+        .tab:hover { color: var(--blue); }
+        body.dark-mode .tab:hover { color: white; }
+        .tab.active { color: var(--bordeaux); border-bottom: 2px solid var(--bordeaux); margin-bottom: -2px; }
+        body.dark-mode .tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+        .panel { display: none; }
+        .panel.active { display: block; }
+        .panel h2 { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; margin: 0 0 1rem 0; color: var(--bordeaux); }
+        body.dark-mode .panel h2 { color: var(--orange); }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
+        input[type="email"], input[type="text"] { width: 100%; max-width: 400px; padding: 0.6rem 0.8rem; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+        body.dark-mode input { background: #1A1D2E; border-color: #444; color: #EAEAEA; }
+        .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; }
+        .btn-primary { background: var(--bordeaux); color: white; }
+        .btn-primary:hover { background: #7a1458; }
+        .btn-secondary { background: #eee; color: var(--blue); }
+        body.dark-mode .btn-secondary { background: #333; color: #EAEAEA; }
+        .btn-secondary:hover { opacity: 0.9; }
+        .info-box { background: #f0f4f8; border-left: 4px solid var(--teal); padding: 1rem; margin: 1rem 0; border-radius: 0 8px 8px 0; font-size: 0.95rem; }
+        body.dark-mode .info-box { background: #2a2d3e; border-left-color: var(--teal); }
+        .result-box { background: #f8f0f5; border: 1px solid var(--bordeaux); padding: 1rem; margin-top: 1rem; border-radius: 8px; white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; display: none; }
+        body.dark-mode .result-box { background: #2e2438; border-color: var(--orange); }
+        .result-box.visible { display: block; }
+        .error-msg { color: #c00; font-size: 0.9rem; margin-top: 0.5rem; }
+        body.dark-mode .error-msg { color: #ff6b6b; }
+        .apprenants-placeholder { padding: 2rem; text-align: center; color: #666; }
+        body.dark-mode .apprenants-placeholder { color: #999; }
+        .table-wrap { overflow-x: auto; margin-top: 1rem; }
+        .apprenants-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .apprenants-table th, .apprenants-table td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid #eee; }
+        body.dark-mode .apprenants-table th, body.dark-mode .apprenants-table td { border-color: #444; }
+        .apprenants-table th { font-weight: 700; color: var(--bordeaux); background: #f8f5f7; }
+        body.dark-mode .apprenants-table th { color: var(--orange); background: #2a2438; }
+        .apprenants-table tr:hover td { background: rgba(88, 15, 69, 0.05); }
+        body.dark-mode .apprenants-table tr:hover td { background: rgba(255,255,255,0.05); }
+        .btn-delete { padding: 4px 10px; font-size: 0.85rem; background: #c00; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        .btn-delete:hover { background: #a00; }
+        .apprenants-loading, .apprenants-error { padding: 1.5rem; text-align: center; color: #666; }
+        body.dark-mode .apprenants-loading, body.dark-mode .apprenants-error { color: #999; }
+        .apprenants-error { color: #c00; }
+        body.dark-mode .apprenants-error { color: #ff6b6b; }
+        .modal-confirm .modal-footer { justify-content: flex-end; }
+        .btn-danger { background: #c00; color: white; }
+        .btn-danger:hover { background: #a00; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
+        .modal-overlay.visible { display: flex; }
+        .modal { background: var(--white); border-radius: 12px; max-width: 560px; width: 100%; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+        body.dark-mode .modal { background: #232742; }
+        .modal-header { padding: 1rem 1.25rem; border-bottom: 1px solid #eee; font-weight: 700; color: var(--bordeaux); display: flex; justify-content: space-between; align-items: center; }
+        body.dark-mode .modal-header { border-color: #444; color: var(--orange); }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; padding: 0 0.25rem; }
+        .modal-body { padding: 1.25rem; overflow-y: auto; flex: 1; }
+        .modal-body p { margin: 0 0 0.75rem 0; font-size: 0.95rem; }
+        .modal-body .email-preview { background: #f5f5f5; padding: 1rem; border-radius: 8px; white-space: pre-wrap; font-size: 0.85rem; margin: 1rem 0; }
+        body.dark-mode .modal-body .email-preview { background: #1A1D2E; }
+        .modal-footer { padding: 1rem 1.25rem; border-top: 1px solid #eee; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        body.dark-mode .modal-footer { border-color: #444; }
+        .modal-footer .btn { flex: 1; min-width: 120px; text-align: center; }
+        .modal-send-status { font-size: 0.9rem; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <!-- Config requise pour création + envoi mail : ADMIN_API_BASE (URL API), ADMIN_SECRET, SITE_BASE_URL. Optionnel : WELCOME_PASSWORD (défaut inno_2025) -->
+    <!-- <script>window.ADMIN_API_BASE = 'https://votre-api.example.com'; window.ADMIN_SECRET = 'votre_secret'; window.SITE_BASE_URL = 'https://tyrulfr.github.io/projet_inno_pui';</script> -->
+    <nav class="navbar">
+        <a href="../../index.html" class="logo"><img src="../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" /></a>
+        <button class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Mode Nuit</button>
+    </nav>
+    <div class="breadcrumb">
+        <a href="../../index.html"><i class="fa-solid fa-house"></i> Accueil</a> &gt; <span>Espace administrateur</span>
+    </div>
+    <main>
+        <div class="tabs">
+            <button type="button" class="tab active" data-tab="apprenants">Apprenants</button>
+            <button type="button" class="tab" data-tab="inscription">Inscription des apprenants</button>
+        </div>
+
+        <section id="panel-apprenants" class="panel active">
+            <h2><i class="fa-solid fa-users"></i> Apprenants</h2>
+            <div id="apprenants-loading" class="apprenants-loading" style="display:none;">Chargement…</div>
+            <div id="apprenants-error" class="apprenants-error" style="display:none;"></div>
+            <div id="apprenants-table-wrap" class="table-wrap" style="display:none;">
+                <table class="apprenants-table" id="apprenants-table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Origin</th>
+                            <th>External user id</th>
+                            <th>Email</th>
+                            <th>Identifiant</th>
+                            <th>Date création</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apprenants-tbody"></tbody>
+                </table>
+            </div>
+            <div id="apprenants-empty" class="apprenants-placeholder" style="display:none;">
+                <p>Aucun apprenant. Définissez ADMIN_API_BASE et ADMIN_SECRET pour charger la liste depuis Directus.</p>
+            </div>
+            <div class="apprenants-placeholder" id="apprenants-placeholder-default">
+                <p>Définissez <code>ADMIN_API_BASE</code> et <code>ADMIN_SECRET</code> (en haut de cette page) pour charger la liste depuis Directus.</p>
+                <p>Les apprenants créés via le script ou l’onglet « Inscription » apparaissent dans la collection <strong>apprenants</strong> avec leur progression dans la collection <strong>progress</strong>.</p>
+            </div>
+        </section>
+
+        <section id="panel-inscription" class="panel">
+            <h2><i class="fa-solid fa-user-plus"></i> Inscription des apprenants</h2>
+            <div class="form-group">
+                <label for="email">Email de l'apprenant</label>
+                <input type="email" id="email" placeholder="apprenant@exemple.com" />
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-create">Créer l'apprenant et générer les identifiants</button>
+            <div id="error" class="error-msg" style="display:none;"></div>
+            <div id="result" class="result-box"></div>
+            <div class="info-box" style="margin-top: 1.5rem;">
+                L'apprenant sera créé dans la base Directus (Scaleway). Identifiant = son email, mot de passe = <strong>inno_2025</strong>. Définissez <code>ADMIN_API_BASE</code> et <code>ADMIN_SECRET</code> (en haut de cette page) pour activer la création et l'envoi du mail.
+            </div>
+        </section>
+    </main>
+
+    <div id="modal-confirm-overlay" class="modal-overlay">
+        <div class="modal modal-confirm">
+            <div class="modal-header">
+                <span><i class="fa-solid fa-triangle-exclamation"></i> Confirmer la suppression</span>
+                <button type="button" class="modal-close" id="modal-confirm-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-confirm-text">Voulez-vous vraiment supprimer ce profil apprenant ? Sa progression sera également supprimée.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="modal-confirm-cancel">Annuler</button>
+                <button type="button" class="btn btn-danger" id="modal-confirm-ok"><i class="fa-solid fa-trash"></i> Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <span><i class="fa-solid fa-envelope"></i> Mail de bienvenue</span>
+                <button type="button" class="modal-close" id="modal-close" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Destinataire :</strong> <span id="modal-to"></span></p>
+                <p><strong>Objet :</strong> <span id="modal-subject"></span></p>
+                <p>Contenu du message :</p>
+                <div id="modal-body-preview" class="email-preview"></div>
+                <div id="modal-send-status" class="modal-send-status"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modal-btn-send"><i class="fa-solid fa-paper-plane"></i> Envoyer</button>
+                <button type="button" class="btn btn-secondary" id="modal-btn-copy"><i class="fa-solid fa-copy"></i> Copier</button>
+                <a id="modal-btn-mailto" href="#" class="btn btn-secondary"><i class="fa-solid fa-envelope-open"></i> Ouvrir dans le client mail</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var tabs = document.querySelectorAll('.tab');
+            var panels = document.querySelectorAll('.panel');
+            var apprenantsLoading = document.getElementById('apprenants-loading');
+            var apprenantsError = document.getElementById('apprenants-error');
+            var apprenantsTableWrap = document.getElementById('apprenants-table-wrap');
+            var apprenantsTbody = document.getElementById('apprenants-tbody');
+            var apprenantsEmpty = document.getElementById('apprenants-empty');
+            var apprenantsPlaceholderDefault = document.getElementById('apprenants-placeholder-default');
+            var modalConfirmOverlay = document.getElementById('modal-confirm-overlay');
+            var modalConfirmClose = document.getElementById('modal-confirm-close');
+            var modalConfirmCancel = document.getElementById('modal-confirm-cancel');
+            var modalConfirmOk = document.getElementById('modal-confirm-ok');
+            var deleteTargetId = null;
+
+            function showApprenantsState(state) {
+                apprenantsLoading.style.display = state === 'loading' ? 'block' : 'none';
+                apprenantsError.style.display = state === 'error' ? 'block' : 'none';
+                apprenantsTableWrap.style.display = state === 'table' ? 'block' : 'none';
+                apprenantsEmpty.style.display = state === 'empty' ? 'block' : 'none';
+                apprenantsPlaceholderDefault.style.display = state === 'default' ? 'block' : 'none';
+            }
+
+            function loadApprenants() {
+                if (!apiBase || !adminSecret) {
+                    showApprenantsState('default');
+                    return;
+                }
+                showApprenantsState('loading');
+                apprenantsError.textContent = '';
+                fetch(apiBase.replace(/\/$/, '') + '/api/apprenants', {
+                    method: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + adminSecret }
+                })
+                .then(function (r) { return r.json(); })
+                .then(function (res) {
+                    if (res.data && Array.isArray(res.data)) {
+                        var list = res.data;
+                        if (list.length === 0) {
+                            showApprenantsState('empty');
+                            return;
+                        }
+                        apprenantsTbody.innerHTML = '';
+                        list.forEach(function (row) {
+                            var tr = document.createElement('tr');
+                            var dateStr = row.date_creation ? new Date(row.date_creation).toLocaleDateString('fr-FR') : '';
+                            tr.innerHTML =
+                                '<td>' + (row.id || '') + '</td>' +
+                                '<td>' + (row.origin || '') + '</td>' +
+                                '<td>' + (row.external_user_id || '') + '</td>' +
+                                '<td>' + (row.email || '') + '</td>' +
+                                '<td>' + (row.identifiant || '') + '</td>' +
+                                '<td>' + dateStr + '</td>' +
+                                '<td><button type="button" class="btn-delete" data-id="' + (row.id || '') + '" title="Supprimer ce profil"><i class="fa-solid fa-trash"></i> Supprimer</button></td>';
+                            apprenantsTbody.appendChild(tr);
+                        });
+                        apprenantsTbody.querySelectorAll('.btn-delete').forEach(function (btn) {
+                            btn.addEventListener('click', function () {
+                                deleteTargetId = btn.getAttribute('data-id');
+                                if (deleteTargetId) modalConfirmOverlay.classList.add('visible');
+                            });
+                        });
+                        showApprenantsState('table');
+                    } else {
+                        apprenantsError.textContent = (res.error) || 'Erreur chargement.';
+                        showApprenantsState('error');
+                    }
+                })
+                .catch(function () {
+                    apprenantsError.textContent = 'Impossible de charger la liste. Vérifiez ADMIN_API_BASE et ADMIN_SECRET.';
+                    showApprenantsState('error');
+                });
+            }
+
+            modalConfirmClose.addEventListener('click', function () { modalConfirmOverlay.classList.remove('visible'); deleteTargetId = null; });
+            modalConfirmCancel.addEventListener('click', function () { modalConfirmOverlay.classList.remove('visible'); deleteTargetId = null; });
+            modalConfirmOverlay.addEventListener('click', function (e) { if (e.target === modalConfirmOverlay) { modalConfirmOverlay.classList.remove('visible'); deleteTargetId = null; } });
+            modalConfirmOk.addEventListener('click', function () {
+                if (!deleteTargetId || !apiBase || !adminSecret) { modalConfirmOverlay.classList.remove('visible'); return; }
+                modalConfirmOk.disabled = true;
+                fetch(apiBase.replace(/\/$/, '') + '/api/apprenants?id=' + encodeURIComponent(deleteTargetId), {
+                    method: 'DELETE',
+                    headers: { 'Authorization': 'Bearer ' + adminSecret }
+                })
+                .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+                .then(function (res) {
+                    modalConfirmOk.disabled = false;
+                    modalConfirmOverlay.classList.remove('visible');
+                    deleteTargetId = null;
+                    if (res.ok) loadApprenants();
+                    else {
+                        apprenantsError.textContent = (res.data && res.data.error) || 'Erreur lors de la suppression.';
+                        apprenantsError.style.display = 'block';
+                    }
+                })
+                .catch(function () {
+                    modalConfirmOk.disabled = false;
+                    modalConfirmOverlay.classList.remove('visible');
+                    deleteTargetId = null;
+                    apprenantsError.textContent = 'Erreur de connexion.';
+                    apprenantsError.style.display = 'block';
+                });
+            });
+
+            tabs.forEach(function (t) {
+                t.addEventListener('click', function () {
+                    var id = t.getAttribute('data-tab');
+                    tabs.forEach(function (x) { x.classList.remove('active'); });
+                    panels.forEach(function (p) { p.classList.remove('active'); });
+                    t.classList.add('active');
+                    var panel = document.getElementById('panel-' + id);
+                    if (panel) panel.classList.add('active');
+                    if (id === 'apprenants') loadApprenants();
+                });
+            });
+            loadApprenants();
+
+            function toggleTheme() {
+                document.body.classList.toggle('dark-mode');
+                var btn = document.querySelector('.theme-btn');
+                btn.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fa-solid fa-sun"></i> Mode Jour' : '<i class="fa-solid fa-moon"></i> Mode Nuit';
+                localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            }
+            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.querySelector('.theme-btn').innerHTML = '<i class="fa-solid fa-sun"></i> Mode Jour'; }
+
+            var emailInput = document.getElementById('email');
+            var btnCreate = document.getElementById('btn-create');
+            var errorEl = document.getElementById('error');
+            var resultEl = document.getElementById('result');
+            var apiBase = window.ADMIN_API_BASE || window.PROGRESS_API_BASE || '';
+            var adminSecret = window.ADMIN_SECRET || '';
+            var modalOverlay = document.getElementById('modal-overlay');
+            var modalClose = document.getElementById('modal-close');
+            var modalTo = document.getElementById('modal-to');
+            var modalSubject = document.getElementById('modal-subject');
+            var modalBodyPreview = document.getElementById('modal-body-preview');
+            var modalSendStatus = document.getElementById('modal-send-status');
+            var modalBtnSend = document.getElementById('modal-btn-send');
+            var modalBtnCopy = document.getElementById('modal-btn-copy');
+            var modalBtnMailto = document.getElementById('modal-btn-mailto');
+            var lastEmailPayload = { to: '', subject: '', text: '' };
+
+            function openModal(payload) {
+                lastEmailPayload = payload;
+                modalTo.textContent = payload.to;
+                modalSubject.textContent = payload.subject;
+                modalBodyPreview.textContent = payload.text;
+                modalSendStatus.textContent = '';
+                modalBtnSend.disabled = false;
+                modalBtnSend.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Envoyer';
+                modalBtnMailto.href = 'mailto:' + encodeURIComponent(payload.to) + '?subject=' + encodeURIComponent(payload.subject) + '&body=' + encodeURIComponent(payload.text);
+                modalOverlay.classList.add('visible');
+            }
+            function closeModal() { modalOverlay.classList.remove('visible'); }
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', function (e) { if (e.target === modalOverlay) closeModal(); });
+
+            modalBtnSend.addEventListener('click', function () {
+                if (!apiBase || !adminSecret) {
+                    modalSendStatus.textContent = 'API non configurée. Impossible d\'envoyer automatiquement.';
+                    modalSendStatus.style.color = '';
+                    return;
+                }
+                modalBtnSend.disabled = true;
+                modalBtnSend.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Envoi...';
+                modalSendStatus.textContent = '';
+                fetch(apiBase.replace(/\/$/, '') + '/api/send-welcome-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminSecret },
+                    body: JSON.stringify({ to: lastEmailPayload.to, subject: lastEmailPayload.subject, text: lastEmailPayload.text })
+                })
+                .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+                .then(function (res) {
+                    modalBtnSend.disabled = false;
+                    modalBtnSend.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Envoyer';
+                    if (res.ok) {
+                        modalSendStatus.textContent = 'Email envoyé avec succès.';
+                        modalSendStatus.style.color = 'var(--teal)';
+                    } else {
+                        modalSendStatus.textContent = (res.data && res.data.error) || 'Erreur lors de l\'envoi.';
+                        modalSendStatus.style.color = '';
+                    }
+                })
+                .catch(function () {
+                    modalBtnSend.disabled = false;
+                    modalBtnSend.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Envoyer';
+                    modalSendStatus.textContent = 'Erreur de connexion. Vérifiez RESEND_API_KEY sur l\'API.';
+                    modalSendStatus.style.color = '';
+                });
+            });
+
+            modalBtnCopy.addEventListener('click', function () {
+                var t = lastEmailPayload.subject + '\n\n' + lastEmailPayload.text;
+                navigator.clipboard && navigator.clipboard.writeText(t).then(function () {
+                    modalSendStatus.textContent = 'Copié dans le presse-papier.';
+                    modalSendStatus.style.color = 'var(--teal)';
+                }).catch(function () {
+                    modalSendStatus.textContent = 'Copie non disponible.';
+                });
+            });
+
+            var welcomePassword = window.WELCOME_PASSWORD || 'inno_2025';
+
+            btnCreate.addEventListener('click', function () {
+                errorEl.style.display = 'none';
+                resultEl.classList.remove('visible');
+                var email = (emailInput.value || '').trim();
+                if (!email) {
+                    errorEl.textContent = 'Saisissez l\'email de l\'apprenant.';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                if (!apiBase || !adminSecret) {
+                    errorEl.textContent = 'API admin non configurée. Définissez ADMIN_API_BASE et ADMIN_SECRET (en haut de cette page).';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                var identifiant = email;
+                var pwd = welcomePassword;
+                btnCreate.disabled = true;
+                btnCreate.textContent = 'Création...';
+                fetch(apiBase.replace(/\/$/, '') + '/api/create-apprenant', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminSecret },
+                    body: JSON.stringify({ email: email, identifiant: identifiant, password: pwd })
+                })
+                .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+                .then(function (res) {
+                    btnCreate.disabled = false;
+                    btnCreate.textContent = 'Créer l\'apprenant et générer les identifiants';
+                    if (res.ok && res.data.external_user_id) {
+                        var baseUrl = window.SITE_BASE_URL || 'https://tyrulfr.github.io/projet_inno_pui';
+                        var link = baseUrl.replace(/\/$/, '') + '/pages/apprenant/portal.html?token=' + res.data.external_user_id;
+                        var loginUrl = baseUrl.replace(/\/$/, '') + '/pages/apprenant/login.html';
+                        var subject = 'Accès au parcours OSER POUR INNOVER';
+                        var text = 'Bonjour,\n\nVoici vos identifiants pour accéder au parcours OSER POUR INNOVER.\n\n' +
+                            'Lien d\'accès (à ouvrir dans votre navigateur) :\n' + link + '\n\n' +
+                            'Identifiant (votre email) : ' + identifiant + '\n' +
+                            'Mot de passe : ' + pwd + '\n\n' +
+                            'Vous pouvez aussi aller sur la page de connexion et vous connecter avec cet identifiant et ce mot de passe :\n' + loginUrl + '\n\n' +
+                            'Conservez ce message. Ce lien et ces identifiants sont personnels.\n\n' +
+                            'Bienvenue sur le parcours !';
+                        openModal({ to: email, subject: subject, text: text });
+                        loadApprenants();
+                    } else {
+                        errorEl.textContent = (res.data && res.data.error) || 'Erreur lors de la création.';
+                        errorEl.style.display = 'block';
+                    }
+                })
+                .catch(function () {
+                    btnCreate.disabled = false;
+                    btnCreate.textContent = 'Créer l\'apprenant et générer les identifiants';
+                    errorEl.textContent = 'Erreur de connexion à l\'API. Vérifiez ADMIN_API_BASE et ADMIN_SECRET.';
+                    errorEl.style.display = 'block';
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
