@@ -1,0 +1,9 @@
+{
+  "name": "projet_inno_pui",
+  "version": "1.0.0",
+  "description": "OSER POUR INNOVER - site et API progression",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^2.4.3"
+  }
+}

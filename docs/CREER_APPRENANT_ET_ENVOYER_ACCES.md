@@ -47,7 +47,7 @@ Un script crée l’apprenant dans Directus et affiche le lien à envoyer.
    - l’**id** et l’**external_user_id** de l’apprenant créé ;
    - le **lien d’accès** à copier et envoyer à l’apprenant (par email ou autre).
 
-L’apprenant n’a **pas de mot de passe** : il ouvre simplement ce lien (une seule URL = son “identifiant” d’accès). À terme, le site utilisera le paramètre `token` pour enregistrer sa progression dans Directus sous ce profil.
+L’apprenant n’a **pas de mot de passe** : il ouvre simplement ce lien (une seule URL = son “identifiant” d’accès). Le site utilise déjà le `token` pour les coches de progression (localStorage). Pour que la progression remonte dans Directus, déployez l’API `api/progress.js` et définissez `PROGRESS_API_BASE` sur le site (voir `docs/PROGRESSION_ET_DIRECTUS.md`).
 
 ---
 
@@ -58,7 +58,7 @@ L’apprenant n’a **pas de mot de passe** : il ouvre simplement ce lien (une s
   - Objet : Accès au parcours OSER POUR INNOVER  
   - Texte : « Bonjour, voici votre lien d’accès personnel au parcours. Conservez-le pour retrouver votre progression : [COLLER LE LIEN]. Ce lien est personnel ; ne le partagez pas. »
 
-Il n’y a pas de “identifiant / mot de passe” séparés : le lien **est** l’accès. Tant que le site ne lit pas encore le `token` pour appeler Directus, la progression reste en **localStorage** (sur l’appareil). Dès que vous brancherez l’API (ou Directus) avec ce token, la progression sera rattachée à ce profil apprenant.
+Il n’y a pas de “identifiant / mot de passe” séparés : le lien **est** l’accès. Par défaut la progression reste en **localStorage** (coches et avancement sur l’appareil). Pour qu’elle soit aussi enregistrée dans la base Directus (table `progress`), déployez l’API `api/progress.js` et configurez `PROGRESS_API_BASE` sur le site (voir `docs/PROGRESSION_ET_DIRECTUS.md`).
 
 ---
 

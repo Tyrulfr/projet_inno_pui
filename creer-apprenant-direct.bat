@@ -35,6 +35,9 @@ if %ERRORLEVEL% NEQ 0 (
     echo Erreur : verifiez .env ^(DIRECTUS_URL, DIRECTUS_TOKEN^) et la connexion a Directus.
 ) else (
     echo Copiez le lien ci-dessus et envoyez-le a l'apprenant.
+    echo.
+    echo Rappel : pour que la progression remonte dans Directus, deployez api/progress.js
+    echo et definissez PROGRESS_API_BASE sur le site ^(voir docs/PROGRESSION_ET_DIRECTUS.md^).
 )
 echo.
 pause

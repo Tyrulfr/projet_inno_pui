@@ -1,0 +1,141 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | OSER POUR INNOVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bordeaux: #580F45;
+            --orange: #F48C2E;
+            --teal: #2EAF7D;
+            --blue: #2A325E;
+            --white: #ffffff;
+            --bg-light: #F8F9FA;
+            --bg-dark: #1A1D2E;
+            --text-main: #2A325E;
+        }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; font-family: 'Open Sans', sans-serif; background: var(--bg-light); color: var(--text-main); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        body.dark-mode { background: var(--bg-dark); color: #EAEAEA; }
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        body.dark-mode .login-box { background: #232742; }
+        h1 { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; margin: 0 0 1.5rem 0; color: var(--blue); text-align: center; }
+        body.dark-mode h1 { color: white; }
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.9rem; }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        body.dark-mode input { background: #1A1D2E; border-color: #444; color: #EAEAEA; }
+        .btn-login {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        .btn-login:hover { background: #e07d20; }
+        .error-msg { color: #c00; font-size: 0.9rem; margin-top: 0.5rem; }
+        body.dark-mode .error-msg { color: #ff6b6b; }
+        .back-link { display: block; text-align: center; margin-top: 1.5rem; color: var(--blue); text-decoration: none; font-size: 0.9rem; }
+        body.dark-mode .back-link { color: var(--teal); }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <!-- Définir l'URL de l'API (même valeur que sur portal.html) pour que la connexion fonctionne -->
+    <script>window.PROGRESS_API_BASE = window.PROGRESS_API_BASE || '';</script>
+    <div class="login-box">
+        <h1><i class="fa-solid fa-graduation-cap"></i> Connexion</h1>
+        <form id="login-form" action="#" method="post">
+            <div class="form-group">
+                <label for="identifiant">Identifiant</label>
+                <input type="text" id="identifiant" name="identifiant" required autocomplete="username" placeholder="Votre identifiant">
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Votre mot de passe">
+            </div>
+            <div id="error" class="error-msg" style="display:none;"></div>
+            <button type="submit" class="btn-login" id="btn-submit">Se connecter</button>
+        </form>
+        <a href="portal.html" class="back-link">Retour à l'accueil</a>
+    </div>
+    <script>
+        (function () {
+            var form = document.getElementById('login-form');
+            var errorEl = document.getElementById('error');
+            var btn = document.getElementById('btn-submit');
+            var apiBase = window.PROGRESS_API_BASE || '';
+            if (!apiBase) {
+                errorEl.textContent = 'Connexion non configurée sur ce site. Contactez l\'administrateur.';
+                errorEl.style.display = 'block';
+                form.style.opacity = '0.6';
+                return;
+            }
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                errorEl.style.display = 'none';
+                var identifiant = (document.getElementById('identifiant').value || '').trim();
+                var password = document.getElementById('password').value;
+                if (!identifiant || !password) {
+                    errorEl.textContent = 'Renseignez l\'identifiant et le mot de passe.';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                btn.disabled = true;
+                btn.textContent = 'Connexion...';
+                var url = apiBase.replace(/\/$/, '') + '/api/auth/login';
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ identifiant: identifiant, password: password })
+                })
+                .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
+                .then(function (result) {
+                    if (result.ok && result.data.token) {
+                        try { localStorage.setItem('projet_inno_apprenant_token', result.data.token); } catch (err) {}
+                        window.location.href = 'portal.html';
+                        return;
+                    }
+                    errorEl.textContent = (result.data && result.data.error) || 'Identifiant ou mot de passe incorrect.';
+                    errorEl.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Se connecter';
+                })
+                .catch(function () {
+                    errorEl.textContent = 'Erreur de connexion. Réessayez ou contactez l\'administrateur.';
+                    errorEl.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Se connecter';
+                });
+            });
+            if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+        })();
+    </script>
+</body>
+</html>

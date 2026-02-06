@@ -141,11 +141,13 @@ $bodyApprenants = @{
         ) }; note = "moodle | funmooc | direct" }; schema = @{ is_nullable = $false; default_value = "moodle" } },
         @{ field = "external_user_id"; type = "string"; meta = @{ interface = "input"; required = $true; note = "Id utilisateur cote plateforme (Moodle, edX, ou UUID direct)" }; schema = @{ is_nullable = $false } },
         @{ field = "email"; type = "string"; meta = @{ interface = "input" }; schema = @{ is_nullable = $true } },
+        @{ field = "identifiant"; type = "string"; meta = @{ interface = "input"; note = "Login pour connexion site (apprenants direct)" }; schema = @{ is_nullable = $true } },
+        @{ field = "password_hash"; type = "string"; meta = @{ interface = "input-hidden"; note = "Hash du mot de passe (ne pas modifier)" }; schema = @{ is_nullable = $true } },
         @{ field = "date_creation"; type = "timestamp"; meta = @{ interface = "datetime"; readonly = $true }; schema = @{ is_nullable = $true; default_value = "CURRENT_TIMESTAMP" } }
     )
 }
 Invoke-DirectusApi -Method Post -Path "/collections" -Body $bodyApprenants
-Write-Host "  -> Collection apprenants creee (origin, external_user_id, email, date_creation)."
+Write-Host "  -> Collection apprenants creee (origin, external_user_id, email, identifiant, password_hash, date_creation)."
 
 # 4) Creer progress (inchangé, FK vers apprenants)
 Write-Host "Creation de la collection progress..."
