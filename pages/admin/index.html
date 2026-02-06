@@ -68,6 +68,18 @@
         body.dark-mode .apprenants-loading, body.dark-mode .apprenants-error { color: #999; }
         .apprenants-error { color: #c00; }
         body.dark-mode .apprenants-error { color: #ff6b6b; }
+        .config-api { background: #f0f4f8; border: 1px solid #c5d5e4; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+        body.dark-mode .config-api { background: #1e2433; border-color: #3a4560; }
+        .config-api h3 { margin: 0 0 0.75rem 0; font-size: 1rem; color: var(--blue); }
+        body.dark-mode .config-api h3 { color: #c5d0e0; }
+        .config-api .config-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 0.5rem; }
+        .config-api .form-group { margin: 0; flex: 1; min-width: 200px; }
+        .config-api .form-group label { display: block; font-size: 0.85rem; margin-bottom: 0.25rem; }
+        .config-api input { width: 100%; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid #ccc; }
+        body.dark-mode .config-api input { background: #2a325e; border-color: #444; color: #eee; }
+        .config-api .btn-save { padding: 0.5rem 1rem; background: var(--teal); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .config-api .btn-save:hover { filter: brightness(1.1); }
+        .config-api .config-saved { font-size: 0.85rem; color: var(--teal); margin-left: 0.5rem; }
         .modal-confirm .modal-footer { justify-content: flex-end; }
         .btn-danger { background: #c00; color: white; }
         .btn-danger:hover { background: #a00; }
@@ -89,8 +101,6 @@
     </style>
 </head>
 <body>
-    <!-- Config requise pour création + envoi mail : ADMIN_API_BASE (URL API), ADMIN_SECRET, SITE_BASE_URL. Optionnel : WELCOME_PASSWORD (défaut inno_2025) -->
-    <!-- <script>window.ADMIN_API_BASE = 'https://votre-api.example.com'; window.ADMIN_SECRET = 'votre_secret'; window.SITE_BASE_URL = 'https://tyrulfr.github.io/projet_inno_pui';</script> -->
     <nav class="navbar">
         <a href="../../index.html" class="logo"><img src="../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" /></a>
         <button class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Mode Nuit</button>
@@ -99,6 +109,21 @@
         <a href="../../index.html"><i class="fa-solid fa-house"></i> Accueil</a> &gt; <span>Espace administrateur</span>
     </div>
     <main>
+        <div class="config-api">
+            <h3><i class="fa-solid fa-gear"></i> Configuration API (obligatoire pour inscription et liste des apprenants)</h3>
+            <div class="config-row">
+                <div class="form-group">
+                    <label for="config-api-base">URL de l'API</label>
+                    <input type="url" id="config-api-base" placeholder="https://votre-api.example.com" />
+                </div>
+                <div class="form-group">
+                    <label for="config-secret">Secret admin</label>
+                    <input type="password" id="config-secret" placeholder="Secret partagé avec le serveur API" autocomplete="off" />
+                </div>
+                <button type="button" class="btn-save" id="config-save"><i class="fa-solid fa-check"></i> Enregistrer</button>
+                <span class="config-saved" id="config-saved-msg" style="display:none;">Enregistré.</span>
+            </div>
+        </div>
         <div class="tabs">
             <button type="button" class="tab active" data-tab="apprenants">Apprenants</button>
             <button type="button" class="tab" data-tab="inscription">Inscription des apprenants</button>
@@ -125,10 +150,10 @@
                 </table>
             </div>
             <div id="apprenants-empty" class="apprenants-placeholder" style="display:none;">
-                <p>Aucun apprenant. Définissez ADMIN_API_BASE et ADMIN_SECRET pour charger la liste depuis Directus.</p>
+                <p>Aucun apprenant. Configurez l'API en haut de la page pour charger la liste depuis Directus.</p>
             </div>
             <div class="apprenants-placeholder" id="apprenants-placeholder-default">
-                <p>Définissez <code>ADMIN_API_BASE</code> et <code>ADMIN_SECRET</code> (en haut de cette page) pour charger la liste depuis Directus.</p>
+                <p>Saisissez l'<strong>URL de l'API</strong> et le <strong>Secret admin</strong> dans la zone « Configuration API » ci-dessus, puis cliquez sur <strong>Enregistrer</strong> pour charger la liste depuis Directus.</p>
                 <p>Les apprenants créés via le script ou l’onglet « Inscription » apparaissent dans la collection <strong>apprenants</strong> avec leur progression dans la collection <strong>progress</strong>.</p>
             </div>
         </section>
@@ -143,7 +168,7 @@
             <div id="error" class="error-msg" style="display:none;"></div>
             <div id="result" class="result-box"></div>
             <div class="info-box" style="margin-top: 1.5rem;">
-                L'apprenant sera créé dans la base Directus (Scaleway). Identifiant = son email, mot de passe = <strong>inno_2025</strong>. Définissez <code>ADMIN_API_BASE</code> et <code>ADMIN_SECRET</code> (en haut de cette page) pour activer la création et l'envoi du mail.
+                L'apprenant sera créé dans la base Directus (Scaleway). Identifiant = son email, mot de passe = <strong>inno_2025</strong>. Renseignez la zone « Configuration API » en haut de la page pour activer la création et l'envoi du mail.
             </div>
         </section>
     </main>
@@ -209,15 +234,16 @@
             }
 
             function loadApprenants() {
-                if (!apiBase || !adminSecret) {
+                var cfg = getApiConfig();
+                if (!cfg.apiBase || !cfg.adminSecret) {
                     showApprenantsState('default');
                     return;
                 }
                 showApprenantsState('loading');
                 apprenantsError.textContent = '';
-                fetch(apiBase.replace(/\/$/, '') + '/api/apprenants', {
+                fetch(cfg.apiBase.replace(/\/$/, '') + '/api/apprenants', {
                     method: 'GET',
-                    headers: { 'Authorization': 'Bearer ' + adminSecret }
+                    headers: { 'Authorization': 'Bearer ' + cfg.adminSecret }
                 })
                 .then(function (r) { return r.json(); })
                 .then(function (res) {
@@ -254,7 +280,7 @@
                     }
                 })
                 .catch(function () {
-                    apprenantsError.textContent = 'Impossible de charger la liste. Vérifiez ADMIN_API_BASE et ADMIN_SECRET.';
+                    apprenantsError.textContent = 'Impossible de charger la liste. Vérifiez l\'URL de l\'API et le Secret admin en haut de la page.';
                     showApprenantsState('error');
                 });
             }
@@ -263,11 +289,12 @@
             modalConfirmCancel.addEventListener('click', function () { modalConfirmOverlay.classList.remove('visible'); deleteTargetId = null; });
             modalConfirmOverlay.addEventListener('click', function (e) { if (e.target === modalConfirmOverlay) { modalConfirmOverlay.classList.remove('visible'); deleteTargetId = null; } });
             modalConfirmOk.addEventListener('click', function () {
-                if (!deleteTargetId || !apiBase || !adminSecret) { modalConfirmOverlay.classList.remove('visible'); return; }
+                var cfg = getApiConfig();
+                if (!deleteTargetId || !cfg.apiBase || !cfg.adminSecret) { modalConfirmOverlay.classList.remove('visible'); return; }
                 modalConfirmOk.disabled = true;
-                fetch(apiBase.replace(/\/$/, '') + '/api/apprenants?id=' + encodeURIComponent(deleteTargetId), {
+                fetch(cfg.apiBase.replace(/\/$/, '') + '/api/apprenants?id=' + encodeURIComponent(deleteTargetId), {
                     method: 'DELETE',
-                    headers: { 'Authorization': 'Bearer ' + adminSecret }
+                    headers: { 'Authorization': 'Bearer ' + cfg.adminSecret }
                 })
                 .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
                 .then(function (res) {
@@ -314,8 +341,27 @@
             var btnCreate = document.getElementById('btn-create');
             var errorEl = document.getElementById('error');
             var resultEl = document.getElementById('result');
-            var apiBase = window.ADMIN_API_BASE || window.PROGRESS_API_BASE || '';
-            var adminSecret = window.ADMIN_SECRET || '';
+            var configApiBase = document.getElementById('config-api-base');
+            var configSecret = document.getElementById('config-secret');
+            var configSaveBtn = document.getElementById('config-save');
+            var configSavedMsg = document.getElementById('config-saved-msg');
+            if (localStorage.getItem('admin_api_base')) { if (configApiBase) configApiBase.value = localStorage.getItem('admin_api_base'); }
+            if (localStorage.getItem('admin_secret')) { if (configSecret) configSecret.value = localStorage.getItem('admin_secret'); }
+            function getApiConfig() {
+                var base = (configApiBase && configApiBase.value.trim()) || window.ADMIN_API_BASE || window.PROGRESS_API_BASE || '';
+                var secret = (configSecret && configSecret.value) || window.ADMIN_SECRET || '';
+                return { apiBase: base, adminSecret: secret };
+            }
+            if (configSaveBtn) {
+                configSaveBtn.addEventListener('click', function () {
+                    var base = configApiBase ? configApiBase.value.trim() : '';
+                    var secret = configSecret ? configSecret.value : '';
+                    if (base) localStorage.setItem('admin_api_base', base);
+                    if (secret) localStorage.setItem('admin_secret', secret);
+                    if (configSavedMsg) { configSavedMsg.style.display = 'inline'; setTimeout(function () { configSavedMsg.style.display = 'none'; }, 2000); }
+                    if (typeof loadApprenants === 'function') loadApprenants();
+                });
+            }
             var modalOverlay = document.getElementById('modal-overlay');
             var modalClose = document.getElementById('modal-close');
             var modalTo = document.getElementById('modal-to');
@@ -343,7 +389,8 @@
             modalOverlay.addEventListener('click', function (e) { if (e.target === modalOverlay) closeModal(); });
 
             modalBtnSend.addEventListener('click', function () {
-                if (!apiBase || !adminSecret) {
+                var cfg = getApiConfig();
+                if (!cfg.apiBase || !cfg.adminSecret) {
                     modalSendStatus.textContent = 'API non configurée. Impossible d\'envoyer automatiquement.';
                     modalSendStatus.style.color = '';
                     return;
@@ -351,9 +398,9 @@
                 modalBtnSend.disabled = true;
                 modalBtnSend.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Envoi...';
                 modalSendStatus.textContent = '';
-                fetch(apiBase.replace(/\/$/, '') + '/api/send-welcome-email', {
+                fetch(cfg.apiBase.replace(/\/$/, '') + '/api/send-welcome-email', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminSecret },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.adminSecret },
                     body: JSON.stringify({ to: lastEmailPayload.to, subject: lastEmailPayload.subject, text: lastEmailPayload.text })
                 })
                 .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
@@ -397,8 +444,9 @@
                     errorEl.style.display = 'block';
                     return;
                 }
-                if (!apiBase || !adminSecret) {
-                    errorEl.textContent = 'API admin non configurée. Définissez ADMIN_API_BASE et ADMIN_SECRET (en haut de cette page).';
+                var cfg = getApiConfig();
+                if (!cfg.apiBase || !cfg.adminSecret) {
+                    errorEl.textContent = 'Saisissez l\'URL de l\'API et le Secret admin dans la zone « Configuration API » en haut de la page, puis cliquez sur Enregistrer.';
                     errorEl.style.display = 'block';
                     return;
                 }
@@ -406,9 +454,9 @@
                 var pwd = welcomePassword;
                 btnCreate.disabled = true;
                 btnCreate.textContent = 'Création...';
-                fetch(apiBase.replace(/\/$/, '') + '/api/create-apprenant', {
+                fetch(cfg.apiBase.replace(/\/$/, '') + '/api/create-apprenant', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminSecret },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.adminSecret },
                     body: JSON.stringify({ email: email, identifiant: identifiant, password: pwd })
                 })
                 .then(function (r) { return r.json().then(function (data) { return { ok: r.ok, data: data }; }); })
