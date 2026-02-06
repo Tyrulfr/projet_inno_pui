@@ -79,3 +79,35 @@ body.dark-mode .progress-widget .progress-label { color: var(--orange, #F48C2E);
 }
 body.dark-mode .progress-widget .module-circle { background: rgba(255,255,255,0.15); }
 body.dark-mode .progress-widget .bar-container { background: rgba(255,255,255,0.2); }
+
+/* Coche grain / séquence terminé(e) */
+.grain-card.completed,
+.sequence-card.completed {
+    position: relative;
+}
+.grain-card-badge,
+.sequence-card-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--teal, #2EAF7D);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(46, 175, 125, 0.4);
+    z-index: 2;
+}
+body.dark-mode .grain-card-badge,
+body.dark-mode .sequence-card-badge {
+    background: var(--orange, #F48C2E);
+    box-shadow: 0 2px 8px rgba(244, 140, 46, 0.4);
+}
+.grain-card.completed .card-footer .btn-start,
+.sequence-card.completed .btn-sequence {
+    opacity: 0.95;
+}

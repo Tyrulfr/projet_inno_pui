@@ -7,8 +7,11 @@ CREATE TABLE IF NOT EXISTS apprenants (
   origin VARCHAR(50) NOT NULL DEFAULT 'moodle',
   external_user_id VARCHAR(255) NOT NULL,
   email VARCHAR(255),
+  identifiant VARCHAR(255),
+  password_hash VARCHAR(255),
   date_creation TIMESTAMPTZ DEFAULT NOW(),
-  UNIQUE(origin, external_user_id)
+  UNIQUE(origin, external_user_id),
+  UNIQUE(identifiant)
 );
 
 -- Table de la progression (inchangée)

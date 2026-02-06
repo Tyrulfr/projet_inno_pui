@@ -238,9 +238,12 @@ layout: null
         <a href="../../index.html" class="logo" title="OSER POUR INNOVER">
             <img src="../../assets/image/logo_oser_pour_innover.png" alt="OSER POUR INNOVER" />
         </a>
-        <button class="theme-btn" onclick="toggleTheme()">
-            <i class="fa-solid fa-moon"></i> Mode Nuit
-        </button>
+        <div>
+            <a href="login.html" class="theme-btn" style="margin-right:8px;text-decoration:none;display:inline-block;"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</a>
+            <button class="theme-btn" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon"></i> Mode Nuit
+            </button>
+        </div>
     </nav>
     <div id="progress-widget" class="progress-widget"></div>
 
@@ -293,6 +296,8 @@ layout: null
 
     <!-- SCRIPT JS -->
     <script>
+        // Optionnel : activer la synchro progression avec Directus (voir docs/PROGRESSION_ET_DIRECTUS.md)
+        // window.PROGRESS_API_BASE = 'https://votre-api.example.com';
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const btn = document.querySelector('.theme-btn');
