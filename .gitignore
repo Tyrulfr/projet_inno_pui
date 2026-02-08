@@ -8,3 +8,6 @@ vendor/
 
 # Variables d'environnement (secrets)
 .env
+
+# macOS
+.DS_Store

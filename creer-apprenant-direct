@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Lanceur macOS/Linux : crée un apprenant direct (équivalent de creer-apprenant-direct.bat sur Windows).
+# Usage : ./creer-apprenant-direct "apprenant@exemple.com"
+#         ./creer-apprenant-direct "apprenant@exemple.com" "https://mon-site.fr"
+
+cd "$(dirname "$0")"
+exec bash "./scripts/creer-apprenant-direct.sh" "$@"
